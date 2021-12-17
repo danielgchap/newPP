@@ -1,0 +1,79 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/features/group/models/group_member.dart';
+
+//////////////////////////////////////////////////////////////////////////
+//
+//     Used for creating members in the group-> members collection
+//     and then in the user -> userGroups collection. These are duplicates
+//     so that the groups can produce a list independant of the users, and
+//     users can produce a list of goups
+//
+//////////////////////////////////////////////////////////////////////////
+
+final groupMemberClientProvider =
+    Provider<GroupMemberClient>((ref) => GroupMemberClient());
+
+class GroupMemberClient {
+  Future<String> createGroupMember(GroupMember groupMember) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection(StringConstants.groupsCollection)
+          .doc(groupMember.groupUID)
+          .collection(StringConstants.groupMemberCollection)
+          .doc(groupMember.groupMemberUID)
+          .set(groupMember.toJson());
+      await FirebaseFirestore.instance
+          .collection(StringConstants.usersCollection)
+          .doc(groupMember.groupMemberUID)
+          .collection(StringConstants.userGroupsCollection)
+          .doc(groupMember.groupUID)
+          .set(groupMember.toJson());
+      return StringConstants.success;
+    } on FirebaseException catch (e) {
+      return Future.value(e.message.toString());
+    }
+  }
+
+  Future<List<GroupMember>> retrieveGroupMember(GroupMember groupMember) async {
+    try {
+      final snap = await FirebaseFirestore.instance
+          .collection(StringConstants.groupsCollection)
+          .doc(groupMember.groupUID)
+          .collection(StringConstants.groupMemberCollection)
+          .get();
+      return snap.docs.map((doc) => GroupMember.fromDocument(doc)).toList();
+    } on FirebaseException catch (e) {
+      throw Future.value(e.message.toString());
+    }
+  }
+
+  Future<String> updateGroupMember(GroupMember groupMember) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection(StringConstants.groupsCollection)
+          .doc(groupMember.groupUID)
+          .collection(StringConstants.groupMemberCollection)
+          .doc(groupMember.groupMemberUID)
+          .update(groupMember.toJson());
+      SetOptions(merge: true);
+      return StringConstants.success;
+    } on FirebaseException catch (e) {
+      return Future.value(e.message.toString());
+    }
+  }
+
+  Future<String> deleteGroupMember(GroupMember groupMember) async {
+    //TODO: delete from global, delete from groups
+    try {
+      await FirebaseFirestore.instance
+          .collection(StringConstants.groupMemberCollection)
+          .doc(groupMember.groupMemberUID)
+          .delete();
+      return StringConstants.success;
+    } on FirebaseException catch (e) {
+      return Future.value(e.message);
+    }
+  }
+}

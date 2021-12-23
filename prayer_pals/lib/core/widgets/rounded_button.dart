@@ -37,7 +37,7 @@ class PPCRoundedButton extends StatelessWidget {
             title,
             style: TextStyle(
               color: textColor,
-              fontSize: SizeConfig.blockSizeVertical! * 3.8 * buttonRatio,
+              fontSize: SizeConfig.blockSizeVertical! * 3.0 * buttonRatio,
               fontFamily: 'Open Sans',
               fontWeight: FontWeight.w500,
             ),

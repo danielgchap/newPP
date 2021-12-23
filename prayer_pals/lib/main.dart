@@ -6,7 +6,7 @@ import 'prayer_pals_app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // MobileAds.instance.initialize();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(
     const ProviderScope(
       child: MyApp(),

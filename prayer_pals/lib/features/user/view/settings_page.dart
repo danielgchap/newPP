@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +17,7 @@ import 'activity_page.dart';
 import 'login_page.dart';
 
 class SettingsPage extends ConsumerWidget {
-  late final PPCUser? _ppcUser;
+  PPCUser? _ppcUser;
 
   SettingsPage({Key? key}) : super(key: key);
 
@@ -34,7 +36,7 @@ class SettingsPage extends ConsumerWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            UserInfoBarWidget(isSettings: true),
+            const UserInfoBarWidget(isSettings: true),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -44,7 +46,7 @@ class SettingsPage extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
                         child: InkWell(
-                          child: Text(
+                          child: const Text(
                             StringConstants.changePassword,
                             style: TextStyle(color: Colors.black, fontSize: 16),
                           ),
@@ -64,7 +66,7 @@ class SettingsPage extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
                         child: InkWell(
-                          child: Text(
+                          child: const Text(
                             StringConstants.viewActivity,
                             style: TextStyle(color: Colors.black, fontSize: 16),
                           ),
@@ -80,8 +82,8 @@ class SettingsPage extends ConsumerWidget {
                       )
                     ]),
                     Row(children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                         child: Text(
                           StringConstants.notifications,
                           style: TextStyle(
@@ -105,7 +107,7 @@ class SettingsPage extends ConsumerWidget {
                         activeColor: Colors.lightBlueAccent,
                       ),
                     ]),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _titleRow(StringConstants.supportCaps),
                     _clickableRow(StringConstants.aboutUs, _aboutUs),
                     _clickableRow(StringConstants.usersGuide, _usersGuide),
@@ -121,7 +123,7 @@ class SettingsPage extends ConsumerWidget {
                       Padding(
                           padding: const EdgeInsets.fromLTRB(20, 10, 0, 15),
                           child: InkWell(
-                            child: Text(
+                            child: const Text(
                               StringConstants.logOutCaps,
                               style: TextStyle(
                                 color: Colors.black,
@@ -180,7 +182,7 @@ Widget _titleRow(String titleText) {
       padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
       child: Text(
         titleText,
-        style: TextStyle(
+        style: const TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 18,
         ),
@@ -196,7 +198,7 @@ Widget _clickableRow(String clickableText, Function() clickPath) {
       child: InkWell(
           child: Text(
             clickableText,
-            style: TextStyle(color: Colors.black, fontSize: 16),
+            style: const TextStyle(color: Colors.black, fontSize: 16),
           ),
           onTap: (clickPath)),
     ),
@@ -209,11 +211,11 @@ Widget _changePassword(BuildContext context) {
   final TextEditingController _verifyPasswordController =
       TextEditingController();
 
-  return new AlertDialog(
+  return AlertDialog(
     title: const Text(
       StringConstants.changePassword,
     ),
-    content: Container(
+    content: SizedBox(
       height: 220,
       child: Column(
         children: [
@@ -239,13 +241,13 @@ Widget _changePassword(BuildContext context) {
       ),
     ),
     actions: <Widget>[
-      new ElevatedButton(
+      ElevatedButton(
         onPressed: () {
           Navigator.of(context).pop();
         },
         child: const Text(StringConstants.cancel),
       ),
-      new ElevatedButton(
+      ElevatedButton(
         onPressed: () async {
           //_newPasswordController.text == _verifyPasswordController.text ?
           // TODO figure out logic to verify old and new passwords before updating
@@ -254,8 +256,8 @@ Widget _changePassword(BuildContext context) {
                 .updatePassword(_verifyPasswordController.text);
             return Navigator.of(context).pop();
           } catch (e) {
-            print(e.toString());
-            return null;
+            debugPrint(e.toString());
+            return;
           }
         },
         child: const Text(StringConstants.changePassword),
@@ -265,8 +267,6 @@ Widget _changePassword(BuildContext context) {
 }
 
 void _setReminder() {}
-
-void _viewActivity() {} //figure out how to show Activity page TODO
 
 void _toggleNotifications() {}
 
@@ -295,7 +295,7 @@ void _reportAProblem() async {
   if (await canLaunch(url)) {
     await launch(url);
   } else {
-    print('Could not launch $url');
+    debugPrint('Could not launch $url');
   }
 }
 
@@ -308,7 +308,7 @@ void _sendFeedback() async {
   if (await canLaunch(url)) {
     await launch(url);
   } else {
-    print('Could not launch $url');
+    debugPrint('Could not launch $url');
   }
 }
 

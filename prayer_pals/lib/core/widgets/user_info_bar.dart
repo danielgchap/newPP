@@ -48,22 +48,19 @@ class UserInfoBarWidget extends StatelessWidget {
                   child: Visibility(
                       visible: isSettings,
                       child: InkWell(
-                          child: Icon(Icons.edit),
+                          child: const Icon(Icons.edit),
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => EditProfilePage()));
-                            //settings: RouteSettings(arguments: group)));
                           })),
                 )
               ]),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           PPCstuff.divider,
         ],
       ),
     );
   }
 }
-
-void _editProfile() {}

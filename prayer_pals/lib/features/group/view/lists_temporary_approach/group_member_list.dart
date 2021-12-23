@@ -43,7 +43,7 @@ class _GroupMembersState extends State<GroupMembers> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Text("Loading ..."),
             );
           } else {
@@ -75,17 +75,17 @@ class _GroupMembersState extends State<GroupMembers> {
                           ? _color = Colors.lightBlue
                           : _color = Colors.grey;
                       return Card(
-                          margin: EdgeInsets.all(1),
+                          margin: const EdgeInsets.all(1),
                           child: Visibility(
                               visible: !groupMember.isPending,
                               child: ListTile(
-                                trailing: Container(
+                                trailing: SizedBox(
                                   width: 48,
                                   child: Row(children: [
                                     Visibility(
                                       visible: !groupMember.isAdmin,
                                       child: IconButton(
-                                        icon: Icon(CupertinoIcons.delete),
+                                        icon: const Icon(CupertinoIcons.delete),
                                         color: Colors.red,
                                         onPressed: () async {
                                           //TODO put some popups in to prevent accidents
@@ -110,8 +110,8 @@ class _GroupMembersState extends State<GroupMembers> {
                                                 .delete();
                                             return setState(() {});
                                           } catch (e) {
-                                            print(e.toString());
-                                            return null;
+                                            debugPrint(e.toString());
+                                            return;
                                           }
                                         },
                                       ),
@@ -122,7 +122,7 @@ class _GroupMembersState extends State<GroupMembers> {
                                   Visibility(
                                     visible: !groupMember.isCreated,
                                     replacement: IconButton(
-                                      icon: Icon(Icons.edit),
+                                      icon: const Icon(Icons.edit),
                                       onPressed: () {
                                         showDialog(
                                             context: context,
@@ -144,12 +144,13 @@ class _GroupMembersState extends State<GroupMembers> {
                                               builder: (BuildContext context) =>
                                                   _preventZeroAdmin(
                                                       context, groupMember));
-                                        } else
+                                        } else {
                                           showDialog(
                                               context: context,
                                               builder: (BuildContext context) =>
                                                   _assignAdmin(
                                                       context, groupMember));
+                                        }
                                       },
                                     ),
                                   ),
@@ -169,9 +170,9 @@ class _GroupMembersState extends State<GroupMembers> {
 
   _preventZeroAdmin(context, groupMember) {
     return AlertDialog(
-      title: Text(StringConstants.ownerMessage),
+      title: const Text(StringConstants.ownerMessage),
       actions: <Widget>[
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -191,14 +192,14 @@ _assignAdmin(context, groupMember) {
   return AlertDialog(
     title: Text(_title),
     actions: <Widget>[
-      new ElevatedButton(
+      ElevatedButton(
         onPressed: () {
           groupMember.isAdmin == true ? _isAdmin = false : _isAdmin = true;
           _updateMember(context, groupMember, _isAdmin);
         },
         child: Text(_title),
       ),
-      new ElevatedButton(
+      ElevatedButton(
         onPressed: () {
           Navigator.of(context).pop();
         },

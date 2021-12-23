@@ -30,8 +30,9 @@ class PPCUserCore {
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get();
-      if (docRef.data() != null)
+      if (docRef.data() != null) {
         _currentUserModel = PPCUser.fromJson(docRef.data()!);
+      }
     }
   }
 

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'themes.dart';
 
-enum ThemeType { Light, Dark }
+enum ThemeType { light, dark }
 
 class ThemeModel extends ChangeNotifier {
   ThemeData currentTheme = darkTheme;
-  ThemeType _themeType = ThemeType.Dark;
+  ThemeType _themeType = ThemeType.dark;
 
   toggleTheme() {
-    if (_themeType == ThemeType.Dark) {
+    if (_themeType == ThemeType.dark) {
       currentTheme = lightTheme;
-      _themeType = ThemeType.Light;
+      _themeType = ThemeType.light;
       return notifyListeners();
     }
 
-    if (_themeType == ThemeType.Light) {
+    if (_themeType == ThemeType.light) {
       currentTheme = darkTheme;
-      _themeType = ThemeType.Dark;
+      _themeType = ThemeType.dark;
       return notifyListeners();
     }
   }

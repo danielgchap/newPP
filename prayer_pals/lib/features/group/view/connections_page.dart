@@ -39,17 +39,15 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
         ),
         centerTitle: true,
       ),
-      body: Container(
-        child: Column(
-          children: [
-            _headerSection(context, StringConstants.pendingRequests),
-            PendingRequests(),
-            _headerSection(context, StringConstants.myGroups),
-            MyGroups(),
-            const SizedBox(height: 15),
-            _buttonsSection(context),
-          ],
-        ),
+      body: Column(
+        children: [
+          _headerSection(context, StringConstants.pendingRequests),
+          const PendingRequests(),
+          _headerSection(context, StringConstants.myGroups),
+          const MyGroups(),
+          const SizedBox(height: 15),
+          _buttonsSection(context),
+        ],
       ),
     );
   }

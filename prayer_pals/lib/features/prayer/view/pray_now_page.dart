@@ -35,7 +35,8 @@ class PrayNowPage extends StatelessWidget {
             StringConstants.prayNow,
           ),
           leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                  color: Colors.white),
               onPressed: () {
                 _updateTime(startTime);
                 Navigator.of(context).pop();
@@ -43,7 +44,7 @@ class PrayNowPage extends StatelessWidget {
           centerTitle: true,
         ),
         body:
-            PrayerList(isPrayNow: isPrayNow, prayerType: PrayerType.MyPrayers));
+            PrayerList(isPrayNow: isPrayNow, prayerType: PrayerType.myPrayers));
   }
 
   _updateTime(startTime) async {

@@ -5,7 +5,7 @@ import 'package:prayer_pals/core/utils/constants.dart';
 import 'global_prayer_list.dart';
 
 class GlobalPrayersPage extends StatefulWidget {
-  GlobalPrayersPage({
+  const GlobalPrayersPage({
     Key? key,
   }) : super(key: key);
 
@@ -21,11 +21,12 @@ class _GlobalPrayersPageState extends State<GlobalPrayersPage> {
   @override
   Widget build(BuildContext context) {
     String _title;
-    _listType == _previousType ? _listType = "global" : print(_listType);
+    _listType == _previousType ? _listType = "global" : debugPrint(_listType);
     if (_listType == "answered") {
       _title = StringConstants.answeredPrayer;
-    } else
+    } else {
       _title = "Prayer Pals";
+    }
     SizeConfig().init(context);
     return Scaffold(
         backgroundColor: Colors.lightBlue[50],
@@ -78,15 +79,12 @@ class _GlobalPrayersPageState extends State<GlobalPrayersPage> {
         ),
         body: Column(
           children: [
-            Container(
-              height: SizeConfig.screenHeight! * .81,
+            Expanded(
               child: Stack(
-                children: [GlobalPrayerList(PrayerType.Global)],
+                children: const [GlobalPrayerList(PrayerType.global)],
               ),
             ),
           ],
         ));
   }
-
-  dispose();
 }

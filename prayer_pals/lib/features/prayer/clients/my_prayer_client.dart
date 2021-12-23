@@ -68,7 +68,7 @@ class PrayerClient {
   }
 
   Future<List<Prayer>> retrievePrayer(PrayerType prayerType) async {
-    if (prayerType == PrayerType.Answered)
+    if (prayerType == PrayerType.answered) {
       try {
         final snap = await FirebaseFirestore.instance
             .collection(StringConstants.usersCollection)
@@ -80,7 +80,7 @@ class PrayerClient {
       } on FirebaseException catch (e) {
         throw Future.value(e.message.toString());
       }
-    else
+    } else {
       try {
         final snap = await FirebaseFirestore.instance
             .collection(StringConstants.usersCollection)
@@ -92,6 +92,7 @@ class PrayerClient {
       } on FirebaseException catch (e) {
         throw Future.value(e.message.toString());
       }
+    }
   }
 
   Future<String> updatePrayer(
@@ -100,7 +101,7 @@ class PrayerClient {
     List<String> groupsToRemoveFrom,
     List<String> groupsToAddTo,
   ) async {
-    if (prayerType == PrayerType.Answered)
+    if (prayerType == PrayerType.answered) {
       try {
         await FirebaseFirestore.instance
             .collection(StringConstants.usersCollection)
@@ -114,13 +115,14 @@ class PrayerClient {
             .collection(StringConstants.myPrayersCollection)
             .doc(prayer.uid)
             .delete();
-        if (prayer.isGlobal)
+        if (prayer.isGlobal) {
           //TODO Need to check if it once was shared global, but is no longer shared
           // if not, then it needs to be deleted from global
           await FirebaseFirestore.instance
               .collection(StringConstants.globalAnsweredCollection)
               .doc(prayer.uid)
               .set(prayer.toJson());
+        }
         await FirebaseFirestore.instance
             .collection(StringConstants.globalPrayersCollection)
             .doc(prayer.uid)
@@ -138,7 +140,7 @@ class PrayerClient {
       } on FirebaseException catch (e) {
         return Future.value(e.message.toString());
       }
-    else
+    } else {
       try {
         await FirebaseFirestore.instance
             .collection(StringConstants.usersCollection)
@@ -146,13 +148,14 @@ class PrayerClient {
             .collection(StringConstants.myPrayersCollection)
             .doc(prayer.uid)
             .set(prayer.toJson());
-        if (prayer.isGlobal)
+        if (prayer.isGlobal) {
           //TODO Need to check if it once was shared global, but is no longer shared
           // if not, then it needs to be deleted from global
           await FirebaseFirestore.instance
               .collection(StringConstants.globalPrayersCollection)
               .doc(prayer.uid)
               .set(prayer.toJson());
+        }
 
         if (groupsToRemoveFrom.isNotEmpty) {
           await deletePrayerFromGroups(prayer, groupsToRemoveFrom);
@@ -165,6 +168,7 @@ class PrayerClient {
       } on FirebaseException catch (e) {
         return Future.value(e.message.toString());
       }
+    }
   }
 
   Future<String> deletePrayer(Prayer prayer) async {

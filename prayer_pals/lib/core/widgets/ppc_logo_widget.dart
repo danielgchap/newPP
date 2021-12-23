@@ -17,8 +17,8 @@ class _PPCLogoWidgetState extends State<PPCLogoWidget> {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+      child: const Padding(
+        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
         child: Image(image: AssetImage('assets/images/logoBlueS.png')),
       ),
       radius: 8 * widget.size,

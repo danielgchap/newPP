@@ -18,10 +18,10 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       routes: {
         '/LoginPage': (context) => LoginPage(),
-        '/HomePage': (context) => HomePage(),
-        '/PrayNowPage': (context) => PrayNowPage(),
-        '/GroupSearchPage': (context) => GroupSearchPage(),
-        '/AdminMembersPage': (context) => AdminMembersPage(),
+        '/HomePage': (context) => const HomePage(),
+        '/PrayNowPage': (context) => const PrayNowPage(),
+        '/GroupSearchPage': (context) => const GroupSearchPage(),
+        '/AdminMembersPage': (context) => const AdminMembersPage(),
         // '/Activity': (context) => Activity(),
       },
       debugShowCheckedModeBanner: false,
@@ -30,7 +30,7 @@ class MyApp extends ConsumerWidget {
         backgroundColor: Colors.white,
         fontFamily: 'OpenSans',
         hintColor: Colors.white,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           textTheme: TextTheme(
               headline6:
                   TextStyle(height: 2.0, fontSize: 30.0, color: Colors.white)),
@@ -43,7 +43,7 @@ class MyApp extends ConsumerWidget {
         }
         return LoginPage();
       }, loading: () {
-        return Scaffold(
+        return const Scaffold(
           body: CircularProgressIndicator(),
         );
       }, error: (object, trace) {

@@ -44,7 +44,7 @@ class _PendingRequestsState extends State<PendingRequests> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Text("Loading ..."),
             );
           } else {
@@ -72,12 +72,12 @@ class _PendingRequestsState extends State<PendingRequests> {
                         isPending: data.docs[index]['isPending'],
                       );
                       return Card(
-                          margin: EdgeInsets.all(1),
+                          margin: const EdgeInsets.all(1),
                           child: Visibility(
                             visible: groupMember.isPending,
                             child: ListTile(
                                 leading: PPCAvatar(radSize: 15, image: _image),
-                                trailing: Container(
+                                trailing: SizedBox(
                                   width: 96,
                                   child: Row(
                                     children: [
@@ -87,7 +87,7 @@ class _PendingRequestsState extends State<PendingRequests> {
                                         maintainAnimation: true,
                                         maintainState: true,
                                         child: IconButton(
-                                            icon: Icon(Icons.check),
+                                            icon: const Icon(Icons.check),
                                             color: Colors.green,
                                             onPressed: () {
                                               _updateGroups(
@@ -95,7 +95,7 @@ class _PendingRequestsState extends State<PendingRequests> {
                                             }),
                                       ),
                                       IconButton(
-                                        icon: Icon(Icons.close),
+                                        icon: const Icon(Icons.close),
                                         color: Colors.red,
                                         onPressed: () async {
                                           try {
@@ -117,8 +117,8 @@ class _PendingRequestsState extends State<PendingRequests> {
                                                 .delete();
                                             return setState(() {});
                                           } catch (e) {
-                                            print(e.toString());
-                                            return null;
+                                            debugPrint(e.toString());
+                                            return;
                                           }
                                         },
                                       ),
@@ -156,8 +156,9 @@ class _PendingRequestsState extends State<PendingRequests> {
                                               settings: RouteSettings(
                                                   arguments: group)));
                                     }
-                                  }).catchError((e) =>
-                                          print("error fetching data: $e"));
+                                  }).catchError((e) {
+                                    debugPrint("error fetching data: $e");
+                                  });
                                 }),
                           ));
                     }));

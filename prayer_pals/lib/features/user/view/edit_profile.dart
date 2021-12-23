@@ -30,86 +30,85 @@ class EditProfilePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+          icon:
+              const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(StringConstants.editProfile),
+        title: const Text(StringConstants.editProfile),
         centerTitle: true,
       ),
       body: Stack(
         children: [
-          Container(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical! * 3,
-                ),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical! * 6,
-                ),
-                InkWell(
-                    child: PPCAvatar(radSize: 80, image: _image),
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              UpdatePicture(context));
-                    }),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical! * 6,
-                ),
-                CredentialTextfield(
-                  hintText: StringConstants.username,
-                  controller: _usernameController,
-                  obscure: false,
-                ),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical! * 3,
-                ),
-                CredentialTextfield(
-                  hintText: StringConstants.emailAddress,
-                  controller: _emailAddressController,
-                  obscure: false,
-                ),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical! * 3,
-                ),
-                CredentialTextfield(
-                  hintText: StringConstants.phoneNumber,
-                  controller: _passwordController,
-                  obscure: false,
-                ),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical! * 9,
-                ),
-                PPCRoundedButton(
-                  title: StringConstants.saveChanges,
-                  buttonRatio: .9,
-                  buttonWidthRatio: .9,
-                  callback: () {
-                    _updateUser(_auth, context);
-                  },
-                  bgColor: Colors.lightBlueAccent.shade100,
-                  textColor: Colors.white,
-                ),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical! * 3,
-                ),
-                PPCRoundedButton(
-                  title: StringConstants.deleteAccount,
-                  buttonRatio: .9,
-                  buttonWidthRatio: .9,
-                  callback: () {
+          Column(
+            children: [
+              SizedBox(
+                height: SizeConfig.safeBlockVertical! * 3,
+              ),
+              SizedBox(
+                height: SizeConfig.safeBlockVertical! * 6,
+              ),
+              InkWell(
+                  child: PPCAvatar(radSize: 80, image: _image),
+                  onTap: () {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) =>
-                            _deleteAccount(context));
-                  },
-                  bgColor: Colors.lightBlueAccent.shade100,
-                  textColor: Colors.white,
-                ),
-              ],
-            ),
+                            UpdatePicture(context));
+                  }),
+              SizedBox(
+                height: SizeConfig.safeBlockVertical! * 6,
+              ),
+              CredentialTextfield(
+                hintText: StringConstants.username,
+                controller: _usernameController,
+                obscure: false,
+              ),
+              SizedBox(
+                height: SizeConfig.safeBlockVertical! * 3,
+              ),
+              CredentialTextfield(
+                hintText: StringConstants.emailAddress,
+                controller: _emailAddressController,
+                obscure: false,
+              ),
+              SizedBox(
+                height: SizeConfig.safeBlockVertical! * 3,
+              ),
+              CredentialTextfield(
+                hintText: StringConstants.phoneNumber,
+                controller: _passwordController,
+                obscure: false,
+              ),
+              SizedBox(
+                height: SizeConfig.safeBlockVertical! * 9,
+              ),
+              PPCRoundedButton(
+                title: StringConstants.saveChanges,
+                buttonRatio: .9,
+                buttonWidthRatio: .9,
+                callback: () {
+                  _updateUser(_auth, context);
+                },
+                bgColor: Colors.lightBlueAccent.shade100,
+                textColor: Colors.white,
+              ),
+              SizedBox(
+                height: SizeConfig.safeBlockVertical! * 3,
+              ),
+              PPCRoundedButton(
+                title: StringConstants.deleteAccount,
+                buttonRatio: .9,
+                buttonWidthRatio: .9,
+                callback: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _deleteAccount(context));
+                },
+                bgColor: Colors.lightBlueAccent.shade100,
+                textColor: Colors.white,
+              ),
+            ],
           ),
         ],
       ),
@@ -124,20 +123,20 @@ class EditProfilePage extends ConsumerWidget {
   }
 
   Widget _deleteAccount(BuildContext context) {
-    return new AlertDialog(
+    return AlertDialog(
       title: const Text(
         StringConstants.deleteAccount,
       ),
-      content: Text(
+      content: const Text(
           "Are you sure you want to delete this account? This action cannot be undone."),
       actions: <Widget>[
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
           child: const Text(StringConstants.cancel),
         ),
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () async {
             try {
               await FirebaseFirestore.instance
@@ -147,8 +146,8 @@ class EditProfilePage extends ConsumerWidget {
               await FirebaseAuth.instance.currentUser!.delete();
               return Navigator.of(context).pop();
             } catch (e) {
-              print(e.toString());
-              return null;
+              debugPrint(e.toString());
+              return;
             }
           },
           child: const Text(StringConstants.deleteAccount),

@@ -10,7 +10,7 @@ class GroupPrayerList extends ConsumerWidget {
   final String groupName;
   final PrayerType prayerType;
 
-  GroupPrayerList({
+  const GroupPrayerList({
     Key? key,
     required this.groupId,
     required this.groupName,
@@ -27,7 +27,7 @@ class GroupPrayerList extends ConsumerWidget {
         builder: (BuildContext context, AsyncSnapshot<List<Prayer>> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Text("Loading ..."),
             );
           } else {

@@ -8,7 +8,7 @@ import 'prayer_list_item.dart';
 class GlobalPrayerList extends ConsumerWidget {
   final PrayerType prayerType;
 
-  GlobalPrayerList(this.prayerType, {Key? key}) : super(key: key);
+  const GlobalPrayerList(this.prayerType, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -20,7 +20,7 @@ class GlobalPrayerList extends ConsumerWidget {
         builder: (BuildContext context, AsyncSnapshot<List<Prayer>> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Text("Loading ..."),
             );
           } else {

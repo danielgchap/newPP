@@ -40,22 +40,21 @@ class _AdminMembersPageState extends State<AdminMembersPage> {
           StringConstants.members,
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+          icon:
+              const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
       ),
-      body: Container(
-        child: Column(
-          children: [
-            _headerSection(context, StringConstants.pendingRequests),
-            GroupPendingRequests(group: group),
-            _headerSection(context, StringConstants.members),
-            GroupMembers(group: group),
-            const SizedBox(height: 15),
-            _buttonsSection(context, group),
-          ],
-        ),
+      body: Column(
+        children: [
+          _headerSection(context, StringConstants.pendingRequests),
+          GroupPendingRequests(group: group),
+          _headerSection(context, StringConstants.members),
+          GroupMembers(group: group),
+          const SizedBox(height: 15),
+          _buttonsSection(context, group),
+        ],
       ),
     );
   }
@@ -69,7 +68,7 @@ class _AdminMembersPageState extends State<AdminMembersPage> {
           Text(
             _title,
             textAlign: TextAlign.left,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Helvetica',
               fontSize: 24.0,
               fontWeight: FontWeight.w600,

@@ -58,7 +58,7 @@ class _PPCSearchGroupsWidgetState extends State<PPCSearchGroupsWidget> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Text("Loading ..."),
             );
           } else {
@@ -70,15 +70,14 @@ class _PPCSearchGroupsWidgetState extends State<PPCSearchGroupsWidget> {
                     itemCount: data.size,
                     itemBuilder: (context, index) {
                       Group group = Group(
-                        groupUID: data.docs[index]['groupUID'],
-                        groupName: data.docs[index]['groupName'],
-                        description: data.docs[index]['description'],
-                        creatorUID: data.docs[index]['creatorUID'],
-                        isPrivate: data.docs[index]['isPrivate'],
-                        tags: data.docs[index]['tags']
-                      );
+                          groupUID: data.docs[index]['groupUID'],
+                          groupName: data.docs[index]['groupName'],
+                          description: data.docs[index]['description'],
+                          creatorUID: data.docs[index]['creatorUID'],
+                          isPrivate: data.docs[index]['isPrivate'],
+                          tags: data.docs[index]['tags']);
                       return Card(
-                          margin: EdgeInsets.all(1),
+                          margin: const EdgeInsets.all(1),
                           child: ListTile(
                             leading: PPCAvatar(radSize: 15, image: _image),
                             trailing: Consumer(builder: (ctx, ref, widget) {
@@ -136,7 +135,7 @@ _joinGroup(BuildContext ctx, group) async {
       ctx.read(firebaseAuthProvider).currentUser!.displayName;
   final groupUID = group.uid;
   final emailAddress = ctx.read(firebaseAuthProvider).currentUser!.email;
-  final phoneNumber = "";
+  const phoneNumber = "";
   final srvMsg = await ctx
       .read(groupMemberControllerProvider)
       .createGroupMember(

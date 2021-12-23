@@ -8,7 +8,7 @@ import 'package:prayer_pals/core/utils/constants.dart';
 
 class Activity extends StatefulWidget {
   final PPCUser ppcUser;
-  Activity({Key? key, required this.ppcUser}) : super(key: key);
+  const Activity({Key? key, required this.ppcUser}) : super(key: key);
 
   @override
   _ActivityState createState() => _ActivityState();
@@ -23,7 +23,8 @@ class _ActivityState extends State<Activity> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: const Text(
@@ -38,7 +39,7 @@ class _ActivityState extends State<Activity> {
     Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        UserInfoBarWidget(isSettings: false),
+        const UserInfoBarWidget(isSettings: false),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -64,17 +65,17 @@ class _ActivityState extends State<Activity> {
             ),
           ],
         ),
-        _detailRow(widget.ppcUser.answered, StringConstants.AnsweredPrayers),
-        _detailRow(widget.ppcUser.prayers, StringConstants.PrayersRequested),
-        _detailRow(widget.ppcUser.hoursPrayer, StringConstants.HoursInPrayer),
+        _detailRow(widget.ppcUser.answered, StringConstants.answeredPrayers),
+        _detailRow(widget.ppcUser.prayers, StringConstants.prayersRequested),
+        _detailRow(widget.ppcUser.hoursPrayer, StringConstants.hoursInPrayer),
         _detailRow(
-            widget.ppcUser.daysPrayedWeek, StringConstants.DaysPrayedWeek),
+            widget.ppcUser.daysPrayedWeek, StringConstants.daysPrayedWeek),
         _detailRow(
-            widget.ppcUser.daysPrayedMonth, StringConstants.DaysPrayedMonth),
+            widget.ppcUser.daysPrayedMonth, StringConstants.daysPrayedMonth),
         _detailRow(
-            widget.ppcUser.daysPrayedYear, StringConstants.DaysPrayedYear),
+            widget.ppcUser.daysPrayedYear, StringConstants.daysPrayedYear),
         _detailRow(widget.ppcUser.daysPrayedLastYear,
-            StringConstants.DaysPrayedLastYear),
+            StringConstants.daysPrayedLastYear),
         PPCstuff.divider,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +105,7 @@ class _ActivityState extends State<Activity> {
         ),
       ],
     );
-    return Text("");
+    return const Text("");
   }
 
   Widget _detailRow(_values, _label) {

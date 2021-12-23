@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
@@ -27,7 +25,7 @@ class PrayerList extends ConsumerWidget {
         builder: (BuildContext context, AsyncSnapshot<List<Prayer>> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Text("Loading ..."),
             );
           } else {
@@ -73,13 +71,13 @@ class PrayerList extends ConsumerWidget {
 
   _showDeleteConfirmationDialog(BuildContext context, Prayer prayer) {
     Widget cancelButton = TextButton(
-      child: Text(StringConstants.cancel),
+      child: const Text(StringConstants.cancel),
       onPressed: () {
         Navigator.pop(context);
       },
     );
     Widget deleteButton = TextButton(
-      child: Text(
+      child: const Text(
         StringConstants.delete,
         style: TextStyle(
           color: Colors.red,
@@ -91,8 +89,8 @@ class PrayerList extends ConsumerWidget {
       },
     );
     AlertDialog alert = AlertDialog(
-      title: Text(StringConstants.areYouSure),
-      content: Text(StringConstants.doYouWishToDeleteThisPrayer),
+      title: const Text(StringConstants.areYouSure),
+      content: const Text(StringConstants.doYouWishToDeleteThisPrayer),
       actions: [
         cancelButton,
         deleteButton,

@@ -23,7 +23,7 @@ class CreatePrayerPage extends HookWidget {
   CreatePrayerPage({
     Key? key,
     this.prayer,
-  });
+  }) : super(key: key);
 
   bool _shareGlobal = false;
   String? _title;
@@ -61,7 +61,8 @@ class CreatePrayerPage extends HookWidget {
         leading: Visibility(
           visible: _backButton,
           child: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -94,7 +95,7 @@ class CreatePrayerPage extends HookWidget {
           ),
           SingleChildScrollView(
             child: TextField(
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Helvetica',
               ),
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
@@ -104,7 +105,7 @@ class CreatePrayerPage extends HookWidget {
               maxLines: SizeConfig.safeBlockVertical! * 30 ~/ 20,
               decoration: InputDecoration(
                 isDense: true,
-                contentPadding: EdgeInsets.fromLTRB(0, -15, 0, 5),
+                contentPadding: const EdgeInsets.fromLTRB(0, -15, 0, 5),
                 hintText: StringConstants.details,
                 hintStyle: TextStyle(
                   fontSize: SizeConfig.safeBlockVertical! * 2.5,
@@ -134,7 +135,7 @@ class CreatePrayerPage extends HookWidget {
   }
 
   Widget _toggleSwitchSection() {
-    return Container(
+    return SizedBox(
       height: SizeConfig.screenHeight! * .15,
       width: SizeConfig.screenWidth,
       child: _usersGroupsToggles(),
@@ -236,10 +237,11 @@ class CreatePrayerPage extends HookWidget {
             buttonRatio: .8,
             buttonWidthRatio: .8,
             callback: () {
-              if (prayer != null)
+              if (prayer != null) {
                 _updatePrayer(ctx, prayer);
-              else
+              } else {
                 _createPrayer(ctx);
+              }
             },
             bgColor: Colors.lightBlueAccent.shade100,
             textColor: Colors.white,
@@ -265,7 +267,7 @@ class CreatePrayerPage extends HookWidget {
   }
 
   _updatePrayer(BuildContext ctx, prayer) async {
-    final prayerType = PrayerType.MyPrayers;
+    const prayerType = PrayerType.myPrayers;
     if (_groupsToRemovePrayerFrom != null) {
       for (var groupUid in _groupsToRemovePrayerFrom!.value) {
         if (_groupsToShareTo!.value.contains(groupUid)) {
@@ -303,7 +305,7 @@ class CreatePrayerPage extends HookWidget {
   }
 
   _updateAnsweredPrayer(BuildContext ctx, prayer) async {
-    final prayerType = PrayerType.Answered;
+    const prayerType = PrayerType.answered;
     final srvMsg = await ctx.read(prayerControllerProvider).updatePrayer(
         prayerType,
         prayer.uid,
@@ -316,7 +318,7 @@ class CreatePrayerPage extends HookWidget {
         _groupsForUpdateToAddTo!.value,
         _groupsToRemovePrayerFrom!.value,
         _shareGlobal);
-    print(srvMsg);
+    debugPrint(srvMsg);
     if (srvMsg == StringConstants.success) {
       ctx.read(homeControllerProvider).setIndex(0);
       Navigator.of(ctx).pop();

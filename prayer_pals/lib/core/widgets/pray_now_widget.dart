@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 
@@ -55,7 +57,7 @@ class _PrayNowRowState extends State<PrayNowRow> {
   }
 
   Widget _showDescription(BuildContext context, _title, _description) {
-    return new AlertDialog(
+    return AlertDialog(
       title: Text(
         _title,
         overflow: TextOverflow.ellipsis,
@@ -72,13 +74,13 @@ class _PrayNowRowState extends State<PrayNowRow> {
           }, //Change to Answered prayer
         ),
       ],
-      content: new Column(
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             _description,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Helvetica',
             ),
           )

@@ -18,10 +18,10 @@ class _PPCmessageState extends State<PPCmessage> {
       title: Text(
         widget.title,
       ),
-      content: new Column(
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: const <Widget>[
           TextField(
             style: TextStyle(
               fontFamily: 'Helvetica',
@@ -33,7 +33,7 @@ class _PPCmessageState extends State<PPCmessage> {
         ],
       ),
       actions: <Widget>[
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
             //needs to capture message and send through
@@ -41,7 +41,7 @@ class _PPCmessageState extends State<PPCmessage> {
           },
           child: const Text(StringConstants.send),
         ),
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },

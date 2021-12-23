@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 
 class GetScripture extends StatelessWidget {
-  GetScripture();
+  const GetScripture({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final int length =
+    const int length =
         3; // Total number of scriptures. Can improve method later.
     final int randomScriptureInt = Random().nextInt(length);
     final documentId = randomScriptureInt.toString();
@@ -20,11 +20,11 @@ class GetScripture extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text("Something went wrong");
+          return const Text("Something went wrong");
         }
 
         if (snapshot.hasData && !snapshot.data!.exists) {
-          return Text("Document does not exist");
+          return const Text("Document does not exist");
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
@@ -56,7 +56,7 @@ class GetScripture extends StatelessWidget {
           );
         }
 
-        return Text("loading");
+        return const Text("loading");
       },
     );
   }

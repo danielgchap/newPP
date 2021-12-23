@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 enum PrayerType {
-  Answered,
-  MyPrayers,
-  Group,
-  Global,
+  answered,
+  myPrayers,
+  group,
+  global,
 }
 
 class Constants {
@@ -119,13 +119,13 @@ class StringConstants {
 
 //Activity
   static const memberSince = 'Member Since';
-  static const AnsweredPrayers = 'Answered Prayers';
-  static const PrayersRequested = 'Prayers Requested';
-  static const HoursInPrayer = 'Hours in Prayer';
-  static const DaysPrayedWeek = 'Days Prayed This Week';
-  static const DaysPrayedMonth = 'Days Prayed This Month';
-  static const DaysPrayedYear = 'Days Prayed This Year';
-  static const DaysPrayedLastYear = 'Days Prayed Last Year';
+  static const answeredPrayers = 'Answered Prayers';
+  static const prayersRequested = 'Prayers Requested';
+  static const hoursInPrayer = 'Hours in Prayer';
+  static const daysPrayedWeek = 'Days Prayed This Week';
+  static const daysPrayedMonth = 'Days Prayed This Month';
+  static const daysPrayedYear = 'Days Prayed This Year';
+  static const daysPrayedLastYear = 'Days Prayed Last Year';
 
 // Settings Page
   static const settingsCaps = 'SETTINGS';
@@ -142,12 +142,12 @@ class StringConstants {
   static const sendFeedback = 'Send Feedback';
   static const removeAds = 'Remove Ads';
   static const logOutCaps = 'LOG OUT';
-  static const PPCHome = 'https://prayerpalsapp.com';
-  static const PPCGuide = 'https://www.prayerpalsapp.com/user-s-guide';
-  static const PPCPolicy = 'https://www.prayerpalsapp.com/privacy-policy';
-  static const PPCTerms = 'https://www.prayerpalsapp.com/terms-of-service';
-  static const PPCSupport = 'Support@PrayerPalsApp.com';
-  static const PPCInfo = 'Info@PrayerPalsApp.com';
+  static const ppcHome = 'https://prayerpalsapp.com';
+  static const ppcGuide = 'https://www.prayerpalsapp.com/user-s-guide';
+  static const ppcPolicy = 'https://www.prayerpalsapp.com/privacy-policy';
+  static const ppcTerms = 'https://www.prayerpalsapp.com/terms-of-service';
+  static const ppcSupport = 'Support@PrayerPalsApp.com';
+  static const ppcInfo = 'Info@PrayerPalsApp.com';
 
 //Buttons
   static const share = 'Share';

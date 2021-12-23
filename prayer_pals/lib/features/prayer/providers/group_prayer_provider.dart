@@ -36,8 +36,6 @@ class GroupPrayerController {
     if (message.isNotEmpty) {
       return message;
     } else {
-      //TODO: return success string
-
       Prayer prayer = Prayer(
         uid: uid,
         title: title!,
@@ -85,7 +83,6 @@ class GroupPrayerController {
     if (message.isNotEmpty) {
       return message;
     } else {
-      //TODO: return success string
       Prayer prayer = Prayer(
         uid: uid,
         title: title!,

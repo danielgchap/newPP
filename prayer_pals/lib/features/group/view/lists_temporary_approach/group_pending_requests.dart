@@ -41,7 +41,7 @@ class _GroupPendingRequestsState extends State<GroupPendingRequests> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Text("Loading ..."),
             );
           } else {
@@ -69,16 +69,16 @@ class _GroupPendingRequestsState extends State<GroupPendingRequests> {
                         isPending: data.docs[index]['isPending'],
                       );
                       return Card(
-                          margin: EdgeInsets.all(1),
+                          margin: const EdgeInsets.all(1),
                           child: Visibility(
                             visible: groupMember.isPending,
                             child: ListTile(
                               leading: PPCAvatar(radSize: 15, image: _image),
-                              trailing: Container(
+                              trailing: SizedBox(
                                 width: 96,
                                 child: Row(children: [
                                   IconButton(
-                                    icon: Icon(Icons.check),
+                                    icon: const Icon(Icons.check),
                                     color: Colors.green,
                                     onPressed: () {
                                       _updateGroups(
@@ -86,7 +86,7 @@ class _GroupPendingRequestsState extends State<GroupPendingRequests> {
                                     },
                                   ),
                                   IconButton(
-                                    icon: Icon(Icons.close),
+                                    icon: const Icon(Icons.close),
                                     color: Colors.red,
                                     onPressed: () async {
                                       try {
@@ -108,8 +108,8 @@ class _GroupPendingRequestsState extends State<GroupPendingRequests> {
                                             .delete();
                                         return setState(() {});
                                       } catch (e) {
-                                        print(e.toString());
-                                        return null;
+                                        debugPrint(e.toString());
+                                        return;
                                       }
                                     },
                                   ),

@@ -33,15 +33,14 @@ class _PrayerDetailPageState extends State<PrayerDetailPage> {
         .where("uid", isEqualTo: prayer.uid)
         .get();
 
-    // print("............................" + result.data().toString());
-
     result == null ? isListed = true : isListed = false;
     SizeConfig().init(context);
 
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: Text(
@@ -50,7 +49,7 @@ class _PrayerDetailPageState extends State<PrayerDetailPage> {
           centerTitle: true,
         ),
         body: Column(children: [
-          Container(
+          SizedBox(
               height: SizeConfig.blockSizeVertical! * 68,
               child: SingleChildScrollView(
                   child: Padding(
@@ -65,7 +64,7 @@ class _PrayerDetailPageState extends State<PrayerDetailPage> {
                         SizedBox(
                           width: SizeConfig.safeBlockHorizontal! * 2,
                         ),
-                        Container(
+                        SizedBox(
                           width: SizeConfig.screenWidth! * .7,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +98,7 @@ class _PrayerDetailPageState extends State<PrayerDetailPage> {
                     SizedBox(
                       height: SizeConfig.safeBlockVertical! * 2,
                     ),
-                    Container(
+                    SizedBox(
                       width: SizeConfig.screenWidth! * .9,
                       child: Text(
                         prayer.description,

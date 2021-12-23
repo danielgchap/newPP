@@ -270,26 +270,26 @@ void _setReminder() {}
 
 void _toggleNotifications() {}
 
-void _aboutUs() async => await canLaunch(StringConstants.PPCHome)
-    ? await launch(StringConstants.PPCHome)
-    : throw 'Could not launch ' + StringConstants.PPCHome;
+void _aboutUs() async => await canLaunch(StringConstants.ppcHome)
+    ? await launch(StringConstants.ppcHome)
+    : throw 'Could not launch ' + StringConstants.ppcHome;
 
-void _usersGuide() async => await canLaunch(StringConstants.PPCGuide)
-    ? await launch(StringConstants.PPCGuide)
-    : throw 'Could not launch ' + StringConstants.PPCGuide;
+void _usersGuide() async => await canLaunch(StringConstants.ppcGuide)
+    ? await launch(StringConstants.ppcGuide)
+    : throw 'Could not launch ' + StringConstants.ppcGuide;
 
-void _privacyPolicy() async => await canLaunch(StringConstants.PPCPolicy)
-    ? await launch(StringConstants.PPCPolicy)
-    : throw 'Could not launch ' + StringConstants.PPCPolicy;
+void _privacyPolicy() async => await canLaunch(StringConstants.ppcPolicy)
+    ? await launch(StringConstants.ppcPolicy)
+    : throw 'Could not launch ' + StringConstants.ppcPolicy;
 
-void _termsOfService() async => await canLaunch(StringConstants.PPCTerms)
-    ? await launch(StringConstants.PPCTerms)
-    : throw 'Could not launch ' + StringConstants.PPCTerms;
+void _termsOfService() async => await canLaunch(StringConstants.ppcTerms)
+    ? await launch(StringConstants.ppcTerms)
+    : throw 'Could not launch ' + StringConstants.ppcTerms;
 
 void _reportAProblem() async {
   final Uri params = Uri(
     scheme: 'mailto',
-    path: StringConstants.PPCSupport,
+    path: StringConstants.ppcSupport,
   );
   String url = params.toString();
   if (await canLaunch(url)) {
@@ -302,7 +302,7 @@ void _reportAProblem() async {
 void _sendFeedback() async {
   final Uri params = Uri(
     scheme: 'mailto',
-    path: StringConstants.PPCInfo,
+    path: StringConstants.ppcInfo,
   );
   String url = params.toString();
   if (await canLaunch(url)) {

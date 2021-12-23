@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 
 class UpdatePicture extends StatefulWidget {
-  UpdatePicture(BuildContext context, {Key? key}) : super(key: key);
+  const UpdatePicture(BuildContext context, {Key? key}) : super(key: key);
 
   @override
   _UpdatePictureState createState() => _UpdatePictureState();
@@ -12,18 +12,18 @@ class UpdatePicture extends StatefulWidget {
 class _UpdatePictureState extends State<UpdatePicture> {
   @override
   Widget build(BuildContext context) {
-    return new AlertDialog(
+    return AlertDialog(
       title: const Text(
         StringConstants.updateProfilePicture,
       ),
       actions: <Widget>[
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () async {
             await ImagePicker().pickImage(source: ImageSource.gallery);
           },
           child: const Text(StringConstants.photos),
         ),
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () async {
             await ImagePicker().pickImage(source: ImageSource.camera);
           },

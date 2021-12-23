@@ -15,10 +15,10 @@ final homeControllerProvider =
 class HomeController extends ChangeNotifier {
   static const HomePage _homePage = HomePage();
   static final MyPrayersPage _prayersPage = MyPrayersPage();
-  static CreatePrayerPage _createPrayerPage = CreatePrayerPage();
-  static final GlobalPrayersPage _globalPrayersPage = GlobalPrayersPage();
+  static final CreatePrayerPage _createPrayerPage = CreatePrayerPage();
+  static const GlobalPrayersPage _globalPrayersPage = GlobalPrayersPage();
   static const ConnectionsPage _connectionsPage = ConnectionsPage();
-  static SettingsPage _settingsPage = SettingsPage();
+  static final SettingsPage _settingsPage = SettingsPage();
 
   //late BannerAd _bannerAd;
   //bool _isBannerAdReady = false;

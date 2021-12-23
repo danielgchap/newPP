@@ -28,7 +28,7 @@ class CreateGroupWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(
+      title: const Text(
         StringConstants.createGroup,
       ),
       content: Column(
@@ -36,12 +36,12 @@ class CreateGroupWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextField(
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Helvetica',
             ),
             textInputAction: TextInputAction.done,
             controller: _groupNameController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: StringConstants.groupName,
               hintStyle: TextStyle(
                 color: Colors.grey,
@@ -51,14 +51,14 @@ class CreateGroupWidget extends StatelessWidget {
         ],
       ),
       actions: <Widget>[
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             // Navigator.of(context).pop();
             _createGroup(context);
           },
           child: const Text(StringConstants.save),
         ),
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -94,7 +94,7 @@ class CreateGroupWidget extends StatelessWidget {
         ctx.read(firebaseAuthProvider).currentUser!.displayName;
     final groupUID = groupId;
     final emailAddress = ctx.read(firebaseAuthProvider).currentUser!.email;
-    final phoneNumber = "";
+    const phoneNumber = "";
     final srvMsg = await ctx
         .read(groupMemberControllerProvider)
         .createGroupMember(

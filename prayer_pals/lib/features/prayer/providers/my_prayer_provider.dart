@@ -33,7 +33,6 @@ class PrayerController extends ChangeNotifier {
     if (message.isNotEmpty) {
       return message;
     } else {
-      //TODO: return success string
       Uuid uuid = const Uuid();
       String prayerId = uuid.v1();
       String? displayName = FirebaseAuth.instance.currentUser!.displayName;
@@ -80,7 +79,6 @@ class PrayerController extends ChangeNotifier {
     if (message.isNotEmpty) {
       return message;
     } else {
-      //TODO: return success string
       Prayer prayer = Prayer(
           uid: uid,
           title: title!,

@@ -9,7 +9,7 @@ final globalPrayerClientProvider =
 
 class GlobalPrayerClient {
   Future<List<Prayer>> retrievePrayer(PrayerType prayerType) async {
-    if (prayerType == PrayerType.Answered)
+    if (prayerType == PrayerType.answered) {
       try {
         final snap = await FirebaseFirestore.instance
             .collection(StringConstants.globalAnsweredCollection)
@@ -19,7 +19,7 @@ class GlobalPrayerClient {
       } on FirebaseException catch (e) {
         throw Future.value(e.message.toString());
       }
-    else
+    } else {
       try {
         final snap = await FirebaseFirestore.instance
             .collection(StringConstants.globalPrayersCollection)
@@ -29,5 +29,6 @@ class GlobalPrayerClient {
       } on FirebaseException catch (e) {
         throw Future.value(e.message.toString());
       }
+    }
   }
 }

@@ -11,7 +11,7 @@ class AdHelper {
       return 'ca-app-pub-6387992431790976~5867500933';
       // iOS id: ca-app-pub-6387992431790976~5867500933
     } else {
-      throw new UnsupportedError('Unsupported platform');
+      throw UnsupportedError('Unsupported platform');
     }
   }
 }

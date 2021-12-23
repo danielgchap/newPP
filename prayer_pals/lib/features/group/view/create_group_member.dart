@@ -34,7 +34,7 @@ class _CreateGroupMemberWidgetState extends State<CreateGroupMemberWidget> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(
+      title: const Text(
         StringConstants.createMember,
       ),
       content: Column(
@@ -43,12 +43,12 @@ class _CreateGroupMemberWidgetState extends State<CreateGroupMemberWidget> {
         children: <Widget>[
           Column(children: [
             TextField(
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Helvetica',
               ),
               textInputAction: TextInputAction.done,
               controller: _userNameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: StringConstants.username,
                 hintStyle: TextStyle(
                   color: Colors.grey,
@@ -56,12 +56,12 @@ class _CreateGroupMemberWidgetState extends State<CreateGroupMemberWidget> {
               ),
             ),
             TextField(
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Helvetica',
               ),
               textInputAction: TextInputAction.done,
               controller: _emailAddressController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: StringConstants.emailAddress,
                 hintStyle: TextStyle(
                   color: Colors.grey,
@@ -72,13 +72,13 @@ class _CreateGroupMemberWidgetState extends State<CreateGroupMemberWidget> {
         ],
       ),
       actions: <Widget>[
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             _createMember(context, widget.group);
           },
           child: const Text(StringConstants.create),
         ),
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -93,7 +93,7 @@ class _CreateGroupMemberWidgetState extends State<CreateGroupMemberWidget> {
     String createdMemberId = uuid.v1();
     final groupMemberName = _userNameController.text;
     final emailAddress = _emailAddressController.text;
-    final phoneNumber = "";
+    const phoneNumber = "";
     final srvMsg = await ctx
         .read(groupMemberControllerProvider)
         .createGroupMember(

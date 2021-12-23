@@ -55,6 +55,7 @@ class PrayerRepositoryImpl implements PrayerRepository {
     return await _reader(prayerClientProvider).deletePrayer(prayer);
   }
 
+  @override
   Future<List<Group>> fetchGroupsForCurrentUser() async {
     return await _reader(prayerClientProvider).fetchGroupsForCurrentUser();
   }

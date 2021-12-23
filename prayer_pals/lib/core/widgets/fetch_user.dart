@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:prayer_pals/features/user/models/ppcuser.dart';
 
 class FetchUser extends StatefulWidget {
-  FetchUser({Key? key}) : super(key: key);
+  const FetchUser({Key? key}) : super(key: key);
   @override
   _FetchUserState createState() => _FetchUserState();
 }

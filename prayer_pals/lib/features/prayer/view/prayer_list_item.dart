@@ -77,7 +77,7 @@ class PrayerListItem extends StatelessWidget {
                 SizedBox(
                   width: SizeConfig.safeBlockHorizontal! * 2,
                 ),
-                Container(
+                SizedBox(
                   width: SizeConfig.safeBlockHorizontal! * 45,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +125,7 @@ class PrayerListItem extends StatelessWidget {
 
   Widget _detailRow() {
     return Container(
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       width: SizeConfig.screenWidth,
       child: Text(prayer.description,
           textAlign: TextAlign.left,
@@ -151,12 +151,12 @@ class PrayerListItem extends StatelessWidget {
       //crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
-          padding: EdgeInsets.only(bottom: 5),
+          padding: const EdgeInsets.only(bottom: 5),
           width: SizeConfig.safeBlockHorizontal! * 52,
           child: Row(
             children: [
               Visibility(
-                child: PPCLogoWidget(size: 2.5),
+                child: const PPCLogoWidget(size: 2.5),
                 visible: prayer.isGlobal,
               ),
               Text(

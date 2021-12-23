@@ -14,12 +14,12 @@ import 'package:prayer_pals/core/utils/constants.dart';
 //////////////////////////////////////////////////////////////////////////
 
 class GroupDescriptionNonEdit extends StatelessWidget {
-  final groupName;
-  final groupDescription;
+  final String? groupName;
+  final String? groupDescription;
   final GroupMember groupMember;
   final bool isGuest;
 
-  GroupDescriptionNonEdit(
+  const GroupDescriptionNonEdit(
       {Key? key,
       required this.groupName,
       required this.groupDescription,
@@ -34,11 +34,11 @@ class GroupDescriptionNonEdit extends StatelessWidget {
         SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 8, 0),
-            child: Container(
+            child: SizedBox(
               width: SizeConfig.safeBlockHorizontal! * 150,
               height: SizeConfig.safeBlockVertical! * 26,
               child: Text(
-                groupDescription,
+                groupDescription!,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: SizeConfig.safeBlockVertical! * 2.5,
@@ -51,49 +51,47 @@ class GroupDescriptionNonEdit extends StatelessWidget {
         PPCstuff.divider,
         Visibility(
           visible: !isGuest,
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 5),
-                      child: Text(StringConstants.personalNotifications,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: SizeConfig.safeBlockVertical! * 2.5,
-                          )),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 5),
+                    child: Text(StringConstants.personalNotifications,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: SizeConfig.safeBlockVertical! * 2.5,
+                        )),
+                  ),
+                  SizedBox(
+                    width: 180,
+                    child: Column(
+                      children: [
+                        PPCToggleWidget(
+                          title: StringConstants.app,
+                          size: 2.5,
+                          toggleState: groupMember.appNotify,
+                          callback: (value) {},
+                        ),
+                        PPCToggleWidget(
+                          title: StringConstants.text,
+                          size: 2.5,
+                          toggleState: groupMember.textNotify,
+                          callback: (value) {},
+                        ),
+                        PPCToggleWidget(
+                          title: StringConstants.email,
+                          size: 2.5,
+                          toggleState: groupMember.emailNotify,
+                          callback: (value) {},
+                        ),
+                      ],
                     ),
-                    Container(
-                      width: 180,
-                      child: Column(
-                        children: [
-                          PPCToggleWidget(
-                            title: StringConstants.app,
-                            size: 2.5,
-                            toggleState: groupMember.appNotify,
-                            callback: (value) {},
-                          ),
-                          PPCToggleWidget(
-                            title: StringConstants.text,
-                            size: 2.5,
-                            toggleState: groupMember.textNotify,
-                            callback: (value) {},
-                          ),
-                          PPCToggleWidget(
-                            title: StringConstants.email,
-                            size: 2.5,
-                            toggleState: groupMember.emailNotify,
-                            callback: (value) {},
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
         Visibility(

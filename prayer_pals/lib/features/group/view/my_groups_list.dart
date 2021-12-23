@@ -7,7 +7,6 @@ import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
 import 'package:prayer_pals/features/prayer/view/group_prayer_list_page.dart';
-import 'package:prayer_pals/features/prayer/view/my_prayer_list_page.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'group_description_page.dart';
 
@@ -40,7 +39,7 @@ class MyGroups extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Text("Loading ..."),
             );
           } else {
@@ -74,11 +73,12 @@ class MyGroups extends StatelessWidget {
                       return Visibility(
                           visible: !groupMember.isPending,
                           child: Card(
-                              margin: EdgeInsets.all(1),
+                              margin: const EdgeInsets.all(1),
                               child: ListTile(
                                 leading: PPCAvatar(radSize: 15, image: _image),
                                 trailing: IconButton(
-                                  icon: Icon(CupertinoIcons.chat_bubble_2),
+                                  icon:
+                                      const Icon(CupertinoIcons.chat_bubble_2),
                                   onPressed: () {
                                     Navigator.push(
                                       context,

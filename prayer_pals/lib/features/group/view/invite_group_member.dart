@@ -29,7 +29,7 @@ class _InviteGroupMemberWidgetState extends State<InviteGroupMemberWidget> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(
+      title: const Text(
         StringConstants.inviteToGroup,
       ),
       content: Column(
@@ -37,12 +37,12 @@ class _InviteGroupMemberWidgetState extends State<InviteGroupMemberWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextField(
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Helvetica',
             ),
             textInputAction: TextInputAction.done,
             controller: _emailAddressController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: StringConstants.emailAddress,
               hintStyle: TextStyle(
                 color: Colors.grey,
@@ -52,14 +52,14 @@ class _InviteGroupMemberWidgetState extends State<InviteGroupMemberWidget> {
         ],
       ),
       actions: <Widget>[
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
             _sendInvitation(context);
           },
           child: const Text(StringConstants.send),
         ),
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },

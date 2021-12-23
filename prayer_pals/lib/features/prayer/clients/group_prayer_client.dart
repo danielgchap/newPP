@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
@@ -26,7 +27,7 @@ class GroupPrayerClient {
 
   Future<List<Prayer>> retrievePrayer(
       String groupId, PrayerType prayerType) async {
-    if (prayerType == PrayerType.Answered)
+    if (prayerType == PrayerType.answered) {
       try {
         final snap = await FirebaseFirestore.instance
             .collection(StringConstants.groupsCollection)
@@ -34,12 +35,12 @@ class GroupPrayerClient {
             .collection(StringConstants.groupAnsweredCollection)
             .orderBy("dateCreated", descending: true)
             .get();
-        print('object');
+        debugPrint('object');
         return snap.docs.map((doc) => Prayer.fromDocument(doc)).toList();
       } on FirebaseException catch (e) {
         throw Future.value(e.message.toString());
       }
-    else
+    } else {
       try {
         final snap = await FirebaseFirestore.instance
             .collection(StringConstants.groupsCollection)
@@ -47,11 +48,12 @@ class GroupPrayerClient {
             .collection(StringConstants.groupPrayerCollection)
             .orderBy("dateCreated", descending: true)
             .get();
-        print('object');
+        debugPrint('object');
         return snap.docs.map((doc) => Prayer.fromDocument(doc)).toList();
       } on FirebaseException catch (e) {
         throw Future.value(e.message.toString());
       }
+    }
   }
 
   Future<String> updatePrayer(Prayer prayer, Group group) async {

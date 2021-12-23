@@ -18,7 +18,7 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           StringConstants.home,
         ),
         centerTitle: true,
@@ -55,7 +55,7 @@ class HomePage extends ConsumerWidget {
               const Divider(),
               Card(
                   elevation: 5,
-                  margin: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                  margin: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                   color: Colors.lightBlue[50],
                   //shadowColor: Colors.black87,
                   child: _scriptureSection(context)),
@@ -120,7 +120,7 @@ class HomePage extends ConsumerWidget {
             },
           )
           */
-          GetScripture(),
+          const GetScripture(),
         ],
       ),
     );

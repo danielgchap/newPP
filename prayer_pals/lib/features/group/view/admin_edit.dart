@@ -13,10 +13,10 @@ import 'package:prayer_pals/core/utils/constants.dart';
 //////////////////////////////////////////////////////////////////////////
 
 class AdminEdit extends StatefulWidget {
-  final groupName;
-  final groupDescription;
+  final String? groupName;
+  final String? groupDescription;
 
-  AdminEdit({
+  const AdminEdit({
     Key? key,
     required this.groupName,
     required this.groupDescription,
@@ -27,8 +27,7 @@ class AdminEdit extends StatefulWidget {
 }
 
 class _AdminEditState extends State<AdminEdit> {
-  TextEditingController _descriptionController = TextEditingController();
-  late String _descriptionText = widget.groupDescription;
+  final TextEditingController _descriptionController = TextEditingController();
   late String _hintText;
 
   @override
@@ -36,7 +35,7 @@ class _AdminEditState extends State<AdminEdit> {
     super.initState();
 
     if (widget.groupDescription != null) {
-      _descriptionController.text = widget.groupDescription;
+      _descriptionController.text = widget.groupDescription!;
       _descriptionController.selection = TextSelection.fromPosition(
           TextPosition(offset: _descriptionController.text.length));
     }
@@ -46,10 +45,9 @@ class _AdminEditState extends State<AdminEdit> {
   Widget build(BuildContext context) {
     if (widget.groupDescription == "") {
       _hintText = StringConstants.groupDescription;
-      _descriptionText = "";
-    } else
+    } else {
       _hintText = "";
-    _descriptionText = widget.groupDescription;
+    }
     return Column(
       children: [
         SingleChildScrollView(
@@ -68,7 +66,7 @@ class _AdminEditState extends State<AdminEdit> {
               // <--- maxLines
               decoration: InputDecoration(
                 hintText: _hintText,
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   color: Colors.grey,
                 ),
               ),
@@ -94,7 +92,7 @@ class _AdminEditState extends State<AdminEdit> {
 
   Widget _resignAdminSection(_groupName) {
     return Column(
-      children: [
+      children: const [
         //Need to remove isAdmin status when this button is checked.
         //Also need to add pop up messages
         //Logic is if owner, owner needs to be assigned to someone else so

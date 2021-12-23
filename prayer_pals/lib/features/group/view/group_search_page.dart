@@ -20,15 +20,16 @@ class GroupSearchPage extends StatefulWidget {
 
 class _GroupSearchPageState extends State<GroupSearchPage> {
   final TextEditingController _groupNameController = TextEditingController();
-  @override
   bool showResults = false; // this is just temporary. The results should
   // be filtered and returned when button is pressed.
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: const Text(
@@ -80,7 +81,7 @@ class _GroupSearchPageState extends State<GroupSearchPage> {
           PPCstuff.divider,
           showResults == true
               ? PPCSearchGroupsWidget(result: _groupNameController.text)
-              : Text(""), //Find a better way of doing this TODO
+              : const Text(""), //Find a better way of doing this TODO
         ]));
   }
 }

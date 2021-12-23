@@ -66,9 +66,9 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
         leading: IconButton(
             icon: Visibility(
               visible: !isEdit,
-              child:
-                  Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
-              replacement: Icon(Icons.edit, color: Colors.white),
+              child: const Icon(Icons.arrow_back_ios_new_rounded,
+                  color: Colors.white),
+              replacement: const Icon(Icons.edit, color: Colors.white),
             ),
             onPressed: () {
               if (isEdit == false) {
@@ -85,7 +85,8 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
             return IconButton(
                 icon: Visibility(
                   visible: isEdit,
-                  child: Icon(CupertinoIcons.floppy_disk, color: Colors.white),
+                  child: const Icon(CupertinoIcons.floppy_disk,
+                      color: Colors.white),
                 ),
                 onPressed: () {
                   _saveDescription(ctx);
@@ -100,8 +101,8 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
             child: IconButton(
               icon: Visibility(
                 visible: !isEdit,
-                child: Icon(Icons.edit, color: Colors.white),
-                replacement: Icon(Icons.clear, color: Colors.white),
+                child: const Icon(Icons.edit, color: Colors.white),
+                replacement: const Icon(Icons.clear, color: Colors.white),
               ),
               onPressed: () {
                 isEdit == true ? isEdit = false : isEdit = true;
@@ -116,7 +117,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
   }
 
   Widget _layoutSection(_groupName, _groupDescription, group, _image) {
-    var _color;
+    Color _color;
     widget.groupMember.isAdmin == true
         ? _color = Colors.lightBlue
         : _color = Colors.black;
@@ -229,23 +230,23 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
   }
 
   Widget _editName(BuildContext context, _groupName) {
-    return new AlertDialog(
+    return AlertDialog(
       title: const Text(
         StringConstants.editGroupName,
       ),
-      content: new Column(
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextField(
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Helvetica',
             ),
             textInputAction: TextInputAction.done,
             cursorColor: Colors.blue,
             decoration: InputDecoration(
               hintText: _groupName,
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 color: Colors.grey,
               ),
             ),
@@ -253,13 +254,13 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
         ],
       ),
       actions: <Widget>[
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop(); // Need to update variable TODO
           },
           child: const Text(StringConstants.save),
         ),
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },

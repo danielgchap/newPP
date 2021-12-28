@@ -195,4 +195,8 @@ class StringConstants {
       'Enter group description here... You can place text and links to a prayer website, or online prayer meeting';
   static const ownerMessage =
       "You cannot remove the Group Owner from Admin in this screen. Only the group owner can remove Admin status from the Group Edit screen.";
+
+  //Notifications
+  static const justAFriendlyReminder =
+      "Just a friendly reminder to pray today! God bless!";
 }

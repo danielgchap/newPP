@@ -14,7 +14,7 @@ final homeControllerProvider =
 
 class HomeController extends ChangeNotifier {
   static const HomePage _homePage = HomePage();
-  static final MyPrayersPage _prayersPage = MyPrayersPage();
+  static const MyPrayersPage _prayersPage = MyPrayersPage();
   static final CreatePrayerPage _createPrayerPage = CreatePrayerPage();
   static const GlobalPrayersPage _globalPrayersPage = GlobalPrayersPage();
   static const ConnectionsPage _connectionsPage = ConnectionsPage();

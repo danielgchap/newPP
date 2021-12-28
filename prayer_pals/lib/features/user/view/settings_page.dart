@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/services/notification_service.dart';
 import 'package:prayer_pals/core/utils/credential_textfield.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/user_info_bar.dart';
@@ -60,7 +61,7 @@ class SettingsPage extends ConsumerWidget {
                       ),
                     ]),
 
-                    _clickableRow(StringConstants.setReminder, _setReminder),
+                    _reminderRow(StringConstants.setReminder, context),
 
                     Row(children: [
                       Padding(
@@ -205,6 +206,22 @@ Widget _clickableRow(String clickableText, Function() clickPath) {
   ]);
 }
 
+Widget _reminderRow(String clickableText, BuildContext context) {
+  return Row(children: [
+    Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
+      child: InkWell(
+          child: Text(
+            clickableText,
+            style: const TextStyle(color: Colors.black, fontSize: 16),
+          ),
+          onTap: () {
+            _setReminder(context);
+          }),
+    ),
+  ]);
+}
+
 Widget _changePassword(BuildContext context) {
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
@@ -266,7 +283,10 @@ Widget _changePassword(BuildContext context) {
   );
 }
 
-void _setReminder() {}
+void _setReminder(BuildContext context) {
+  NotificationService _notificationService = NotificationService();
+  _notificationService.scheduleNotifications(context);
+}
 
 void _toggleNotifications() {}
 

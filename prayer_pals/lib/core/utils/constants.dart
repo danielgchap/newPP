@@ -131,6 +131,7 @@ class StringConstants {
   static const settingsCaps = 'SETTINGS';
   static const changePassword = 'Change Password';
   static const setReminder = 'Set Daily Prayer Reminder';
+  static const cancelReminder = 'Cancel Daily Prayer Reminder';
   static const viewActivity = 'View Activity';
   static const notifications = 'Notifications';
   static const supportCaps = 'SUPPORT';

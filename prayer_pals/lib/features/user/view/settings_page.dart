@@ -6,12 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer_pals/core/services/notification_service.dart';
 import 'package:prayer_pals/core/utils/credential_textfield.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/user_info_bar.dart';
 import 'package:prayer_pals/features/user/clients/auth_client.dart';
 import 'package:prayer_pals/features/user/models/ppcuser.dart';
+import 'package:prayer_pals/features/user/providers/settings_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'activity_page.dart';
@@ -25,6 +25,7 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     loadUser();
+    final settingsProvider = watch(settingsControllerProvider);
     //final _auth = watch(authStateProvider);
     bool isSwitched = true;
     final _auth = AuthClient(FirebaseAuth.instance);
@@ -61,7 +62,14 @@ class SettingsPage extends ConsumerWidget {
                       ),
                     ]),
 
-                    _reminderRow(StringConstants.setReminder, context),
+                    _reminderRow(
+                        settingsProvider.timeString != null &&
+                                settingsProvider.timeString!.isNotEmpty &&
+                                settingsProvider.timeString != "null"
+                            ? '${StringConstants.cancelReminder} \n(Daily @ ${settingsProvider.timeString})'
+                            : StringConstants.setReminder,
+                        context,
+                        settingsProvider),
 
                     Row(children: [
                       Padding(
@@ -206,7 +214,8 @@ Widget _clickableRow(String clickableText, Function() clickPath) {
   ]);
 }
 
-Widget _reminderRow(String clickableText, BuildContext context) {
+Widget _reminderRow(String clickableText, BuildContext context,
+    SettingsController settingsProvider) {
   return Row(children: [
     Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
@@ -216,7 +225,13 @@ Widget _reminderRow(String clickableText, BuildContext context) {
             style: const TextStyle(color: Colors.black, fontSize: 16),
           ),
           onTap: () {
-            _setReminder(context);
+            if (settingsProvider.timeString != null &&
+                settingsProvider.timeString!.isNotEmpty &&
+                settingsProvider.timeString != "null") {
+              settingsProvider.cancelReminder(context);
+            } else {
+              settingsProvider.setReminder(context);
+            }
           }),
     ),
   ]);
@@ -281,11 +296,6 @@ Widget _changePassword(BuildContext context) {
       ),
     ],
   );
-}
-
-void _setReminder(BuildContext context) {
-  NotificationService _notificationService = NotificationService();
-  _notificationService.scheduleNotifications(context);
 }
 
 void _toggleNotifications() {}

@@ -95,7 +95,7 @@ class NotificationService {
     tz.setLocalLocation(tz.getLocation(currentTimeZone));
   }
 
-  Future<void> scheduleNotifications(BuildContext context) async {
+  Future<String> scheduleNotifications(BuildContext context) async {
     final timeOfDay = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
@@ -120,6 +120,7 @@ class NotificationService {
             uiLocalNotificationDateInterpretation:
                 UILocalNotificationDateInterpretation.absoluteTime);
         debugPrint('Notification Set: $timeOfDay');
+        return "${timeOfDay.hour.toString()}:${timeOfDay.minute.toString()}";
       } else {
         await flutterLocalNotificationsPlugin.zonedSchedule(
             0,
@@ -132,8 +133,10 @@ class NotificationService {
             uiLocalNotificationDateInterpretation:
                 UILocalNotificationDateInterpretation.absoluteTime);
         debugPrint('Notification Set: $timeOfDay');
+        return "${timeOfDay.hour.toString()}:${timeOfDay.minute.toString()}";
       }
     }
+    return '';
   }
 
   tz.TZDateTime _setTimeInstanceForReminder(

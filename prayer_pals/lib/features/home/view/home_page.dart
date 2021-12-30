@@ -17,7 +17,9 @@ class HomePage extends HookWidget {
   Widget build(BuildContext context) {
     final ppCoreProvider = useProvider(ppcUserCoreProvider);
     useEffect(() {
-      ppCoreProvider.setupPPUserListener();
+      if (ppCoreProvider.getCurrentUserModel() == null) {
+        ppCoreProvider.setupPPUserListener();
+      }
     }, []);
 
     return Scaffold(

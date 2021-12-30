@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/push_notifications/message_root_handler.dart';
 
 import 'features/group/view/admin_members_page.dart';
 import 'features/group/view/group_search_page.dart';
@@ -39,7 +40,7 @@ class MyApp extends ConsumerWidget {
       ),
       home: _authState.when(data: (data) {
         if (data != null) {
-          return const HomePageContainer();
+          return const MessageRootHandler();
         }
         return LoginPage();
       }, loading: () {

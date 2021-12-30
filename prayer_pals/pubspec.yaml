@@ -34,13 +34,14 @@ dependencies:
   flutter_native_timezone: ^2.0.0
   flutter_spinkit: ^5.1.0
   freezed_annotation: 0.14.3
+  get_it: ^7.2.0
   hooks_riverpod: ^0.14.0+5
   image_picker: ^0.8.3
   json_serializable: ^5.0.0
   kt_dart: ^0.9.1
   provider: ^3.1.0+1
   rxdart: ^0.24.1
-  share_plus: ^2.1.4
+  share_plus: ^3.0.4
   shared_preferences: ^2.0.6
   url_launcher:
   uuid: ^3.0.4

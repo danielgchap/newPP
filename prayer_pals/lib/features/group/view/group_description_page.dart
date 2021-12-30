@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -66,9 +68,9 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
         leading: IconButton(
             icon: Visibility(
               visible: !isEdit,
-              child: const Icon(Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white),
-              replacement: const Icon(Icons.edit, color: Colors.white),
+              child:
+                  Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+              replacement: Icon(Icons.edit, color: Colors.white),
             ),
             onPressed: () {
               if (isEdit == false) {
@@ -85,8 +87,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
             return IconButton(
                 icon: Visibility(
                   visible: isEdit,
-                  child: const Icon(CupertinoIcons.floppy_disk,
-                      color: Colors.white),
+                  child: Icon(CupertinoIcons.floppy_disk, color: Colors.white),
                 ),
                 onPressed: () {
                   _saveDescription(ctx);
@@ -135,8 +136,10 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                 onTap: () {
                   showDialog(
                       context: context,
-                      builder: (BuildContext context) =>
-                          UpdatePicture(context));
+                      builder: (BuildContext context) => UpdatePicture(
+                            context: context,
+                            callback: (imageFile) {},
+                          ));
                 },
               ),
               replacement: PPCAvatar(radSize: 25, image: _image),

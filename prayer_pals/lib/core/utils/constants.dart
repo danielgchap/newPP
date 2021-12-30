@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -13,6 +15,12 @@ class Constants {
     Colors.lightBlue.shade200,
     Colors.lightBlueAccent.shade200,
   ];
+}
+
+class UserData {
+  static final String userUID = FirebaseAuth.instance.currentUser!.uid;
+  static final avatar =
+      FirebaseStorage.instance.ref().child(userUID).getDownloadURL() as String;
 }
 
 class Globals {
@@ -110,12 +118,15 @@ class StringConstants {
   static const groupPrayerCollection = "groupPrayers";
   static const groupAnsweredCollection = "groupAnswered";
   static const scriptureCollection = 'scriptures';
+  static const imageURL = 'imageURL';
 
 //Messages
   static const genericError = 'Generic Error';
   static const okCaps = 'OK';
   static const oops = 'Oops';
   static const success = 'Success';
+  static const unknownError =
+      'Sorry! An unknown error occurred.\nPlease try again later';
 
 //Activity
   static const memberSince = 'Member Since';

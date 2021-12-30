@@ -1,20 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/rounded_button.dart';
 import 'package:prayer_pals/features/home/models/scripture_list.dart';
 import 'package:prayer_pals/features/home/providers/home_provider.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends HookWidget {
   const HomePage({Key? key}) : super(key: key);
   final welcome = 'Welcome'; // Change variable based on time of day TODO;
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    bool showAds = true; //use FireStore to set variable
-    String _image = 'assets/images/thank_you.jpg';
+  Widget build(BuildContext context) {
+    useEffect(() {
+      Future.delayed(const Duration(seconds: 2), () {
+        useProvider(ppcUserCoreProvider).setupPPUserListener();
+      });
+    }, []);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -66,12 +72,6 @@ class HomePage extends ConsumerWidget {
               SizedBox(
                 height: SizeConfig.safeBlockVertical! * 3,
               ),
-              // Visibility(
-              //     visible: showAds,
-              //     replacement: Container(
-              //         width: SizeConfig.screenWidth! * .9,
-              //         child: Image(image: AssetImage(_image))),
-              //     child: AdMobs()),
             ],
           ),
         ),

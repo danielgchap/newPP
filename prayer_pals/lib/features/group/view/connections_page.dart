@@ -61,7 +61,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
           Text(
             _title,
             textAlign: TextAlign.left,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Helvetica',
               fontSize: 24.0,
               fontWeight: FontWeight.w600,

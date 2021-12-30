@@ -1,20 +1,29 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/features/user/clients/auth_client.dart';
+import 'package:prayer_pals/features/user/models/ppcuser.dart';
 import 'package:prayer_pals/features/user/repositories/auth_repository.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+
+enum LoadingState {
+  loading,
+  done,
+}
 
 final authStateProvider = StreamProvider<User?>((ref) {
   return ref.watch(authClientProvider).authStateChange;
 });
 
 final authControllerProvider =
-    Provider.autoDispose((ref) => AuthController(ref.read));
+    ChangeNotifierProvider.autoDispose((ref) => AuthController(ref.read));
 
-class AuthController {
+class AuthController extends ChangeNotifier {
   final Reader reader;
-
+  String userImage = 'assets/images/user_icon.jpeg';
   AuthController(this.reader);
 
   signInUser({
@@ -24,7 +33,6 @@ class AuthController {
   }) async {
     final srvMsg = await reader(authRepositoryProvider)
         .signIn(emailAddress: emailAddress, password: password);
-    await reader(ppcUserCoreProvider).setupPPUserListener();
     callback(srvMsg);
   }
 
@@ -49,11 +57,75 @@ class AuthController {
     callback(srvMsg);
   }
 
+/*
+  getUser(
+      {required String username,
+  required String emailAddress,
+  required String uid,
+  required String dateJoined,
+  required int daysPrayedWeek,
+  required int hoursPrayer,
+  required int daysPrayedMonth,
+  required int daysPrayedYear,
+  required int daysPrayedLastYear,
+  required bool removedAds,
+  required int supportLevel,
+  int? answered,
+  int? prayers,
+        required Function(String success) callback}) async {
+    final srvMsg = await reader(authRepositoryProvider).signUp(
+        username: username, emailAddress: emailAddress, password: password);
+    await reader(ppcUserCoreProvider).setupPPUserListener();
+    callback(srvMsg);
+  }
+
+ */
   Future<String> sendForgotPasswordLink({required String emailAddress}) async {
     final srvMsg = await reader(authRepositoryProvider)
         .forgotPassword(emailAddress: emailAddress);
     if (srvMsg == StringConstants.success) {
       return StringConstants.aPasswordResetEmailWasSent;
+    }
+    return srvMsg;
+  }
+
+  updateUserImage(BuildContext context, File imageFile) async {
+    String msg = await reader(authRepositoryProvider)
+        .updateUserImage(context, imageFile);
+    updateImage(msg);
+  }
+
+  updateImage(String imageURL) {
+    if (imageURL.isNotEmpty) userImage = imageURL;
+    Timer.run(() {
+      notifyListeners();
+    });
+  }
+
+  Future<String?> updateUser(
+    BuildContext context,
+    String? emailAddress,
+    String? username,
+    String? phoneNumber,
+    PPCUser user,
+  ) async {
+    if (emailAddress != null) {
+      FirebaseAuth.instance.currentUser!.updateEmail(emailAddress);
+    }
+
+    if (username != null) {
+      FirebaseAuth.instance.currentUser!.updateDisplayName(username);
+    }
+
+    if (phoneNumber != null) {
+      //TODO: update phonenumber
+    }
+    user = user.copyWith(emailAddress: emailAddress!);
+    user = user.copyWith(username: username!);
+    user = user.copyWith(phoneNumber: phoneNumber!);
+    final srvMsg = await reader(authRepositoryProvider).updateUser(user);
+    if (srvMsg == StringConstants.success) {
+      notifyListeners();
     }
     return srvMsg;
   }

@@ -18,6 +18,8 @@ _$_PPCUser _$$_PPCUserFromJson(Map<String, dynamic> json) => _$_PPCUser(
       daysPrayedLastYear: json['daysPrayedLastYear'] as int,
       removedAds: json['removedAds'] as bool,
       supportLevel: json['supportLevel'] as int,
+      imageURL: json['imageURL'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
       answered: json['answered'] as int?,
       prayers: json['prayers'] as int?,
     );
@@ -35,6 +37,8 @@ Map<String, dynamic> _$$_PPCUserToJson(_$_PPCUser instance) =>
       'daysPrayedLastYear': instance.daysPrayedLastYear,
       'removedAds': instance.removedAds,
       'supportLevel': instance.supportLevel,
+      'imageURL': instance.imageURL,
+      'phoneNumber': instance.phoneNumber,
       'answered': instance.answered,
       'prayers': instance.prayers,
     };

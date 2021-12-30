@@ -18,8 +18,11 @@ class PPCUser with _$PPCUser {
       required int daysPrayedLastYear,
       required bool removedAds,
       required int supportLevel,
+      String? imageURL,
+      String? phoneNumber,
       int? answered,
       int? prayers}) = _PPCUser;
+
   factory PPCUser.fromJson(Map<String, dynamic> json) =>
       _$PPCUserFromJson(json);
 }

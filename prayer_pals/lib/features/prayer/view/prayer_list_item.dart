@@ -216,9 +216,7 @@ class PrayerListItem extends StatelessWidget {
 
   void _onShare(BuildContext context) async {
     final box = context.findRenderObject() as RenderBox?;
-//https://pub.dev/packages/share_plus/example
-// TODO fix this later
-    await Share.share(prayer.title,
+    await Share.share("${prayer.title}\n${prayer.description}",
         subject: prayer.description,
         sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
   }

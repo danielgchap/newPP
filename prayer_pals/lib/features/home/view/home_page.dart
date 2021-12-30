@@ -15,10 +15,9 @@ class HomePage extends HookWidget {
   final welcome = 'Welcome'; // Change variable based on time of day TODO;
   @override
   Widget build(BuildContext context) {
+    final ppCoreProvider = useProvider(ppcUserCoreProvider);
     useEffect(() {
-      Future.delayed(const Duration(seconds: 2), () {
-        useProvider(ppcUserCoreProvider).setupPPUserListener();
-      });
+      ppCoreProvider.setupPPUserListener();
     }, []);
 
     return Scaffold(
@@ -28,17 +27,6 @@ class HomePage extends HookWidget {
           StringConstants.home,
         ),
         centerTitle: true,
-        // This will probably be added in the next version - not  part of current app
-        /* actions: [
-                  // action button
-                  IconButton(
-                    icon: Icon( Icons.notifications_none_outlined, color: Colors.white ),
-                    onPressed: () {
-                     //Show notifications in later version
-                    },
-                  ),
-            ],
-         */
       ),
       body: SingleChildScrollView(
         child: Center(

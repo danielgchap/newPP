@@ -5,7 +5,6 @@ import 'package:prayer_pals/core/push_notifications/message_root_handler.dart';
 import 'features/group/view/admin_members_page.dart';
 import 'features/group/view/group_search_page.dart';
 import 'features/home/view/home_page.dart';
-import 'features/home/view/home_page_container.dart';
 import 'features/prayer/view/pray_now_page.dart';
 import 'features/user/providers/auth_providers.dart';
 import 'features/user/view/login_page.dart';

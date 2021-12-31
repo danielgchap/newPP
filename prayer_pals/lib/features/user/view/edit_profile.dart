@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/core/utils/credential_textfield.dart';
@@ -20,7 +21,7 @@ import 'package:prayer_pals/core/utils/constants.dart';
 // Save changes needs to update Firestore
 // might want to change to white background with app bar to be consistent??
 
-class EditProfilePage extends ConsumerWidget {
+class EditProfilePage extends HookWidget {
   EditProfilePage({Key? key}) : super(key: key);
 
   final TextEditingController _usernameController = TextEditingController();
@@ -28,11 +29,11 @@ class EditProfilePage extends ConsumerWidget {
   final TextEditingController _phoneController = TextEditingController();
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final _auth = watch(authControllerProvider);
-    final authClientProv = watch(authClientProvider);
-    final user = watch(ppcUserCoreProvider).getCurrentUserModel();
+    final _auth = useProvider(authControllerProvider);
+    final authClientProv = useProvider(authClientProvider);
+    final user = context.read(ppcUserCoreProvider).getCurrentUserModel();
 
     if (user != null &&
         user.imageURL != null &&
@@ -68,81 +69,82 @@ class EditProfilePage extends ConsumerWidget {
       body: Stack(
         children: [
           SingleChildScrollView(
-            child: Container(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical! * 3,
-                  ),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical! * 6,
-                  ),
-                  InkWell(
-                      child: PPCAvatar(radSize: 80, image: _auth.userImage),
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => UpdatePicture(
-                                context: context,
-                                callback: (imageFile) {
-                                  _auth.updateUserImage(context, imageFile);
-                                }));
-                      }),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical! * 6,
-                  ),
-                  CredentialTextfield(
-                    hintText: StringConstants.username,
-                    controller: _usernameController,
-                    obscure: false,
-                  ),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical! * 3,
-                  ),
-                  CredentialTextfield(
-                    hintText: StringConstants.emailAddress,
-                    controller: _emailAddressController,
-                    obscure: false,
-                  ),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical! * 3,
-                  ),
-                  CredentialTextfield(
-                    hintText: StringConstants.phoneNumber,
-                    controller: _phoneController,
-                    obscure: false,
-                  ),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical! * 9,
-                  ),
-                  PPCRoundedButton(
-                    title: StringConstants.saveChanges,
-                    buttonRatio: .9,
-                    buttonWidthRatio: .9,
-                    callback: () {
-                      _updateUser(_auth, context, user!);
-                    },
-                    bgColor: Colors.lightBlueAccent.shade100,
-                    textColor: Colors.white,
-                  ),
-                  SizedBox(
-                    height: SizeConfig.safeBlockVertical! * 3,
-                  ),
-                  PPCRoundedButton(
-                    title: StringConstants.deleteAccount,
-                    buttonRatio: .9,
-                    buttonWidthRatio: .9,
-                    callback: () {
+            child: Column(
+              children: [
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical! * 3,
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical! * 6,
+                ),
+                InkWell(
+                    child: PPCAvatar(
+                      radSize: 80,
+                      image: _auth.userImage,
+                    ),
+                    onTap: () {
                       showDialog(
                           context: context,
-                          builder: (BuildContext context) =>
-                              _deleteAccount(context, user!, authClientProv));
-                    },
-                    bgColor: Colors.lightBlueAccent.shade100,
-                    textColor: Colors.white,
-                  ),
-                ],
-              ),
+                          builder: (BuildContext context) => UpdatePicture(
+                              context: context,
+                              callback: (imageFile) {
+                                _auth.updateUserImage(context, imageFile);
+                              }));
+                    }),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical! * 6,
+                ),
+                CredentialTextfield(
+                  hintText: StringConstants.username,
+                  controller: _usernameController,
+                  obscure: false,
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical! * 3,
+                ),
+                CredentialTextfield(
+                  hintText: StringConstants.emailAddress,
+                  controller: _emailAddressController,
+                  obscure: false,
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical! * 3,
+                ),
+                CredentialTextfield(
+                  hintText: StringConstants.phoneNumber,
+                  controller: _phoneController,
+                  obscure: false,
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical! * 9,
+                ),
+                PPCRoundedButton(
+                  title: StringConstants.saveChanges,
+                  buttonRatio: .9,
+                  buttonWidthRatio: .9,
+                  callback: () {
+                    _updateUser(_auth, context, user!);
+                  },
+                  bgColor: Colors.lightBlueAccent.shade100,
+                  textColor: Colors.white,
+                ),
+                SizedBox(
+                  height: SizeConfig.safeBlockVertical! * 3,
+                ),
+                PPCRoundedButton(
+                  title: StringConstants.deleteAccount,
+                  buttonRatio: .9,
+                  buttonWidthRatio: .9,
+                  callback: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            _deleteAccount(context, user!, authClientProv));
+                  },
+                  bgColor: Colors.lightBlueAccent.shade100,
+                  textColor: Colors.white,
+                ),
+              ],
             ),
           ),
         ],

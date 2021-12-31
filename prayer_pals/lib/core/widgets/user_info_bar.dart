@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/all.dart';
+import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/user/view/edit_profile.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'avatar_widget.dart';
 
-class UserInfoBarWidget extends StatelessWidget {
+class UserInfoBarWidget extends HookWidget {
   final bool isSettings;
 
   const UserInfoBarWidget({
@@ -17,7 +20,7 @@ class UserInfoBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String _image = 'assets/images/user_icon.jpeg'; // Change to Firestore TODO
-    String? _userName = FirebaseAuth.instance.currentUser!.displayName;
+    final ppcUser = useProvider(ppcUserCoreProvider).getCurrentUserModel();
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
       child: Column(
@@ -28,7 +31,11 @@ class UserInfoBarWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  child: PPCAvatar(radSize: 25, image: _image),
+                  child: PPCAvatar(
+                    radSize: 25,
+                    image: _image,
+                    networkImage: ppcUser!.imageURL,
+                  ),
                 ),
                 SizedBox(
                   width: SizeConfig.safeBlockHorizontal! * 3,
@@ -36,7 +43,7 @@ class UserInfoBarWidget extends StatelessWidget {
                 Expanded(
                   flex: 7,
                   child: Text(
-                    _userName!,
+                    ppcUser.username,
                     style: TextStyle(
                       height: SizeConfig.safeBlockVertical! * .2,
                       fontSize: SizeConfig.safeBlockVertical! * 3,

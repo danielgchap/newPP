@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +13,7 @@ class PPCUserCore extends ChangeNotifier {
   Reader reader;
   PPCUserCore(this.reader);
   String image = 'assets/images/user_icon.jpeg';
-
-  static PPCUser? _currentUserModel;
+  PPCUser? currentUserModel;
   setupPPUserListener() async {
     if (FirebaseAuth.instance.currentUser != null) {
       final docRef = FirebaseFirestore.instance
@@ -21,8 +22,10 @@ class PPCUserCore extends ChangeNotifier {
       docRef.snapshots().listen(
         (event) {
           if (event.data() != null) {
-            _currentUserModel = PPCUser.fromJson(event.data()!);
-            notifyListeners();
+            currentUserModel = PPCUser.fromJson(event.data()!);
+            Timer.run(() {
+              notifyListeners();
+            });
           }
         },
       );
@@ -30,6 +33,6 @@ class PPCUserCore extends ChangeNotifier {
   }
 
   PPCUser? getCurrentUserModel() {
-    return _currentUserModel;
+    return currentUserModel;
   }
 }

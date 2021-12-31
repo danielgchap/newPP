@@ -160,7 +160,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                         child: Text(StringConstants.members,
                             style: TextStyle(
                               color: _color,
-                              fontSize: SizeConfig.safeBlockVertical! * 2.3,
+                              fontSize: SizeConfig.safeBlockVertical! * 2,
                               height: SizeConfig.safeBlockVertical! * .2,
                             )),
                         onTap: () {
@@ -174,7 +174,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                     replacement: Text(StringConstants.members,
                         style: TextStyle(
                           color: _color,
-                          fontSize: SizeConfig.safeBlockVertical! * 2.3,
+                          fontSize: SizeConfig.safeBlockVertical! * 2,
                           height: SizeConfig.safeBlockVertical! * .2,
                         )),
                   ),
@@ -185,7 +185,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(_memberCount.toString(),
                       style: TextStyle(
-                        fontSize: SizeConfig.safeBlockVertical! * 2.3,
+                        fontSize: SizeConfig.safeBlockVertical! * 2,
                         height: SizeConfig.safeBlockVertical! * .2,
                       )),
                 ),
@@ -196,7 +196,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                   alignment: Alignment.centerRight,
                   child: Text(StringConstants.prayers,
                       style: TextStyle(
-                        fontSize: SizeConfig.safeBlockVertical! * 2.3,
+                        fontSize: SizeConfig.safeBlockVertical! * 2,
                         height: SizeConfig.safeBlockVertical! * .2,
                       )),
                 ),
@@ -206,7 +206,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(_prayerCount.toString(),
                       style: TextStyle(
-                        fontSize: SizeConfig.safeBlockVertical! * 2.3,
+                        fontSize: SizeConfig.safeBlockVertical! * 2,
                         height: SizeConfig.safeBlockVertical! * .2,
                       )),
                 ),

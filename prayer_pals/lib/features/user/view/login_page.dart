@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/push_notifications/message_root_handler.dart';
 import 'package:prayer_pals/core/utils/credential_textfield.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
@@ -146,7 +147,7 @@ class LoginPage extends ConsumerWidget {
           callback: (value) {
             if (value == StringConstants.success) {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (builder) => const HomePageContainer(),
+                builder: (builder) => const MessageRootHandler(),
               ));
             } else {
               showPPCDialog(context, StringConstants.oops, value, null);

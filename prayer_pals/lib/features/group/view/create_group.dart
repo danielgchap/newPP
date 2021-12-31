@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/event_bus/group_subscribtion_event.dart';
+import 'package:prayer_pals/core/event_bus/ppc_event_bus.dart';
 import 'package:prayer_pals/core/utils/providers.dart';
 import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
@@ -20,6 +22,7 @@ import 'package:prayer_pals/core/utils/constants.dart';
 
 class CreateGroupWidget extends StatelessWidget {
   final bool isCreating;
+  final PPCEventBus _eventBus = PPCEventBus();
 
   CreateGroupWidget(BuildContext context, {Key? key, required this.isCreating})
       : super(key: key);
@@ -113,6 +116,7 @@ class CreateGroupWidget extends StatelessWidget {
             false,
             false);
     if (srvMsg == StringConstants.success) {
+      _eventBus.fire(SubscribeToGroupPNEvent(groupId: groupUID));
       Navigator.of(ctx).pop();
     } else {
       showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);

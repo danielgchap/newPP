@@ -69,10 +69,10 @@ class MessageRootHandlerState extends State<MessageRootHandler> {
 
   _setupEventListeners() {
     _eventBus.on<SubscribeToGroupPNEvent>().listen((event) {
-      fcmSubscribeToTopic(event.group.groupUID, (success) => {});
+      fcmSubscribeToTopic(event.groupId, (success) => {});
     });
     _eventBus.on<UNSubscribeToGroupPNEvent>().listen((event) {
-      fcmUnsubscribeFromTopic(event.group.groupUID, (success) => {});
+      fcmUnsubscribeFromTopic(event.groupId, (success) => {});
     });
   }
 

@@ -1,11 +1,9 @@
-import 'package:prayer_pals/features/group/models/group.dart';
-
 class SubscribeToGroupPNEvent {
-  final Group group;
-  SubscribeToGroupPNEvent({required this.group});
+  final String groupId;
+  SubscribeToGroupPNEvent({required this.groupId});
 }
 
 class UNSubscribeToGroupPNEvent {
-  final Group group;
-  UNSubscribeToGroupPNEvent({required this.group});
+  final String groupId;
+  UNSubscribeToGroupPNEvent({required this.groupId});
 }

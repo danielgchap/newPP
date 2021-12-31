@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:prayer_pals/core/event_bus/group_subscribtion_event.dart';
+import 'package:prayer_pals/core/event_bus/ppc_event_bus.dart';
 import 'package:prayer_pals/core/utils/providers.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
@@ -129,11 +131,11 @@ class _PPCSearchGroupsWidgetState extends State<PPCSearchGroupsWidget> {
   }
 }
 
-_joinGroup(BuildContext ctx, group) async {
+_joinGroup(BuildContext ctx, Group group) async {
   final groupMemberUID = ctx.read(firebaseAuthProvider).currentUser!.uid;
   final groupMemberName =
       ctx.read(firebaseAuthProvider).currentUser!.displayName;
-  final groupUID = group.uid;
+  final groupUID = group.groupUID;
   final emailAddress = ctx.read(firebaseAuthProvider).currentUser!.email;
   const phoneNumber = "";
   final srvMsg = await ctx
@@ -154,6 +156,8 @@ _joinGroup(BuildContext ctx, group) async {
           false,
           true);
   if (srvMsg == StringConstants.success) {
+    PPCEventBus eventBus = PPCEventBus();
+    eventBus.fire(SubscribeToGroupPNEvent(groupId: groupUID));
     Navigator.of(ctx).pop();
   } else {
     showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);

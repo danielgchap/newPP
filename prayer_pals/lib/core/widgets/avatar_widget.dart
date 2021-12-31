@@ -24,7 +24,7 @@ class PPCAvatar extends StatelessWidget {
             foregroundImage: AssetImage(image), radius: radSize);
       } else {
         return CircleAvatar(
-            child: Image.network(networkImage!), radius: radSize);
+            foregroundImage: NetworkImage(networkImage!), radius: radSize);
       }
     } else {
       return CircleAvatar(

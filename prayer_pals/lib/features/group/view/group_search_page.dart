@@ -80,7 +80,7 @@ class _GroupSearchPageState extends State<GroupSearchPage> {
           ),
           PPCstuff.divider,
           showResults == true
-              ? PPCSearchGroupsWidget(result: _groupNameController.text)
+              ? PPCSearchGroupsWidget(searchTerm: _groupNameController.text)
               : const Text(""), //Find a better way of doing this TODO
         ]));
   }

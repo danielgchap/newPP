@@ -13,6 +13,7 @@ class Group with _$Group {
     String? creatorUID,
     bool? isPrivate,
     String? tags,
+    List<String>? searchParamsList,
   }) = _Group;
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
 

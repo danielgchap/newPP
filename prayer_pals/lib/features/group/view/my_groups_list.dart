@@ -44,9 +44,7 @@ class MyGroups extends StatelessWidget {
             );
           } else {
             final data = snapshot.requireData;
-            return Container(
-                height: SizeConfig.screenHeight! * .41,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            return Expanded(
                 child: ListView.builder(
                     itemCount: data.size,
                     itemBuilder: (context, index) {

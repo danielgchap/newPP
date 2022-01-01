@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/utils/search_array_maker.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/repositories/group_repository.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
@@ -18,7 +19,7 @@ class GroupController {
 
   Future<String> createGroup(
     String groupUID,
-    String? groupName,
+    String groupName,
     String? description,
     String creatorUID,
     bool isPrivate,
@@ -26,19 +27,22 @@ class GroupController {
   ) async {
     String message = '';
 
-    if (groupName == null || groupName.isEmpty) {
+    if (groupName.isEmpty) {
       message = StringConstants.creategroupErrorNoName;
     }
+
+    final serachParamsList = SearchArrayMaker.setSearchParam(groupName);
 
     if (message.isNotEmpty) {
       return message;
     } else {
       Group group = Group(
           groupUID: groupUID,
-          groupName: groupName!,
+          groupName: groupName,
           description: description!,
           creatorUID: creatorUID,
           isPrivate: isPrivate,
+          searchParamsList: serachParamsList,
           tags: tags);
       return await _reader(groupRepositoryProvider).createGroup(group);
     }

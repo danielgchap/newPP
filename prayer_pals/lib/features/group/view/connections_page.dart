@@ -45,7 +45,6 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
           const PendingRequests(),
           _headerSection(context, StringConstants.myGroups),
           const MyGroups(),
-          const SizedBox(height: 15),
           _buttonsSection(context),
         ],
       ),
@@ -74,34 +73,37 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   }
 
   Widget _buttonsSection(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        PPCRoundedButton(
-          title: StringConstants.joinGroup,
-          buttonRatio: .6,
-          buttonWidthRatio: .5,
-          callback: () {
-            Navigator.pushNamed(context, '/GroupSearchPage');
-          },
-          bgColor: Colors.lightBlueAccent.shade100,
-          textColor: Colors.white,
-        ),
-        PPCRoundedButton(
-          title: StringConstants.startGroup,
-          buttonRatio: .6,
-          buttonWidthRatio: .5,
-          callback: () {
-            bool isCreating = true;
-            showDialog(
-                context: context,
-                builder: (BuildContext context) =>
-                    CreateGroupWidget(context, isCreating: isCreating));
-          },
-          bgColor: Colors.lightBlueAccent.shade100,
-          textColor: Colors.white,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          PPCRoundedButton(
+            title: StringConstants.joinGroup,
+            buttonRatio: .6,
+            buttonWidthRatio: .5,
+            callback: () {
+              Navigator.pushNamed(context, '/GroupSearchPage');
+            },
+            bgColor: Colors.lightBlueAccent.shade100,
+            textColor: Colors.white,
+          ),
+          PPCRoundedButton(
+            title: StringConstants.startGroup,
+            buttonRatio: .6,
+            buttonWidthRatio: .5,
+            callback: () {
+              bool isCreating = true;
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      CreateGroupWidget(context, isCreating: isCreating));
+            },
+            bgColor: Colors.lightBlueAccent.shade100,
+            textColor: Colors.white,
+          ),
+        ],
+      ),
     );
   }
 }

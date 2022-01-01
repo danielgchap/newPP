@@ -27,7 +27,8 @@ class _$GroupTearOff {
       String? description,
       String? creatorUID,
       bool? isPrivate,
-      String? tags}) {
+      String? tags,
+      List<String>? searchParamsList}) {
     return _Group(
       groupUID: groupUID,
       groupName: groupName,
@@ -35,6 +36,7 @@ class _$GroupTearOff {
       creatorUID: creatorUID,
       isPrivate: isPrivate,
       tags: tags,
+      searchParamsList: searchParamsList,
     );
   }
 
@@ -54,6 +56,7 @@ mixin _$Group {
   String? get creatorUID => throw _privateConstructorUsedError;
   bool? get isPrivate => throw _privateConstructorUsedError;
   String? get tags => throw _privateConstructorUsedError;
+  List<String>? get searchParamsList => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -70,7 +73,8 @@ abstract class $GroupCopyWith<$Res> {
       String? description,
       String? creatorUID,
       bool? isPrivate,
-      String? tags});
+      String? tags,
+      List<String>? searchParamsList});
 }
 
 /// @nodoc
@@ -89,6 +93,7 @@ class _$GroupCopyWithImpl<$Res> implements $GroupCopyWith<$Res> {
     Object? creatorUID = freezed,
     Object? isPrivate = freezed,
     Object? tags = freezed,
+    Object? searchParamsList = freezed,
   }) {
     return _then(_value.copyWith(
       groupUID: groupUID == freezed
@@ -115,6 +120,10 @@ class _$GroupCopyWithImpl<$Res> implements $GroupCopyWith<$Res> {
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as String?,
+      searchParamsList: searchParamsList == freezed
+          ? _value.searchParamsList
+          : searchParamsList // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -130,7 +139,8 @@ abstract class _$GroupCopyWith<$Res> implements $GroupCopyWith<$Res> {
       String? description,
       String? creatorUID,
       bool? isPrivate,
-      String? tags});
+      String? tags,
+      List<String>? searchParamsList});
 }
 
 /// @nodoc
@@ -150,6 +160,7 @@ class __$GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res>
     Object? creatorUID = freezed,
     Object? isPrivate = freezed,
     Object? tags = freezed,
+    Object? searchParamsList = freezed,
   }) {
     return _then(_Group(
       groupUID: groupUID == freezed
@@ -176,6 +187,10 @@ class __$GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as String?,
+      searchParamsList: searchParamsList == freezed
+          ? _value.searchParamsList
+          : searchParamsList // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -189,7 +204,8 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
       this.description,
       this.creatorUID,
       this.isPrivate,
-      this.tags});
+      this.tags,
+      this.searchParamsList});
 
   factory _$_Group.fromJson(Map<String, dynamic> json) =>
       _$$_GroupFromJson(json);
@@ -206,10 +222,12 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
   final bool? isPrivate;
   @override
   final String? tags;
+  @override
+  final List<String>? searchParamsList;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Group(groupUID: $groupUID, groupName: $groupName, description: $description, creatorUID: $creatorUID, isPrivate: $isPrivate, tags: $tags)';
+    return 'Group(groupUID: $groupUID, groupName: $groupName, description: $description, creatorUID: $creatorUID, isPrivate: $isPrivate, tags: $tags, searchParamsList: $searchParamsList)';
   }
 
   @override
@@ -222,7 +240,8 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
       ..add(DiagnosticsProperty('description', description))
       ..add(DiagnosticsProperty('creatorUID', creatorUID))
       ..add(DiagnosticsProperty('isPrivate', isPrivate))
-      ..add(DiagnosticsProperty('tags', tags));
+      ..add(DiagnosticsProperty('tags', tags))
+      ..add(DiagnosticsProperty('searchParamsList', searchParamsList));
   }
 
   @override
@@ -245,7 +264,10 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
                 const DeepCollectionEquality()
                     .equals(other.isPrivate, isPrivate)) &&
             (identical(other.tags, tags) ||
-                const DeepCollectionEquality().equals(other.tags, tags)));
+                const DeepCollectionEquality().equals(other.tags, tags)) &&
+            (identical(other.searchParamsList, searchParamsList) ||
+                const DeepCollectionEquality()
+                    .equals(other.searchParamsList, searchParamsList)));
   }
 
   @override
@@ -256,7 +278,8 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(creatorUID) ^
       const DeepCollectionEquality().hash(isPrivate) ^
-      const DeepCollectionEquality().hash(tags);
+      const DeepCollectionEquality().hash(tags) ^
+      const DeepCollectionEquality().hash(searchParamsList);
 
   @JsonKey(ignore: true)
   @override
@@ -276,7 +299,8 @@ abstract class _Group implements Group {
       String? description,
       String? creatorUID,
       bool? isPrivate,
-      String? tags}) = _$_Group;
+      String? tags,
+      List<String>? searchParamsList}) = _$_Group;
 
   factory _Group.fromJson(Map<String, dynamic> json) = _$_Group.fromJson;
 
@@ -292,6 +316,8 @@ abstract class _Group implements Group {
   bool? get isPrivate => throw _privateConstructorUsedError;
   @override
   String? get tags => throw _privateConstructorUsedError;
+  @override
+  List<String>? get searchParamsList => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$GroupCopyWith<_Group> get copyWith => throw _privateConstructorUsedError;

@@ -31,11 +31,11 @@ import 'group_description_page.dart';
 // hits join group button, they are removed from the group and placed in pending
 
 class PPCSearchGroupsWidget extends StatefulWidget {
-  final String result;
+  final String searchTerm;
 
   const PPCSearchGroupsWidget({
     Key? key,
-    required this.result,
+    required this.searchTerm,
   }) : super(key: key);
 
   @override
@@ -53,8 +53,10 @@ class _PPCSearchGroupsWidgetState extends State<PPCSearchGroupsWidget> {
     String _image = 'assets/images/group_icon.jpeg'; // need firestore image
 
     final Stream<QuerySnapshot> pendingGroups = FirebaseFirestore.instance
-        .collection(StringConstants.groupsCollection)
+        .collection('groups')
+        .where("searchParamsList", arrayContains: widget.searchTerm)
         .snapshots();
+
     return StreamBuilder<QuerySnapshot>(
         stream: pendingGroups,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -65,67 +67,68 @@ class _PPCSearchGroupsWidgetState extends State<PPCSearchGroupsWidget> {
             );
           } else {
             final data = snapshot.requireData;
-            return Container(
-                height: SizeConfig.screenHeight! * .72,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: ListView.builder(
-                    itemCount: data.size,
-                    itemBuilder: (context, index) {
-                      Group group = Group(
-                          groupUID: data.docs[index]['groupUID'],
-                          groupName: data.docs[index]['groupName'],
-                          description: data.docs[index]['description'],
-                          creatorUID: data.docs[index]['creatorUID'],
-                          isPrivate: data.docs[index]['isPrivate'],
-                          tags: data.docs[index]['tags']);
-                      return Card(
-                          margin: const EdgeInsets.all(1),
-                          child: ListTile(
-                            leading: PPCAvatar(radSize: 15, image: _image),
-                            trailing: Consumer(builder: (ctx, ref, widget) {
-                              return PPCRoundedButton(
-                                textColor: Colors.white,
-                                bgColor: Colors.lightBlueAccent,
-                                buttonRatio: .4,
-                                buttonWidthRatio: .15,
-                                title: StringConstants.join,
-                                callback: () {
-                                  _joinGroup(ctx, group);
-                                },
-                              );
-                            }),
-                            onTap: () {
-                              GroupMember groupMember = GroupMember(
-                                  groupMemberUID: 'groupMemberUID',
-                                  groupMemberName: 'Guest',
-                                  groupName: group.groupName,
-                                  groupUID: group.groupUID,
-                                  isAdmin: false,
-                                  isOwner: false,
-                                  isCreated: false,
-                                  isInvited: false,
-                                  emailAddress: 'emailAddress',
-                                  phoneNumber: 'phoneNumber',
-                                  appNotify: false,
-                                  textNotify: false,
-                                  emailNotify: false,
-                                  isPending: false);
-                              const bool _isGuest = true;
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          GroupDescriptionPage(
-                                              groupMember: groupMember,
-                                              isGuest: _isGuest),
-                                      settings: RouteSettings(
-                                        arguments: group,
-                                      )));
-                              setState(() {});
-                            },
-                            title: Text(group.groupName),
-                          ));
-                    }));
+            return Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: data.size,
+                  itemBuilder: (context, index) {
+                    Group group = Group(
+                        groupUID: data.docs[index]['groupUID'],
+                        groupName: data.docs[index]['groupName'],
+                        description: data.docs[index]['description'],
+                        creatorUID: data.docs[index]['creatorUID'],
+                        isPrivate: data.docs[index]['isPrivate'],
+                        tags: data.docs[index]['tags']);
+                    return Card(
+                        margin: const EdgeInsets.all(1),
+                        child: ListTile(
+                          leading: PPCAvatar(radSize: 15, image: _image),
+                          trailing: Consumer(builder: (ctx, ref, widget) {
+                            return PPCRoundedButton(
+                              textColor: Colors.white,
+                              bgColor: Colors.lightBlueAccent,
+                              buttonRatio: .4,
+                              buttonWidthRatio: .15,
+                              title: StringConstants.join,
+                              callback: () {
+                                _joinGroup(ctx, group);
+                              },
+                            );
+                          }),
+                          onTap: () {
+                            GroupMember groupMember = GroupMember(
+                                groupMemberUID: 'groupMemberUID',
+                                groupMemberName: 'Guest',
+                                groupName: group.groupName,
+                                groupUID: group.groupUID,
+                                isAdmin: false,
+                                isOwner: false,
+                                isCreated: false,
+                                isInvited: false,
+                                emailAddress: 'emailAddress',
+                                phoneNumber: 'phoneNumber',
+                                appNotify: false,
+                                textNotify: false,
+                                emailNotify: false,
+                                isPending: false);
+                            const bool _isGuest = true;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => GroupDescriptionPage(
+                                        groupMember: groupMember,
+                                        isGuest: _isGuest),
+                                    settings: RouteSettings(
+                                      arguments: group,
+                                    )));
+                            setState(() {});
+                          },
+                          title: Text(group.groupName),
+                        ));
+                  }),
+            ));
           }
         });
   }

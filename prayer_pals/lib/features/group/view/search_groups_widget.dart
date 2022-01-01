@@ -43,10 +43,7 @@ class PPCSearchGroupsWidget extends StatefulWidget {
 }
 
 class _PPCSearchGroupsWidgetState extends State<PPCSearchGroupsWidget> {
-  //List<Group> _groupList = [];
-  //List<Group> _filteredList = [];
-  //Need to figure out how to show only groups based on keywords and not groups
-  //the user is already in. should only show new groups.
+//TODO: delete all groups and test search. Not deleting now as I need the group prayers for other functionality builds in progress
 
   @override
   Widget build(BuildContext context) {

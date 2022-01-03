@@ -13,12 +13,8 @@ class Group with _$Group {
     String? creatorUID,
     bool? isPrivate,
     String? tags,
+    String? groupImageURL,
     List<String>? searchParamsList,
   }) = _Group;
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
-
-  //factory Group.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {
-  //  final data = doc.data()!;
-  //  return Group.fromJson(data).copyWith(uid: doc.id);
-  //}
 }

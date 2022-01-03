@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
@@ -11,6 +12,7 @@ import 'package:prayer_pals/core/widgets/update_profile_pic.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/features/group/providers/group_provider.dart';
 import 'admin_edit.dart';
 import 'admin_members_page.dart';
 import 'group_desription_nonedit.dart';
@@ -27,7 +29,7 @@ import 'group_desription_nonedit.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class GroupDescriptionPage extends StatefulWidget {
+class GroupDescriptionPage extends StatefulHookWidget {
   final GroupMember groupMember;
   final bool isGuest;
 
@@ -55,6 +57,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
     final group = ModalRoute.of(context)!.settings.arguments as Group;
     final _groupName = group.groupName;
     final _groupDescription = group.description;
+    final groupProvider = useProvider(groupControllerProvider);
 
     isSwitchedApp = widget.groupMember.appNotify;
     isSwitchedText = widget.groupMember.textNotify;
@@ -113,11 +116,13 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
           ),
         ],
       ),
-      body: _layoutSection(_groupName, _groupDescription, group, _image),
+      body: _layoutSection(
+          _groupName, _groupDescription, group, _image, groupProvider),
     );
   }
 
-  Widget _layoutSection(_groupName, _groupDescription, group, _image) {
+  Widget _layoutSection(_groupName, _groupDescription, Group group, _image,
+      GroupController groupProvider) {
     Color _color;
     widget.groupMember.isAdmin == true
         ? _color = Colors.lightBlue
@@ -138,7 +143,10 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                       context: context,
                       builder: (BuildContext context) => UpdatePicture(
                             context: context,
-                            callback: (imageFile) {},
+                            callback: (imageFile) {
+                              groupProvider.updateGroupImage(
+                                  context, imageFile, group.groupUID);
+                            },
                           ));
                 },
               ),

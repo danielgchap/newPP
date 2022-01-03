@@ -31,24 +31,27 @@ class PrayerList extends ConsumerWidget {
           } else {
             final data = snapshot.requireData;
             if (isPrayNow == true) {
-              return ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: PrayNowRow(
-                        title: data[index].title,
-                        description: data[index].description,
-                        isSelected: checkedIndexes.contains(index),
-                        callback: () {
-                          if (!checkedIndexes.contains(index)) {
-                            checkedIndexes.add(index);
-                          } else {
-                            checkedIndexes.remove(index);
-                          }
-                        },
-                      ),
-                    );
-                  });
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        child: PrayNowRow(
+                          title: data[index].title,
+                          description: data[index].description,
+                          isSelected: checkedIndexes.contains(index),
+                          callback: () {
+                            if (!checkedIndexes.contains(index)) {
+                              checkedIndexes.add(index);
+                            } else {
+                              checkedIndexes.remove(index);
+                            }
+                          },
+                        ),
+                      );
+                    }),
+              );
             } else {
               return ListView.builder(
                 itemCount: data.length,

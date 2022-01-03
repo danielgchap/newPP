@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/search_array_maker.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
@@ -10,9 +13,10 @@ import 'package:prayer_pals/core/utils/constants.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-final groupControllerProvider = Provider((ref) => GroupController(ref.read));
+final groupControllerProvider =
+    ChangeNotifierProvider((ref) => GroupController(ref.read));
 
-class GroupController {
+class GroupController extends ChangeNotifier {
   final Reader _reader;
 
   GroupController(this._reader) : super();
@@ -105,5 +109,11 @@ class GroupController {
 
   Future<String> deleteGroup(Group group) async {
     return await _reader(groupRepositoryProvider).deleteGroup(group);
+  }
+
+  updateGroupImage(BuildContext context, File imageFile, String groupId) async {
+    await _reader(groupRepositoryProvider)
+        .updateGroupImage(context, imageFile, groupId);
+    notifyListeners();
   }
 }

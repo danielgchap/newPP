@@ -1,10 +1,12 @@
 import 'package:intl/intl.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/features/prayer/repositories/group_prayer_repository.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/features/user/models/ppcuser.dart';
 
 final groupPrayerControllerProvider =
     Provider((ref) => GroupPrayerController(ref.read));
@@ -36,12 +38,15 @@ class GroupPrayerController {
     if (message.isNotEmpty) {
       return message;
     } else {
+      PPCUser currentUser =
+          await _reader(ppcUserCoreProvider).currentUserNetworkFetch();
       Prayer prayer = Prayer(
         uid: uid,
         title: title!,
         description: description!,
         creatorUID: creatorUID,
         creatorDisplayName: groupMember.groupMemberName,
+        creatorImageURL: currentUser.imageURL ?? 'assets/images/user_icon.jpeg',
         dateCreated: DateFormat("MM-dd-yyyy").format(DateTime.now()).toString(),
         isGlobal: isGlobal,
         groups: groupsToAdd,
@@ -83,12 +88,15 @@ class GroupPrayerController {
     if (message.isNotEmpty) {
       return message;
     } else {
+      PPCUser currentUser =
+          await _reader(ppcUserCoreProvider).currentUserNetworkFetch();
       Prayer prayer = Prayer(
         uid: uid,
         title: title!,
         description: description!,
         creatorUID: creatorUID,
         creatorDisplayName: displayName,
+        creatorImageURL: currentUser.imageURL ?? 'assets/images/user_icon.jpeg',
         dateCreated: dateCreated,
         isGlobal: isGlobal,
         groups: groupsToAdd,

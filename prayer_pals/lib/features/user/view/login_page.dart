@@ -5,7 +5,6 @@ import 'package:prayer_pals/core/utils/credential_textfield.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/core/widgets/rounded_button.dart';
-import 'package:prayer_pals/features/home/view/home_page_container.dart';
 import 'package:prayer_pals/features/user/providers/auth_providers.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'sign_up_page.dart';

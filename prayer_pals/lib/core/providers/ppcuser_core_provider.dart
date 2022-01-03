@@ -32,7 +32,18 @@ class PPCUserCore extends ChangeNotifier {
     }
   }
 
+  Future<PPCUser> currentUserNetworkFetch() async {
+    final docRef = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    return PPCUser.fromJson(docRef.data()!);
+  }
+
   PPCUser? getCurrentUserModel() {
+    if (currentUserModel == null) {
+      setupPPUserListener();
+    }
     return currentUserModel;
   }
 }

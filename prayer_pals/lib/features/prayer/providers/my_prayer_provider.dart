@@ -1,10 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/features/prayer/repositories/my_prayer_repository.dart';
+import 'package:prayer_pals/features/user/models/ppcuser.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/utils/constants.dart';
@@ -35,14 +36,16 @@ class PrayerController extends ChangeNotifier {
     } else {
       Uuid uuid = const Uuid();
       String prayerId = uuid.v1();
-      String? displayName = FirebaseAuth.instance.currentUser!.displayName;
+      PPCUser currentUser =
+          await _reader(ppcUserCoreProvider).currentUserNetworkFetch();
 
       Prayer prayer = Prayer(
         uid: prayerId,
         title: title!,
         description: description!,
         creatorUID: creatorUID,
-        creatorDisplayName: displayName!,
+        creatorDisplayName: currentUser.username,
+        creatorImageURL: currentUser.imageURL ?? 'assets/images/user_icon.jpeg',
         dateCreated: DateFormat("MM-dd-yyyy").format(DateTime.now()).toString(),
         isGlobal: isGlobal,
         groups: groupsToAdd,
@@ -79,15 +82,19 @@ class PrayerController extends ChangeNotifier {
     if (message.isNotEmpty) {
       return message;
     } else {
+      PPCUser currentUser =
+          await _reader(ppcUserCoreProvider).currentUserNetworkFetch();
       Prayer prayer = Prayer(
-          uid: uid,
-          title: title!,
-          description: description!,
-          creatorUID: creatorUID,
-          creatorDisplayName: displayName,
-          dateCreated: dateCreated,
-          groups: groupsToAdd,
-          isGlobal: isGlobal);
+        uid: uid,
+        title: title!,
+        description: description!,
+        creatorUID: creatorUID,
+        creatorDisplayName: displayName,
+        creatorImageURL: currentUser.imageURL ?? 'assets/images/user_icon.jpeg',
+        dateCreated: dateCreated,
+        groups: groupsToAdd,
+        isGlobal: isGlobal,
+      );
       return await _reader(prayerRepositoryProvider).updatePrayer(
         prayer,
         prayerType,

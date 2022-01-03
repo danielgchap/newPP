@@ -27,6 +27,7 @@ class _$PrayerTearOff {
       required String description,
       required String creatorUID,
       required String creatorDisplayName,
+      required String? creatorImageURL,
       required String dateCreated,
       required bool isGlobal,
       required List<String> groups}) {
@@ -36,6 +37,7 @@ class _$PrayerTearOff {
       description: description,
       creatorUID: creatorUID,
       creatorDisplayName: creatorDisplayName,
+      creatorImageURL: creatorImageURL,
       dateCreated: dateCreated,
       isGlobal: isGlobal,
       groups: groups,
@@ -57,6 +59,7 @@ mixin _$Prayer {
   String get description => throw _privateConstructorUsedError;
   String get creatorUID => throw _privateConstructorUsedError;
   String get creatorDisplayName => throw _privateConstructorUsedError;
+  String? get creatorImageURL => throw _privateConstructorUsedError;
   String get dateCreated => throw _privateConstructorUsedError;
   bool get isGlobal => throw _privateConstructorUsedError;
   List<String> get groups => throw _privateConstructorUsedError;
@@ -76,6 +79,7 @@ abstract class $PrayerCopyWith<$Res> {
       String description,
       String creatorUID,
       String creatorDisplayName,
+      String? creatorImageURL,
       String dateCreated,
       bool isGlobal,
       List<String> groups});
@@ -96,6 +100,7 @@ class _$PrayerCopyWithImpl<$Res> implements $PrayerCopyWith<$Res> {
     Object? description = freezed,
     Object? creatorUID = freezed,
     Object? creatorDisplayName = freezed,
+    Object? creatorImageURL = freezed,
     Object? dateCreated = freezed,
     Object? isGlobal = freezed,
     Object? groups = freezed,
@@ -121,6 +126,10 @@ class _$PrayerCopyWithImpl<$Res> implements $PrayerCopyWith<$Res> {
           ? _value.creatorDisplayName
           : creatorDisplayName // ignore: cast_nullable_to_non_nullable
               as String,
+      creatorImageURL: creatorImageURL == freezed
+          ? _value.creatorImageURL
+          : creatorImageURL // ignore: cast_nullable_to_non_nullable
+              as String?,
       dateCreated: dateCreated == freezed
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
@@ -148,6 +157,7 @@ abstract class _$PrayerCopyWith<$Res> implements $PrayerCopyWith<$Res> {
       String description,
       String creatorUID,
       String creatorDisplayName,
+      String? creatorImageURL,
       String dateCreated,
       bool isGlobal,
       List<String> groups});
@@ -169,6 +179,7 @@ class __$PrayerCopyWithImpl<$Res> extends _$PrayerCopyWithImpl<$Res>
     Object? description = freezed,
     Object? creatorUID = freezed,
     Object? creatorDisplayName = freezed,
+    Object? creatorImageURL = freezed,
     Object? dateCreated = freezed,
     Object? isGlobal = freezed,
     Object? groups = freezed,
@@ -194,6 +205,10 @@ class __$PrayerCopyWithImpl<$Res> extends _$PrayerCopyWithImpl<$Res>
           ? _value.creatorDisplayName
           : creatorDisplayName // ignore: cast_nullable_to_non_nullable
               as String,
+      creatorImageURL: creatorImageURL == freezed
+          ? _value.creatorImageURL
+          : creatorImageURL // ignore: cast_nullable_to_non_nullable
+              as String?,
       dateCreated: dateCreated == freezed
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
@@ -219,6 +234,7 @@ class _$_Prayer with DiagnosticableTreeMixin implements _Prayer {
       required this.description,
       required this.creatorUID,
       required this.creatorDisplayName,
+      required this.creatorImageURL,
       required this.dateCreated,
       required this.isGlobal,
       required this.groups});
@@ -237,6 +253,8 @@ class _$_Prayer with DiagnosticableTreeMixin implements _Prayer {
   @override
   final String creatorDisplayName;
   @override
+  final String? creatorImageURL;
+  @override
   final String dateCreated;
   @override
   final bool isGlobal;
@@ -245,7 +263,7 @@ class _$_Prayer with DiagnosticableTreeMixin implements _Prayer {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Prayer(uid: $uid, title: $title, description: $description, creatorUID: $creatorUID, creatorDisplayName: $creatorDisplayName, dateCreated: $dateCreated, isGlobal: $isGlobal, groups: $groups)';
+    return 'Prayer(uid: $uid, title: $title, description: $description, creatorUID: $creatorUID, creatorDisplayName: $creatorDisplayName, creatorImageURL: $creatorImageURL, dateCreated: $dateCreated, isGlobal: $isGlobal, groups: $groups)';
   }
 
   @override
@@ -258,6 +276,7 @@ class _$_Prayer with DiagnosticableTreeMixin implements _Prayer {
       ..add(DiagnosticsProperty('description', description))
       ..add(DiagnosticsProperty('creatorUID', creatorUID))
       ..add(DiagnosticsProperty('creatorDisplayName', creatorDisplayName))
+      ..add(DiagnosticsProperty('creatorImageURL', creatorImageURL))
       ..add(DiagnosticsProperty('dateCreated', dateCreated))
       ..add(DiagnosticsProperty('isGlobal', isGlobal))
       ..add(DiagnosticsProperty('groups', groups));
@@ -280,6 +299,9 @@ class _$_Prayer with DiagnosticableTreeMixin implements _Prayer {
             (identical(other.creatorDisplayName, creatorDisplayName) ||
                 const DeepCollectionEquality()
                     .equals(other.creatorDisplayName, creatorDisplayName)) &&
+            (identical(other.creatorImageURL, creatorImageURL) ||
+                const DeepCollectionEquality()
+                    .equals(other.creatorImageURL, creatorImageURL)) &&
             (identical(other.dateCreated, dateCreated) ||
                 const DeepCollectionEquality()
                     .equals(other.dateCreated, dateCreated)) &&
@@ -298,6 +320,7 @@ class _$_Prayer with DiagnosticableTreeMixin implements _Prayer {
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(creatorUID) ^
       const DeepCollectionEquality().hash(creatorDisplayName) ^
+      const DeepCollectionEquality().hash(creatorImageURL) ^
       const DeepCollectionEquality().hash(dateCreated) ^
       const DeepCollectionEquality().hash(isGlobal) ^
       const DeepCollectionEquality().hash(groups);
@@ -320,6 +343,7 @@ abstract class _Prayer implements Prayer {
       required String description,
       required String creatorUID,
       required String creatorDisplayName,
+      required String? creatorImageURL,
       required String dateCreated,
       required bool isGlobal,
       required List<String> groups}) = _$_Prayer;
@@ -336,6 +360,8 @@ abstract class _Prayer implements Prayer {
   String get creatorUID => throw _privateConstructorUsedError;
   @override
   String get creatorDisplayName => throw _privateConstructorUsedError;
+  @override
+  String? get creatorImageURL => throw _privateConstructorUsedError;
   @override
   String get dateCreated => throw _privateConstructorUsedError;
   @override

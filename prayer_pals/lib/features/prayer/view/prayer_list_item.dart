@@ -73,7 +73,11 @@ class PrayerListItem extends StatelessWidget {
           children: [
             Row(
               children: [
-                PPCAvatar(radSize: 20, image: _image),
+                PPCAvatar(
+                  radSize: 20,
+                  image: _image,
+                  networkImage: prayer.creatorImageURL ?? _image,
+                ),
                 SizedBox(
                   width: SizeConfig.safeBlockHorizontal! * 2,
                 ),
@@ -147,8 +151,6 @@ class PrayerListItem extends StatelessWidget {
       }
     }
     return Row(
-      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
           padding: const EdgeInsets.only(bottom: 5),

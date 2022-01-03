@@ -13,6 +13,7 @@ class Prayer with _$Prayer {
     required String description,
     required String creatorUID,
     required String creatorDisplayName,
+    required String? creatorImageURL,
     required String dateCreated,
     required bool isGlobal,
     required List<String> groups,

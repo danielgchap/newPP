@@ -19,7 +19,7 @@ class PPCAvatar extends StatelessWidget {
     bool hasPicture = true; //change to passed in value
 
     if (hasPicture == true) {
-      if (networkImage == null) {
+      if (networkImage == null || networkImage == image) {
         return CircleAvatar(
             foregroundImage: AssetImage(image), radius: radSize);
       } else {

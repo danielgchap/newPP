@@ -28,7 +28,7 @@ class _$GroupTearOff {
       String? creatorUID,
       bool? isPrivate,
       String? tags,
-      String? groupImageURL,
+      String? imageURL,
       List<String>? searchParamsList}) {
     return _Group(
       groupUID: groupUID,
@@ -37,7 +37,7 @@ class _$GroupTearOff {
       creatorUID: creatorUID,
       isPrivate: isPrivate,
       tags: tags,
-      groupImageURL: groupImageURL,
+      imageURL: imageURL,
       searchParamsList: searchParamsList,
     );
   }
@@ -58,7 +58,7 @@ mixin _$Group {
   String? get creatorUID => throw _privateConstructorUsedError;
   bool? get isPrivate => throw _privateConstructorUsedError;
   String? get tags => throw _privateConstructorUsedError;
-  String? get groupImageURL => throw _privateConstructorUsedError;
+  String? get imageURL => throw _privateConstructorUsedError;
   List<String>? get searchParamsList => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -77,7 +77,7 @@ abstract class $GroupCopyWith<$Res> {
       String? creatorUID,
       bool? isPrivate,
       String? tags,
-      String? groupImageURL,
+      String? imageURL,
       List<String>? searchParamsList});
 }
 
@@ -97,7 +97,7 @@ class _$GroupCopyWithImpl<$Res> implements $GroupCopyWith<$Res> {
     Object? creatorUID = freezed,
     Object? isPrivate = freezed,
     Object? tags = freezed,
-    Object? groupImageURL = freezed,
+    Object? imageURL = freezed,
     Object? searchParamsList = freezed,
   }) {
     return _then(_value.copyWith(
@@ -125,9 +125,9 @@ class _$GroupCopyWithImpl<$Res> implements $GroupCopyWith<$Res> {
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as String?,
-      groupImageURL: groupImageURL == freezed
-          ? _value.groupImageURL
-          : groupImageURL // ignore: cast_nullable_to_non_nullable
+      imageURL: imageURL == freezed
+          ? _value.imageURL
+          : imageURL // ignore: cast_nullable_to_non_nullable
               as String?,
       searchParamsList: searchParamsList == freezed
           ? _value.searchParamsList
@@ -149,7 +149,7 @@ abstract class _$GroupCopyWith<$Res> implements $GroupCopyWith<$Res> {
       String? creatorUID,
       bool? isPrivate,
       String? tags,
-      String? groupImageURL,
+      String? imageURL,
       List<String>? searchParamsList});
 }
 
@@ -170,7 +170,7 @@ class __$GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res>
     Object? creatorUID = freezed,
     Object? isPrivate = freezed,
     Object? tags = freezed,
-    Object? groupImageURL = freezed,
+    Object? imageURL = freezed,
     Object? searchParamsList = freezed,
   }) {
     return _then(_Group(
@@ -198,9 +198,9 @@ class __$GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as String?,
-      groupImageURL: groupImageURL == freezed
-          ? _value.groupImageURL
-          : groupImageURL // ignore: cast_nullable_to_non_nullable
+      imageURL: imageURL == freezed
+          ? _value.imageURL
+          : imageURL // ignore: cast_nullable_to_non_nullable
               as String?,
       searchParamsList: searchParamsList == freezed
           ? _value.searchParamsList
@@ -220,7 +220,7 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
       this.creatorUID,
       this.isPrivate,
       this.tags,
-      this.groupImageURL,
+      this.imageURL,
       this.searchParamsList});
 
   factory _$_Group.fromJson(Map<String, dynamic> json) =>
@@ -239,13 +239,13 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
   @override
   final String? tags;
   @override
-  final String? groupImageURL;
+  final String? imageURL;
   @override
   final List<String>? searchParamsList;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Group(groupUID: $groupUID, groupName: $groupName, description: $description, creatorUID: $creatorUID, isPrivate: $isPrivate, tags: $tags, groupImageURL: $groupImageURL, searchParamsList: $searchParamsList)';
+    return 'Group(groupUID: $groupUID, groupName: $groupName, description: $description, creatorUID: $creatorUID, isPrivate: $isPrivate, tags: $tags, imageURL: $imageURL, searchParamsList: $searchParamsList)';
   }
 
   @override
@@ -259,7 +259,7 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
       ..add(DiagnosticsProperty('creatorUID', creatorUID))
       ..add(DiagnosticsProperty('isPrivate', isPrivate))
       ..add(DiagnosticsProperty('tags', tags))
-      ..add(DiagnosticsProperty('groupImageURL', groupImageURL))
+      ..add(DiagnosticsProperty('imageURL', imageURL))
       ..add(DiagnosticsProperty('searchParamsList', searchParamsList));
   }
 
@@ -284,9 +284,9 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
                     .equals(other.isPrivate, isPrivate)) &&
             (identical(other.tags, tags) ||
                 const DeepCollectionEquality().equals(other.tags, tags)) &&
-            (identical(other.groupImageURL, groupImageURL) ||
+            (identical(other.imageURL, imageURL) ||
                 const DeepCollectionEquality()
-                    .equals(other.groupImageURL, groupImageURL)) &&
+                    .equals(other.imageURL, imageURL)) &&
             (identical(other.searchParamsList, searchParamsList) ||
                 const DeepCollectionEquality()
                     .equals(other.searchParamsList, searchParamsList)));
@@ -301,7 +301,7 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
       const DeepCollectionEquality().hash(creatorUID) ^
       const DeepCollectionEquality().hash(isPrivate) ^
       const DeepCollectionEquality().hash(tags) ^
-      const DeepCollectionEquality().hash(groupImageURL) ^
+      const DeepCollectionEquality().hash(imageURL) ^
       const DeepCollectionEquality().hash(searchParamsList);
 
   @JsonKey(ignore: true)
@@ -323,7 +323,7 @@ abstract class _Group implements Group {
       String? creatorUID,
       bool? isPrivate,
       String? tags,
-      String? groupImageURL,
+      String? imageURL,
       List<String>? searchParamsList}) = _$_Group;
 
   factory _Group.fromJson(Map<String, dynamic> json) = _$_Group.fromJson;
@@ -341,7 +341,7 @@ abstract class _Group implements Group {
   @override
   String? get tags => throw _privateConstructorUsedError;
   @override
-  String? get groupImageURL => throw _privateConstructorUsedError;
+  String? get imageURL => throw _privateConstructorUsedError;
   @override
   List<String>? get searchParamsList => throw _privateConstructorUsedError;
   @override

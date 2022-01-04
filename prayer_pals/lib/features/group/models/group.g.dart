@@ -13,7 +13,7 @@ _$_Group _$$_GroupFromJson(Map<String, dynamic> json) => _$_Group(
       creatorUID: json['creatorUID'] as String?,
       isPrivate: json['isPrivate'] as bool?,
       tags: json['tags'] as String?,
-      groupImageURL: json['groupImageURL'] as String?,
+      imageURL: json['imageURL'] as String?,
       searchParamsList: (json['searchParamsList'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -26,6 +26,6 @@ Map<String, dynamic> _$$_GroupToJson(_$_Group instance) => <String, dynamic>{
       'creatorUID': instance.creatorUID,
       'isPrivate': instance.isPrivate,
       'tags': instance.tags,
-      'groupImageURL': instance.groupImageURL,
+      'imageURL': instance.imageURL,
       'searchParamsList': instance.searchParamsList,
     };

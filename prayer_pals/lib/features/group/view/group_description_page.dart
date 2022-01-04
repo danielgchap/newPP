@@ -59,21 +59,22 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
   }
 
   _fetchGroup(Group group) async {
-    group = await groupProvider!.fetchGroup(group.groupUID);
+    this.group = await groupProvider!.fetchGroup(group.groupUID);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     String _image = 'assets/images/group_icon.jpeg'; // Change to Firestore TODO
-    group = ModalRoute.of(context)!.settings.arguments as Group;
+    final groupObj = ModalRoute.of(context)!.settings.arguments as Group;
     groupProvider = useProvider(groupControllerProvider);
     useEffect(() {
-      _fetchGroup(group!);
+      group = groupObj;
+      _fetchGroup(groupObj);
     }, []);
 
-    final _groupName = group!.groupName;
-    final _groupDescription = group!.description;
+    final _groupName = groupObj.groupName;
+    final _groupDescription = groupObj.description;
 
     isSwitchedApp = widget.groupMember.appNotify;
     isSwitchedText = widget.groupMember.textNotify;
@@ -156,7 +157,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                 child: PPCAvatar(
                   radSize: 25,
                   image: _image,
-                  networkImage: group.groupImageURL,
+                  networkImage: group.imageURL,
                 ),
                 onTap: () {
                   showDialog(
@@ -172,7 +173,11 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                   );
                 },
               ),
-              replacement: PPCAvatar(radSize: 25, image: _image),
+              replacement: PPCAvatar(
+                radSize: 25,
+                image: _image,
+                networkImage: group.imageURL,
+              ),
             ),
           ),
           SizedBox(

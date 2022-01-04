@@ -37,7 +37,8 @@ class GroupClient {
         .collection(StringConstants.groupsCollection)
         .doc(uid)
         .get();
-    return Group.fromJson(snapshot.data()!);
+    final group = Group.fromJson(snapshot.data()!);
+    return group;
   }
 
   Future<String> retrieveGroup(Group group) async {

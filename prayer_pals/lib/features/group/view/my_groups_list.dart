@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prayer_pals/core/utils/size_config.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
@@ -19,7 +19,7 @@ import 'group_description_page.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class MyGroups extends StatelessWidget {
+class MyGroups extends HookWidget {
   const MyGroups({
     Key? key,
   }) : super(key: key);
@@ -73,7 +73,10 @@ class MyGroups extends StatelessWidget {
                           child: Card(
                               margin: const EdgeInsets.all(1),
                               child: ListTile(
-                                leading: PPCAvatar(radSize: 15, image: _image),
+                                leading: PPCAvatar(
+                                  radSize: 15,
+                                  image: _image,
+                                ),
                                 trailing: IconButton(
                                   icon:
                                       const Icon(CupertinoIcons.chat_bubble_2),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/ppc_message_dialog.dart';
 import 'package:prayer_pals/core/widgets/rounded_button.dart';
@@ -13,7 +14,7 @@ import 'package:prayer_pals/core/utils/constants.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class GroupDescriptionNonEdit extends StatelessWidget {
+class GroupDescriptionNonEdit extends HookWidget {
   final String? groupName;
   final String? groupDescription;
   final GroupMember groupMember;

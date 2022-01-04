@@ -1,9 +1,10 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 
-class GetScripture extends StatelessWidget {
+class GetScripture extends HookWidget {
   const GetScripture({Key? key}) : super(key: key);
 
   @override

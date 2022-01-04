@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 
-class CredentialTextfield extends StatelessWidget {
+class CredentialTextfield extends HookWidget {
   final String hintText;
   final bool obscure;
   final TextEditingController controller;
-  const CredentialTextfield(
-      {Key? key,
-      required this.hintText,
-      required this.controller,
-      required this.obscure})
-      : super(key: key);
+  const CredentialTextfield({
+    Key? key,
+    required this.hintText,
+    required this.controller,
+    required this.obscure,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

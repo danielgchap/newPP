@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'my_prayer_list.dart';
@@ -9,7 +10,7 @@ import 'my_prayer_list.dart';
 //TODO figure out how to get a value from firestore, add it to the variable,
 // then save it back to firestore !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-class PrayNowPage extends StatelessWidget {
+class PrayNowPage extends HookWidget {
   const PrayNowPage({
     Key? key,
   }) : super(key: key);

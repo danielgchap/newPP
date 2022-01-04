@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 
-class PPCmessage extends StatefulWidget {
+class PPCmessage extends HookWidget {
   final String title;
 
   const PPCmessage({Key? key, required context, required this.title})
       : super(key: key);
 
   @override
-  _PPCmessageState createState() => _PPCmessageState();
-}
-
-class _PPCmessageState extends State<PPCmessage> {
-  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        widget.title,
+        title,
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,

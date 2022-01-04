@@ -39,7 +39,7 @@ class MyApp extends ConsumerWidget {
       ),
       home: _authState.when(data: (data) {
         if (data != null) {
-          return const MessageRootHandler();
+          return MessageRootHandler();
         }
         return LoginPage();
       }, loading: () {

@@ -146,7 +146,7 @@ class LoginPage extends ConsumerWidget {
           callback: (value) {
             if (value == StringConstants.success) {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (builder) => const MessageRootHandler(),
+                builder: (builder) => MessageRootHandler(),
               ));
             } else {
               showPPCDialog(context, StringConstants.oops, value, null);

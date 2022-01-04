@@ -1,40 +1,34 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/event_bus/group_subscribtion_event.dart';
 import 'package:prayer_pals/core/event_bus/ppc_event_bus.dart';
 import 'package:prayer_pals/features/home/view/home_page_container.dart';
 
-class MessageRootHandler extends StatefulWidget {
-  const MessageRootHandler({Key? key}) : super(key: key);
-  @override
-  MessageRootHandlerState createState() => MessageRootHandlerState();
-}
+class MessageRootHandler extends HookWidget {
+  MessageRootHandler({Key? key}) : super(key: key);
 
-class MessageRootHandlerState extends State<MessageRootHandler> {
   final PPCEventBus _eventBus = PPCEventBus();
   StreamSubscription? iosSubscription;
 
   @override
-  void initState() {
-    super.initState();
-    setup();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    useEffect(() {
+      {
+        _configureFCM();
+        _setupEventListeners();
+      }
+    }, []);
     return const Scaffold(
       resizeToAvoidBottomInset: false,
       body: Material(
         child: HomePageContainer(),
       ),
     );
-  }
-
-  setup() {
-    _configureFCM();
-    _setupEventListeners();
   }
 
   _configureFCM() async {
@@ -109,11 +103,5 @@ class MessageRootHandlerState extends State<MessageRootHandler> {
       debugPrint('FCM - Error unsubscribing from topic: $groupId:\n****$error');
       successCallback(false);
     });
-  }
-
-  @override
-  void dispose() {
-    if (iosSubscription != null) iosSubscription!.cancel();
-    super.dispose();
   }
 }

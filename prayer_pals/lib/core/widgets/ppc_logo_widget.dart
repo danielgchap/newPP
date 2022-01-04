@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class PPCLogoWidget extends StatefulWidget {
+class PPCLogoWidget extends HookWidget {
   final double size;
 
   const PPCLogoWidget({
@@ -10,18 +11,13 @@ class PPCLogoWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PPCLogoWidgetState createState() => _PPCLogoWidgetState();
-}
-
-class _PPCLogoWidgetState extends State<PPCLogoWidget> {
-  @override
   Widget build(BuildContext context) {
     return CircleAvatar(
       child: const Padding(
         padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
         child: Image(image: AssetImage('assets/images/logoBlueS.png')),
       ),
-      radius: 8 * widget.size,
+      radius: 8 * size,
       backgroundColor: Colors.white,
     );
   }

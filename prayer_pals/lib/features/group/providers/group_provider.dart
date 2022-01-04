@@ -111,9 +111,13 @@ class GroupController extends ChangeNotifier {
     return await _reader(groupRepositoryProvider).deleteGroup(group);
   }
 
-  updateGroupImage(BuildContext context, File imageFile, String groupId) async {
-    await _reader(groupRepositoryProvider)
+  Future<String> updateGroupImage(
+      BuildContext context, File imageFile, String groupId) async {
+    return await _reader(groupRepositoryProvider)
         .updateGroupImage(context, imageFile, groupId);
-    notifyListeners();
+  }
+
+  Future<Group> fetchGroup(String uid) async {
+    return _reader(groupRepositoryProvider).fetchGroup(uid);
   }
 }

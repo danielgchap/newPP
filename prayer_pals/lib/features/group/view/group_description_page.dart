@@ -45,6 +45,8 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
   bool isSwitchedApp = true; //will come from user data
   bool isSwitchedText = true; //will come from user data
   bool isSwitchedEmail = true; //will come from user data
+  Group? group;
+  GroupController? groupProvider;
 
   final int _memberCount = 50; //will come from group data
   final int _prayerCount = 25; //will come from group data
@@ -52,12 +54,26 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
   bool isEdit = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  _fetchGroup(Group group) async {
+    group = await groupProvider!.fetchGroup(group.groupUID);
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     String _image = 'assets/images/group_icon.jpeg'; // Change to Firestore TODO
-    final group = ModalRoute.of(context)!.settings.arguments as Group;
-    final _groupName = group.groupName;
-    final _groupDescription = group.description;
-    final groupProvider = useProvider(groupControllerProvider);
+    group = ModalRoute.of(context)!.settings.arguments as Group;
+    groupProvider = useProvider(groupControllerProvider);
+    useEffect(() {
+      _fetchGroup(group!);
+    }, []);
+
+    final _groupName = group!.groupName;
+    final _groupDescription = group!.description;
 
     isSwitchedApp = widget.groupMember.appNotify;
     isSwitchedText = widget.groupMember.textNotify;
@@ -117,7 +133,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
         ],
       ),
       body: _layoutSection(
-          _groupName, _groupDescription, group, _image, groupProvider),
+          _groupName, _groupDescription, group!, _image, groupProvider!),
     );
   }
 
@@ -137,17 +153,23 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
             child: Visibility(
               visible: widget.groupMember.isAdmin,
               child: InkWell(
-                child: PPCAvatar(radSize: 25, image: _image),
+                child: PPCAvatar(
+                  radSize: 25,
+                  image: _image,
+                  networkImage: group.groupImageURL,
+                ),
                 onTap: () {
                   showDialog(
+                    context: context,
+                    builder: (BuildContext context) => UpdatePicture(
                       context: context,
-                      builder: (BuildContext context) => UpdatePicture(
-                            context: context,
-                            callback: (imageFile) {
-                              groupProvider.updateGroupImage(
-                                  context, imageFile, group.groupUID);
-                            },
-                          ));
+                      callback: (imageFile) async {
+                        await groupProvider.updateGroupImage(
+                            context, imageFile, group.groupUID);
+                        _fetchGroup(group);
+                      },
+                    ),
+                  );
                 },
               ),
               replacement: PPCAvatar(radSize: 25, image: _image),

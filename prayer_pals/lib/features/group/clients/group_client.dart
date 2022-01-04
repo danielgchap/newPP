@@ -15,12 +15,10 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 //
 //////////////////////////////////////////////////////////////////////////
 
-final groupClientProvider =
-    Provider<GroupClient>((ref) => GroupClient(ref.read));
+final groupClientProvider = Provider<GroupClient>((ref) => GroupClient());
 
 class GroupClient {
-  Reader _reader;
-  GroupClient(this._reader);
+  GroupClient();
   Future<String> createGroup(Group group) async {
     try {
       await FirebaseFirestore.instance
@@ -32,6 +30,14 @@ class GroupClient {
     } on FirebaseException catch (e) {
       return Future.value(e.message.toString());
     }
+  }
+
+  Future<Group> fetchGroup(String uid) async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection(StringConstants.groupsCollection)
+        .doc(uid)
+        .get();
+    return Group.fromJson(snapshot.data()!);
   }
 
   Future<String> retrieveGroup(Group group) async {

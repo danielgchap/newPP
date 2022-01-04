@@ -21,6 +21,7 @@ abstract class GroupRepository {
   Future<String> deleteGroup(Group group);
   Future<String> updateGroupImage(
       BuildContext context, File imageFile, String groupId);
+  Future<Group> fetchGroup(String uid);
 }
 
 class GroupRepositoryImpl implements GroupRepository {
@@ -53,5 +54,10 @@ class GroupRepositoryImpl implements GroupRepository {
       BuildContext context, File imageFile, String groupId) async {
     return await _reader(groupClientProvider)
         .updateGroupImage(context, imageFile, groupId);
+  }
+
+  @override
+  Future<Group> fetchGroup(String uid) async {
+    return await _reader(groupClientProvider).fetchGroup(uid);
   }
 }

@@ -33,22 +33,23 @@ class GroupMember with _$GroupMember {
   }
 
   factory GroupMember.fromQuerySnapshot(
-      QueryDocumentSnapshot<Object?> data, int index) {
+      QuerySnapshot<Object?> data, int index) {
     GroupMember groupMember = GroupMember(
-      groupMemberUID: data[index]['groupMemberUID'],
-      groupMemberName: data[index]['groupMemberName'],
-      groupName: data[index]['groupName'],
-      groupUID: data[index]['groupUID'],
-      isAdmin: data[index]['isAdmin'],
-      isOwner: data[index]['isOwner'],
-      isCreated: data[index]['isCreated'],
-      isInvited: data[index]['isInvited'],
-      emailAddress: data[index]['emailAddress'],
-      phoneNumber: data[index]['phoneNumber'],
-      appNotify: data[index]['appNotify'],
-      textNotify: data[index]['textNotify'],
-      emailNotify: data[index]['emailNotify'],
-      isPending: data[index]['isPending'],
+      groupMemberUID: data.docs[index]['groupMemberUID'],
+      groupMemberName: data.docs[index]['groupMemberName'],
+      groupName: data.docs[index]['groupName'],
+      groupUID: data.docs[index]['groupUID'],
+      isAdmin: data.docs[index]['isAdmin'],
+      isOwner: data.docs[index]['isOwner'],
+      isCreated: data.docs[index]['isCreated'],
+      isInvited: data.docs[index]['isInvited'],
+      emailAddress: data.docs[index]['emailAddress'],
+      phoneNumber: data.docs[index]['phoneNumber'],
+      appNotify: data.docs[index]['appNotify'],
+      textNotify: data.docs[index]['textNotify'],
+      emailNotify: data.docs[index]['emailNotify'],
+      isPending: data.docs[index]['isPending'],
+      groupImageURL: data.docs[index]['imageURL'],
     );
     return groupMember;
   }

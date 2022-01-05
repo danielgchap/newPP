@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
@@ -87,5 +88,9 @@ class GroupController extends ChangeNotifier {
 
   Future<Group> fetchGroup(String uid) async {
     return _reader(groupRepositoryProvider).fetchGroup(uid);
+  }
+
+  Stream<QuerySnapshot> fetchMyGroups() {
+    return _reader(groupRepositoryProvider).fetchMyGroups();
   }
 }

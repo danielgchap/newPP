@@ -53,8 +53,9 @@ class _PendingRequestsState extends State<PendingRequests> {
                 child: ListView.builder(
                     itemCount: data.size,
                     itemBuilder: (context, index) {
-                      GroupMember groupMember = GroupMember.fromQuerySnapshot(
-                          data.docs[index], index);
+                      GroupMember groupMember =
+                          GroupMember.fromQuerySnapshot(data, index);
+
                       return Card(
                           margin: const EdgeInsets.all(1),
                           child: Visibility(

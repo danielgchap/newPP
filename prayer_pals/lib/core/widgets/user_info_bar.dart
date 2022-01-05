@@ -18,7 +18,6 @@ class UserInfoBarWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _image = 'assets/images/user_icon.jpeg'; // Change to Firestore TODO
     final ppcUser = useProvider(ppcUserCoreProvider).getCurrentUserModel();
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),

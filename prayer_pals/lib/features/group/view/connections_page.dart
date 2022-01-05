@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
+import 'package:prayer_pals/core/widgets/connections_button.dart';
+import 'package:prayer_pals/core/widgets/header_section.dart';
 import 'package:prayer_pals/core/widgets/rounded_button.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'create_group.dart';
@@ -40,68 +42,12 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
         centerTitle: true,
       ),
       body: Column(
-        children: [
-          _headerSection(context, StringConstants.pendingRequests),
-          const PendingRequests(),
-          _headerSection(context, StringConstants.myGroups),
-          const MyGroups(),
-          _buttonsSection(context),
-        ],
-      ),
-    );
-  }
-
-  Widget _headerSection(BuildContext context, _title) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 30, 10, 5),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            _title,
-            textAlign: TextAlign.left,
-            style: const TextStyle(
-              fontFamily: 'Helvetica',
-              fontSize: 24.0,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buttonsSection(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          PPCRoundedButton(
-            title: StringConstants.joinGroup,
-            buttonRatio: .6,
-            buttonWidthRatio: .5,
-            callback: () {
-              Navigator.pushNamed(context, '/GroupSearchPage');
-            },
-            bgColor: Colors.lightBlueAccent.shade100,
-            textColor: Colors.white,
-          ),
-          PPCRoundedButton(
-            title: StringConstants.startGroup,
-            buttonRatio: .6,
-            buttonWidthRatio: .5,
-            callback: () {
-              bool isCreating = true;
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) =>
-                      CreateGroupWidget(context, isCreating: isCreating));
-            },
-            bgColor: Colors.lightBlueAccent.shade100,
-            textColor: Colors.white,
-          ),
+        children: const [
+          HeaderSection(title: StringConstants.pendingRequests),
+          PendingRequests(),
+          HeaderSection(title: StringConstants.myGroups),
+          MyGroups(),
+          ConnectionsButton(),
         ],
       ),
     );

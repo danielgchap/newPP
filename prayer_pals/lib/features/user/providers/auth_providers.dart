@@ -23,7 +23,7 @@ final authControllerProvider =
 
 class AuthController extends ChangeNotifier {
   final Reader reader;
-  String userImage = 'assets/images/user_icon.jpeg';
+  String userImage = StringConstants.userIcon;
   AuthController(this.reader);
 
   signInUser({

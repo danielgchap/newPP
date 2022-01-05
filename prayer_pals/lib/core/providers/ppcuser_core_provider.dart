@@ -12,7 +12,6 @@ final ppcUserCoreProvider =
 class PPCUserCore extends ChangeNotifier {
   Reader reader;
   PPCUserCore(this.reader);
-  String image = 'assets/images/user_icon.jpeg';
   PPCUser? currentUserModel;
   setupPPUserListener() async {
     if (FirebaseAuth.instance.currentUser != null) {

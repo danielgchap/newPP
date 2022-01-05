@@ -20,7 +20,6 @@ class _PrayerDetailPageState extends State<PrayerDetailPage> {
   @override
   Widget build(BuildContext context) {
     String _title;
-    String _image = 'assets/images/user_icon.jpeg'; // Change to Firestore TODO
     final prayer = ModalRoute.of(context)!.settings.arguments as Prayer;
     prayer.isGlobal == true
         ? _title = StringConstants.prayerPals
@@ -60,7 +59,7 @@ class _PrayerDetailPageState extends State<PrayerDetailPage> {
                   children: [
                     Row(
                       children: [
-                        PPCAvatar(radSize: 30, image: _image),
+                        PPCAvatar(radSize: 30, image: StringConstants.userIcon),
                         SizedBox(
                           width: SizeConfig.safeBlockHorizontal! * 2,
                         ),

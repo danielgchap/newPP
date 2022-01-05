@@ -23,7 +23,6 @@ class PrayerListItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _image = 'assets/images/user_icon.jpeg'; // Change to Firestore TODO
     String? _uid = FirebaseAuth.instance.currentUser!.uid;
     bool _isOwner;
     _uid == prayer.creatorUID ? _isOwner = true : _isOwner = false;
@@ -39,7 +38,7 @@ class PrayerListItem extends HookWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                _headerRow(_image),
+                _headerRow(StringConstants.userIcon),
                 _detailRow(),
                 SizedBox(
                   height: SizeConfig.safeBlockVertical! * 1,

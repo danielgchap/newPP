@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
+import 'package:prayer_pals/features/group/repositories/group_repository.dart';
 import 'package:prayer_pals/features/prayer/view/group_prayer_list_page.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'group_description_page.dart';
@@ -26,14 +28,8 @@ class MyGroups extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> myGroups = FirebaseFirestore.instance
-        .collection(StringConstants.usersCollection)
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection(StringConstants.userGroupsCollection)
-        .snapshots();
-
     return StreamBuilder<QuerySnapshot>(
-        stream: myGroups,
+        stream: context.read(groupRepositoryProvider).fetchMyGroups(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {

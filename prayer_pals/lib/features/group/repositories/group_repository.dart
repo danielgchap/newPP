@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/features/group/clients/group_client.dart';
 import 'package:prayer_pals/features/group/clients/search_group_remote_client.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
+import 'package:prayer_pals/features/group/providers/my_groups_provider.dart';
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -25,6 +26,7 @@ abstract class GroupRepository {
       BuildContext context, File imageFile, String groupId);
   Future<Group> fetchGroup(String uid);
   Stream<QuerySnapshot> searchGroups(String searchParams);
+  Stream<QuerySnapshot> fetchMyGroups();
 }
 
 class GroupRepositoryImpl implements GroupRepository {
@@ -66,5 +68,10 @@ class GroupRepositoryImpl implements GroupRepository {
   @override
   Stream<QuerySnapshot> searchGroups(String searchParams) {
     return _reader(searchGroupClientProvider).searchGroups(searchParams);
+  }
+
+  @override
+  Stream<QuerySnapshot> fetchMyGroups() {
+    return _reader(myGroupsControllerProvider).fetchMyGroups();
   }
 }

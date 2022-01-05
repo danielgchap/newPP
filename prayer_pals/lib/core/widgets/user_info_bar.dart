@@ -31,7 +31,7 @@ class UserInfoBarWidget extends HookWidget {
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                   child: PPCAvatar(
                     radSize: 25,
-                    image: _image,
+                    image: StringConstants.userIcon,
                     networkImage: ppcUser!.imageURL,
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
@@ -7,7 +8,7 @@ import 'package:prayer_pals/features/prayer/providers/my_prayer_provider.dart';
 import 'prayer_list_item.dart';
 
 // ignore: must_be_immutable
-class PrayerList extends ConsumerWidget {
+class PrayerList extends HookWidget {
   final bool isPrayNow;
   final PrayerType prayerType;
   List checkedIndexes = [];
@@ -16,12 +17,10 @@ class PrayerList extends ConsumerWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final prayerList =
-        watch(prayerControllerProvider).retrievePrayers(prayerType);
-
+  Widget build(BuildContext context) {
     return FutureBuilder<List<Prayer>>(
-        future: prayerList,
+        future:
+            context.read(prayerControllerProvider).retrievePrayers(prayerType),
         builder: (BuildContext context, AsyncSnapshot<List<Prayer>> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {

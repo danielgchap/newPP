@@ -7,7 +7,6 @@ import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/features/prayer/repositories/my_prayer_repository.dart';
 import 'package:prayer_pals/features/user/models/ppcuser.dart';
 import 'package:uuid/uuid.dart';
-
 import '../../../core/utils/constants.dart';
 
 final prayerControllerProvider =
@@ -16,9 +15,7 @@ final prayerControllerProvider =
 class PrayerController extends ChangeNotifier {
   final Reader _reader;
 
-  PrayerController(this._reader) : super() {
-    //  retrievePrayers();
-  }
+  PrayerController(this._reader) : super();
 
   Future<String> createPrayer(String? title, String? description,
       String creatorUID, List<String> groupsToAdd, bool isGlobal) async {

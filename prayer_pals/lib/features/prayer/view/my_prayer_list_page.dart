@@ -1,25 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/features/prayer/providers/my_prayer_list_page_provider.dart';
 import 'my_prayer_list.dart';
 
-class MyPrayersPage extends StatefulWidget {
+class MyPrayersPage extends HookWidget {
   const MyPrayersPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  _MyPrayersPageState createState() => _MyPrayersPageState();
-}
-
-class _MyPrayersPageState extends State<MyPrayersPage> {
-  PrayerType _prayerType = PrayerType.myPrayers;
-
-  @override
   Widget build(BuildContext context) {
+    final myPrayerListProvider = useProvider(myPrayerListPageProvider);
     String _title;
-    if (_prayerType == PrayerType.answered) {
+    if (myPrayerListProvider.prayerType == PrayerType.answered) {
       _title = StringConstants.answeredPrayer;
     } else {
       _title = StringConstants.myPrayers;
@@ -35,7 +32,7 @@ class _MyPrayersPageState extends State<MyPrayersPage> {
         centerTitle: true,
         actions: [
           Visibility(
-            visible: _prayerType == PrayerType.answered,
+            visible: myPrayerListProvider.prayerType == PrayerType.answered,
             replacement: IconButton(
               icon: Icon(
                 Icons.comment_outlined,
@@ -43,12 +40,11 @@ class _MyPrayersPageState extends State<MyPrayersPage> {
                 size: SizeConfig.safeBlockHorizontal! * 8,
               ),
               onPressed: () {
-                if (_prayerType == PrayerType.answered) {
-                  _prayerType = PrayerType.myPrayers;
+                if (myPrayerListProvider.prayerType == PrayerType.answered) {
+                  myPrayerListProvider.setPrayerType(PrayerType.myPrayers);
                 } else {
-                  _prayerType = PrayerType.answered;
+                  myPrayerListProvider.setPrayerType(PrayerType.answered);
                 }
-                setState(() {});
               },
             ),
             child: IconButton(
@@ -58,12 +54,11 @@ class _MyPrayersPageState extends State<MyPrayersPage> {
                 size: SizeConfig.safeBlockHorizontal! * 8,
               ),
               onPressed: () {
-                if (_prayerType == PrayerType.answered) {
-                  _prayerType = PrayerType.myPrayers;
+                if (myPrayerListProvider.prayerType == PrayerType.answered) {
+                  myPrayerListProvider.setPrayerType(PrayerType.myPrayers);
                 } else {
-                  _prayerType = PrayerType.answered;
+                  myPrayerListProvider.setPrayerType(PrayerType.answered);
                 }
-                setState(() {});
               },
             ),
           ),
@@ -74,7 +69,9 @@ class _MyPrayersPageState extends State<MyPrayersPage> {
           Expanded(
             child: Stack(
               children: [
-                PrayerList(isPrayNow: isPrayNow, prayerType: _prayerType)
+                PrayerList(
+                    isPrayNow: isPrayNow,
+                    prayerType: myPrayerListProvider.prayerType!)
               ],
             ),
           ),

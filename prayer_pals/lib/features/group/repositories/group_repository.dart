@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/features/group/clients/group_client.dart';
+import 'package:prayer_pals/features/group/clients/search_group_remote_client.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 
 //////////////////////////////////////////////////////////////////////////
@@ -22,11 +24,11 @@ abstract class GroupRepository {
   Future<String> updateGroupImage(
       BuildContext context, File imageFile, String groupId);
   Future<Group> fetchGroup(String uid);
+  Stream<QuerySnapshot> searchGroups(String searchParams);
 }
 
 class GroupRepositoryImpl implements GroupRepository {
   final Reader _reader;
-
   const GroupRepositoryImpl(this._reader);
 
   @override
@@ -59,5 +61,10 @@ class GroupRepositoryImpl implements GroupRepository {
   @override
   Future<Group> fetchGroup(String uid) async {
     return await _reader(groupClientProvider).fetchGroup(uid);
+  }
+
+  @override
+  Stream<QuerySnapshot> searchGroups(String searchParams) {
+    return _reader(searchGroupClientProvider).searchGroups(searchParams);
   }
 }

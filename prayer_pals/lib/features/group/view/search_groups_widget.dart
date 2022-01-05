@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/event_bus/group_subscribtion_event.dart';
 import 'package:prayer_pals/core/event_bus/ppc_event_bus.dart';
 import 'package:prayer_pals/core/utils/providers.dart';
@@ -13,6 +15,7 @@ import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
 import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/features/group/providers/search_groups_provider.dart';
 import 'group_description_page.dart';
 
 //////////////////////////////////////////////////////////////////////////
@@ -29,7 +32,7 @@ import 'group_description_page.dart';
 // TODO - verify user is not in group - should not show up, but if it does and user
 // hits join group button, they are removed from the group and placed in pending
 
-class PPCSearchGroupsWidget extends StatefulWidget {
+class PPCSearchGroupsWidget extends HookWidget {
   final String searchTerm;
 
   const PPCSearchGroupsWidget({
@@ -37,24 +40,17 @@ class PPCSearchGroupsWidget extends StatefulWidget {
     required this.searchTerm,
   }) : super(key: key);
 
-  @override
-  _PPCSearchGroupsWidgetState createState() => _PPCSearchGroupsWidgetState();
-}
-
-class _PPCSearchGroupsWidgetState extends State<PPCSearchGroupsWidget> {
 //TODO: delete all groups and test search. Not deleting now as I need the group prayers for other functionality builds in progress
 
   @override
   Widget build(BuildContext context) {
+    useProvider(searchGroupControllerProvider);
     String _image = 'assets/images/group_icon.jpeg'; // need firestore image
 
-    final Stream<QuerySnapshot> pendingGroups = FirebaseFirestore.instance
-        .collection('groups')
-        .where("searchParamsList", arrayContains: widget.searchTerm)
-        .snapshots();
-
     return StreamBuilder<QuerySnapshot>(
-        stream: pendingGroups,
+        stream: context
+            .read(searchGroupControllerProvider)
+            .searchGroups(searchTerm),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -119,7 +115,6 @@ class _PPCSearchGroupsWidgetState extends State<PPCSearchGroupsWidget> {
                                     settings: RouteSettings(
                                       arguments: group,
                                     )));
-                            setState(() {});
                           },
                           title: Text(group.groupName),
                         ));

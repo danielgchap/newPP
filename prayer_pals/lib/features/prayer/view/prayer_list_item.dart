@@ -27,42 +27,45 @@ class PrayerListItem extends HookWidget {
     bool _isOwner;
     _uid == prayer.creatorUID ? _isOwner = true : _isOwner = false;
     return InkWell(
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          margin: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical! * 1.5,
-            left: SizeConfig.blockSizeHorizontal! * 2,
-            right: SizeConfig.blockSizeHorizontal! * 2,
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                _headerRow(StringConstants.userIcon),
-                _detailRow(),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical! * 1,
-                ),
-                _bottomRow(_isOwner, context)
-              ],
-            ),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical! * 1.5,
+          left: SizeConfig.blockSizeHorizontal! * 2,
+          right: SizeConfig.blockSizeHorizontal! * 2,
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              _headerRow(StringConstants.userIcon),
+              _detailRow(),
+              SizedBox(
+                height: SizeConfig.safeBlockVertical! * 1,
+              ),
+              _bottomRow(_isOwner, context)
+            ],
           ),
         ),
-        onTap: () {
-          if (_isOwner == true) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CreatePrayerPage(prayer: prayer),
-                ));
-          } else {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const PrayerDetailPage(),
-                    settings: RouteSettings(arguments: prayer)));
-          }
-        });
+      ),
+      onTap: () {
+        if (_isOwner == true) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreatePrayerPage(prayer: prayer),
+              ));
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PrayerDetailPage(
+                        prayer: prayer,
+                      ),
+                  settings: RouteSettings(arguments: prayer)));
+        }
+      },
+    );
   }
 
   Widget _headerRow(_image) {

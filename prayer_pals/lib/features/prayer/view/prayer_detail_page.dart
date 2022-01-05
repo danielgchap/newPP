@@ -1,133 +1,118 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
+import 'package:prayer_pals/core/widgets/add_remove_prayer_button.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
-import 'package:prayer_pals/core/widgets/rounded_button.dart';
+import 'package:prayer_pals/core/widgets/report_button.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/prayer/providers/prayer_detail_provider.dart';
 
-//TODO fix scrolling
-
 class PrayerDetailPage extends HookWidget {
-  const PrayerDetailPage({Key? key}) : super(key: key);
+  final Prayer prayer;
+  const PrayerDetailPage({required this.prayer, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String _title;
-    final prayer = ModalRoute.of(context)!.settings.arguments as Prayer;
-    prayer.isGlobal == true
-        ? _title = StringConstants.prayerPals
-        : _title = prayer.groups[0];
     bool isListed = false;
-    var result = FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("myPrayers")
-        .where("uid", isEqualTo: prayer.uid)
-        .get();
-
-    result == null ? isListed = true : isListed = false;
 
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text(
-            _title,
-          ),
-          centerTitle: true,
+      appBar: AppBar(
+        leading: IconButton(
+          icon:
+              const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: FutureBuilder(
-          future: context
-              .read(prayerDetailProvider)
-              .fetchPrayer(prayer.uid, prayer.isGlobal),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Column(
-                children: [
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical! * 68,
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.all(
-                          SizeConfig.safeBlockVertical! * 2,
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                PPCAvatar(
-                                    radSize: 30,
-                                    image: StringConstants.userIcon),
-                                SizedBox(
-                                  width: SizeConfig.safeBlockHorizontal! * 2,
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.screenWidth! * .7,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        prayer.creatorDisplayName,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize:
-                                              SizeConfig.safeBlockVertical! *
-                                                  2.5,
-                                        ),
-                                      ),
-                                      Text(
-                                        prayer.title,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize:
-                                              SizeConfig.safeBlockVertical! *
-                                                  2.5,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: SizeConfig.safeBlockVertical! * 2,
-                            ),
-                            Divider(
-                              height: SizeConfig.safeBlockVertical! * 2,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              height: SizeConfig.safeBlockVertical! * 2,
-                            ),
-                            SizedBox(
-                              width: SizeConfig.screenWidth! * .9,
-                              child: Text(
-                                prayer.description,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize:
-                                        SizeConfig.safeBlockVertical! * 2.5),
+        title: Text(
+          prayer.isGlobal == true
+              ? StringConstants.prayerPals
+              : prayer.groups[0],
+        ),
+        centerTitle: true,
+      ),
+      body: FutureBuilder(
+        future: context
+            .read(prayerDetailProvider)
+            .fetchPrayer(prayer.uid, prayer.isGlobal),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              children: [
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical! * 68,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                        SizeConfig.safeBlockVertical! * 2,
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              PPCAvatar(
+                                  radSize: 30, image: StringConstants.userIcon),
+                              SizedBox(
+                                width: SizeConfig.safeBlockHorizontal! * 2,
                               ),
+                              SizedBox(
+                                width: SizeConfig.screenWidth! * .7,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      prayer.creatorDisplayName,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize:
+                                            SizeConfig.safeBlockVertical! * 2.5,
+                                      ),
+                                    ),
+                                    Text(
+                                      prayer.title,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize:
+                                            SizeConfig.safeBlockVertical! * 2.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: SizeConfig.safeBlockVertical! * 2,
+                          ),
+                          Divider(
+                            height: SizeConfig.safeBlockVertical! * 2,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            height: SizeConfig.safeBlockVertical! * 2,
+                          ),
+                          SizedBox(
+                            width: SizeConfig.screenWidth! * .9,
+                            child: Text(
+                              prayer.description,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize:
+                                      SizeConfig.safeBlockVertical! * 2.5),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  _addRemoveButton(isListed),
-                  _reportButton(),
-                ],
-              );
-            } else {}
+                ),
+                AddRemovePrayerButton(
+                  isListed: isListed,
+                ),
+                const ReportButton()
+              ],
+            );
+          } else {
             return const Center(
               child: SizedBox(
                 width: 40,
@@ -135,55 +120,8 @@ class PrayerDetailPage extends HookWidget {
                 child: CircularProgressIndicator(),
               ),
             );
-          },
-        ));
-  }
-
-  Widget _addRemoveButton(isListed) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Visibility(
-          visible: isListed,
-          child: PPCRoundedButton(
-            title: StringConstants.remove,
-            buttonRatio: .9,
-            buttonWidthRatio: .9,
-            callback: () {
-//remove from personal list
-            },
-            bgColor: Colors.lightBlueAccent.shade100,
-            textColor: Colors.white,
-          ),
-          replacement: PPCRoundedButton(
-            title: StringConstants.add,
-            buttonRatio: .9,
-            buttonWidthRatio: .9,
-            callback: () {
-//add to personal list
-            },
-            bgColor: Colors.lightBlueAccent.shade100,
-            textColor: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _reportButton() {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: PPCRoundedButton(
-          title: StringConstants.report,
-          buttonRatio: .9,
-          buttonWidthRatio: .9,
-          callback: () {},
-          bgColor: Colors.lightBlueAccent.shade100,
-          textColor: Colors.white,
-        ),
+          }
+        },
       ),
     );
   }

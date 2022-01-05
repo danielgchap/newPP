@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/core/widgets/rounded_button.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/features/prayer/providers/prayer_detail_provider.dart';
 
 //TODO fix scrolling
 
@@ -31,87 +33,110 @@ class PrayerDetailPage extends HookWidget {
     result == null ? isListed = true : isListed = false;
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon:
-              const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: Text(
+            _title,
+          ),
+          centerTitle: true,
         ),
-        title: Text(
-          _title,
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: SizeConfig.blockSizeVertical! * 68,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(
-                  SizeConfig.safeBlockVertical! * 2,
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        PPCAvatar(radSize: 30, image: StringConstants.userIcon),
-                        SizedBox(
-                          width: SizeConfig.safeBlockHorizontal! * 2,
+        body: FutureBuilder(
+          future: context
+              .read(prayerDetailProvider)
+              .fetchPrayer(prayer.uid, prayer.isGlobal),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical! * 68,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.all(
+                          SizeConfig.safeBlockVertical! * 2,
                         ),
-                        SizedBox(
-                          width: SizeConfig.screenWidth! * .7,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                prayer.creatorDisplayName,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: SizeConfig.safeBlockVertical! * 2.5,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                PPCAvatar(
+                                    radSize: 30,
+                                    image: StringConstants.userIcon),
+                                SizedBox(
+                                  width: SizeConfig.safeBlockHorizontal! * 2,
                                 ),
-                              ),
-                              Text(
-                                prayer.title,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: SizeConfig.safeBlockVertical! * 2.5,
+                                SizedBox(
+                                  width: SizeConfig.screenWidth! * .7,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        prayer.creatorDisplayName,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize:
+                                              SizeConfig.safeBlockVertical! *
+                                                  2.5,
+                                        ),
+                                      ),
+                                      Text(
+                                        prayer.title,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize:
+                                              SizeConfig.safeBlockVertical! *
+                                                  2.5,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: SizeConfig.safeBlockVertical! * 2,
+                            ),
+                            Divider(
+                              height: SizeConfig.safeBlockVertical! * 2,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(
+                              height: SizeConfig.safeBlockVertical! * 2,
+                            ),
+                            SizedBox(
+                              width: SizeConfig.screenWidth! * .9,
+                              child: Text(
+                                prayer.description,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontSize:
+                                        SizeConfig.safeBlockVertical! * 2.5),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: SizeConfig.safeBlockVertical! * 2,
-                    ),
-                    Divider(
-                      height: SizeConfig.safeBlockVertical! * 2,
-                      color: Colors.grey,
-                    ),
-                    SizedBox(
-                      height: SizeConfig.safeBlockVertical! * 2,
-                    ),
-                    SizedBox(
-                      width: SizeConfig.screenWidth! * .9,
-                      child: Text(
-                        prayer.description,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: SizeConfig.safeBlockVertical! * 2.5),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  _addRemoveButton(isListed),
+                  _reportButton(),
+                ],
+              );
+            } else {}
+            return const Center(
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child: CircularProgressIndicator(),
               ),
-            ),
-          ),
-          _addRemoveButton(isListed),
-          _reportButton(),
-        ],
-      ),
-    );
+            );
+          },
+        ));
   }
 
   Widget _addRemoveButton(isListed) {

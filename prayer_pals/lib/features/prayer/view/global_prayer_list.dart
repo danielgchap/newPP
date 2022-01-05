@@ -21,7 +21,7 @@ class GlobalPrayerList extends ConsumerWidget {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: Text("Loading ..."),
+              child: Text(StringConstants.loading),
             );
           } else {
             final data = snapshot.requireData;

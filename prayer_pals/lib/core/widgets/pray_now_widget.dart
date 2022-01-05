@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
+import 'package:prayer_pals/core/widgets/pray_now_description_dialog.dart';
 
 class PrayNowRow extends StatefulWidget {
   final String title;
@@ -34,9 +35,10 @@ class _PrayNowRowState extends State<PrayNowRow> {
             widget.callback();
             if (widget.isSelected == true) {
               showDialog(
-                  builder: (BuildContext context) => _showDescription(
-                      context, widget.title, widget.description),
-                  context: context);
+                builder: (BuildContext context) => PrayNowDescriptionDialog(
+                    title: widget.title, description: widget.description),
+                context: context,
+              );
             }
           });
         },
@@ -52,39 +54,6 @@ class _PrayNowRowState extends State<PrayNowRow> {
         ),
         activeColor: Colors.lightBlue,
         checkColor: Colors.white,
-      ),
-    );
-  }
-
-  Widget _showDescription(BuildContext context, _title, _description) {
-    return AlertDialog(
-      title: Text(
-        _title,
-        overflow: TextOverflow.ellipsis,
-      ),
-      actions: [
-        // action button
-        IconButton(
-          icon: Icon(
-            Icons.close,
-            size: SizeConfig.safeBlockHorizontal! * 8,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          }, //Change to Answered prayer
-        ),
-      ],
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            _description,
-            style: const TextStyle(
-              fontFamily: 'Helvetica',
-            ),
-          )
-        ],
       ),
     );
   }

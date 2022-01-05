@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:prayer_pals/core/utils/size_config.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/widgets/connections_button.dart';
 import 'package:prayer_pals/core/widgets/header_section.dart';
-import 'package:prayer_pals/core/widgets/rounded_button.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
-import 'create_group.dart';
 import 'my_groups_list.dart';
 import 'lists_temporary_approach/my_pending_requests.dart';
 
@@ -23,14 +21,9 @@ import 'lists_temporary_approach/my_pending_requests.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class ConnectionsPage extends StatefulWidget {
+class ConnectionsPage extends HookWidget {
   const ConnectionsPage({Key? key}) : super(key: key);
 
-  @override
-  _ConnectionsPageState createState() => _ConnectionsPageState();
-}
-
-class _ConnectionsPageState extends State<ConnectionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

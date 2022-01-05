@@ -47,6 +47,8 @@ class ImagesURLConstants {
 }
 
 class StringConstants {
+//App
+  static const prayerPals = 'Prayer Pals';
 //Assets
   static const groupIcon = 'assets/images/group_icon.jpeg';
   static const userIcon = 'assets/images/user_icon.jpeg';
@@ -90,7 +92,6 @@ class StringConstants {
   static const admin = 'Admin';
   static const adminContacts = 'Contacts';
   static const members = 'Members';
-  static const prayerPals = 'Prayer Pals';
   static const editProfile = 'Edit Profile';
   static const answered = 'Answered';
 
@@ -110,6 +111,8 @@ class StringConstants {
   static const prayerTitle = 'Prayer Title';
   static const remove = 'Remove';
   static const add = 'Add';
+  static const global = 'global';
+  static const lowercaseAnswered = 'answered';
 
 //Collections
   static const usersCollection = 'users';
@@ -216,5 +219,4 @@ class StringConstants {
   //Notifications
   static const justAFriendlyReminder =
       "Just a friendly reminder to pray today! God bless!";
-  
 }

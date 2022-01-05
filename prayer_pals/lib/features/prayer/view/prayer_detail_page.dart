@@ -114,11 +114,7 @@ class PrayerDetailPage extends HookWidget {
             );
           } else {
             return const Center(
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: CircularProgressIndicator(),
-              ),
+              child: Text(StringConstants.loading),
             );
           }
         },

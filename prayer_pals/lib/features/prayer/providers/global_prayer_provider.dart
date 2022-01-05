@@ -1,20 +1,45 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/features/prayer/repositories/global_prayer_repository.dart';
 
 final globalPrayerControllerProvider =
-    Provider((ref) => GlobalPrayerController(ref.read));
+    ChangeNotifierProvider((ref) => GlobalPrayerController(ref.read));
 
-class GlobalPrayerController {
+class GlobalPrayerController extends ChangeNotifier {
+  bool showAnswered = true;
+  String previousType = "";
+  String listType = "";
   final Reader _reader;
 
-  GlobalPrayerController(this._reader) : super() {
-    //retrievePrayers(prayerType);
-  }
+  GlobalPrayerController(this._reader) : super();
 
   Future<List<Prayer>> retrievePrayers(PrayerType prayerType) async {
     return await _reader(globalPrayerRepositoryProvider)
         .retrievePrayers(prayerType);
+  }
+
+  setShowAnswered(bool show) {
+    showAnswered = show;
+    Timer.run(() {
+      notifyListeners();
+    });
+  }
+
+  setPreviousType(String type) {
+    previousType = type;
+    Timer.run(() {
+      notifyListeners();
+    });
+  }
+
+  setListType(String type) {
+    listType = type;
+    Timer.run(() {
+      notifyListeners();
+    });
   }
 }

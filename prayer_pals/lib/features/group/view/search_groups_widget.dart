@@ -131,23 +131,24 @@ _joinGroup(BuildContext ctx, Group group) async {
   final groupUID = group.groupUID;
   final emailAddress = ctx.read(firebaseAuthProvider).currentUser!.email;
   const phoneNumber = "";
-  final srvMsg = await ctx
-      .read(groupMemberControllerProvider)
-      .createGroupMember(
-          groupMemberUID,
-          groupMemberName!,
-          group.groupName,
-          groupUID,
-          false,
-          false,
-          false,
-          false,
-          emailAddress!,
-          phoneNumber,
-          true,
-          false,
-          false,
-          true);
+  final srvMsg =
+      await ctx.read(groupMemberControllerProvider).createGroupMember(
+            groupMemberUID,
+            groupMemberName!,
+            group.groupName,
+            groupUID,
+            false,
+            false,
+            false,
+            false,
+            emailAddress!,
+            phoneNumber,
+            true,
+            false,
+            false,
+            true,
+            "",
+          );
   if (srvMsg == StringConstants.success) {
     PPCEventBus eventBus = PPCEventBus();
     eventBus.fire(SubscribeToGroupPNEvent(groupId: groupUID));

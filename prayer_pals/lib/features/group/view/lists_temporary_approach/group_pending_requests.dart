@@ -124,23 +124,24 @@ class _GroupPendingRequestsState extends State<GroupPendingRequests> {
   }
 
   _updateGroups(BuildContext ctx, groupMember, group) async {
-    final srvMsg = await ctx
-        .read(groupMemberControllerProvider)
-        .createGroupMember(
-            groupMember.groupMemberUID,
-            groupMember.groupMemberName!,
-            groupMember.groupName,
-            groupMember.groupUID,
-            false,
-            false,
-            false,
-            false,
-            groupMember.emailAddress!,
-            groupMember.phoneNumber,
-            true,
-            false,
-            false,
-            false);
+    final srvMsg =
+        await ctx.read(groupMemberControllerProvider).createGroupMember(
+              groupMember.groupMemberUID,
+              groupMember.groupMemberName!,
+              groupMember.groupName,
+              groupMember.groupUID,
+              false,
+              false,
+              false,
+              false,
+              groupMember.emailAddress!,
+              groupMember.phoneNumber,
+              true,
+              false,
+              false,
+              false,
+              "",
+            );
     if (srvMsg == StringConstants.success) {
     } else {
       showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);

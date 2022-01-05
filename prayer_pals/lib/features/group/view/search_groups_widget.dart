@@ -40,12 +40,9 @@ class PPCSearchGroupsWidget extends HookWidget {
     required this.searchTerm,
   }) : super(key: key);
 
-//TODO: delete all groups and test search. Not deleting now as I need the group prayers for other functionality builds in progress
-
   @override
   Widget build(BuildContext context) {
     useProvider(searchGroupControllerProvider);
-    String _image = 'assets/images/group_icon.jpeg'; // need firestore image
 
     return StreamBuilder<QuerySnapshot>(
         stream: context
@@ -76,7 +73,8 @@ class PPCSearchGroupsWidget extends HookWidget {
                     return Card(
                         margin: const EdgeInsets.all(1),
                         child: ListTile(
-                          leading: PPCAvatar(radSize: 15, image: _image),
+                          leading: PPCAvatar(
+                              radSize: 15, image: StringConstants.groupIcon),
                           trailing: Consumer(builder: (ctx, ref, widget) {
                             return PPCRoundedButton(
                               textColor: Colors.white,

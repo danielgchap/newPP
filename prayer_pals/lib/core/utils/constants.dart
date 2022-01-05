@@ -47,6 +47,8 @@ class ImagesURLConstants {
 }
 
 class StringConstants {
+//Assets
+  static const groupIcon = 'assets/images/group_icon.jpeg';
 //Login and Registration
   static const forgotPassword = 'Forget Password?';
   static const areYouSure = 'Are You Sure?';

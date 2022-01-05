@@ -30,8 +30,6 @@ class GroupMembers extends StatefulWidget {
 class _GroupMembersState extends State<GroupMembers> {
   @override
   Widget build(BuildContext context) {
-    String _image = 'assets/images/group_icon.jpeg';
-
     final Stream<QuerySnapshot> pendingMembers = FirebaseFirestore.instance
         .collection(StringConstants.groupsCollection)
         .doc(widget.group.groupUID)
@@ -155,7 +153,10 @@ class _GroupMembersState extends State<GroupMembers> {
                                     ),
                                   ),
                                   const SizedBox(width: 10),
-                                  PPCAvatar(radSize: 15, image: _image),
+                                  PPCAvatar(
+                                    radSize: 15,
+                                    image: StringConstants.groupIcon,
+                                  ),
                                   const SizedBox(width: 10),
                                   Text(
                                     data.docs[index]['groupMemberName'],

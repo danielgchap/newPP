@@ -31,8 +31,6 @@ class PendingRequests extends StatefulWidget {
 class _PendingRequestsState extends State<PendingRequests> {
   @override
   Widget build(BuildContext context) {
-    String _image = 'assets/images/group_icon.jpeg';
-
     final Stream<QuerySnapshot> pendingGroups = FirebaseFirestore.instance
         .collection(StringConstants.usersCollection)
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -76,7 +74,9 @@ class _PendingRequestsState extends State<PendingRequests> {
                           child: Visibility(
                             visible: groupMember.isPending,
                             child: ListTile(
-                                leading: PPCAvatar(radSize: 15, image: _image),
+                                leading: PPCAvatar(
+                                    radSize: 15,
+                                    image: StringConstants.groupIcon),
                                 trailing: SizedBox(
                                   width: 96,
                                   child: Row(

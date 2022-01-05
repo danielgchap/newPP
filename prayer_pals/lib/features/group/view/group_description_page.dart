@@ -65,7 +65,6 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
 
   @override
   Widget build(BuildContext context) {
-    String _image = 'assets/images/group_icon.jpeg'; // Change to Firestore TODO
     final groupObj = ModalRoute.of(context)!.settings.arguments as Group;
     groupProvider = useProvider(groupControllerProvider);
     useEffect(() {
@@ -133,8 +132,8 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
           ),
         ],
       ),
-      body: _layoutSection(
-          _groupName, _groupDescription, group!, _image, groupProvider!),
+      body: _layoutSection(_groupName, _groupDescription, group!,
+          StringConstants.groupIcon, groupProvider!),
     );
   }
 

@@ -26,8 +26,6 @@ class MyGroups extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _image = 'assets/images/group_icon.jpeg';
-
     final Stream<QuerySnapshot> myGroups = FirebaseFirestore.instance
         .collection(StringConstants.usersCollection)
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -75,7 +73,7 @@ class MyGroups extends HookWidget {
                               child: ListTile(
                                 leading: PPCAvatar(
                                   radSize: 15,
-                                  image: _image,
+                                  image: StringConstants.groupIcon,
                                 ),
                                 trailing: IconButton(
                                   icon:

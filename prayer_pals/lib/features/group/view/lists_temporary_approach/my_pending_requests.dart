@@ -43,7 +43,7 @@ class _PendingRequestsState extends State<PendingRequests> {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: Text("Loading ..."),
+              child: Text(StringConstants.loading),
             );
           } else {
             final data = snapshot.requireData;
@@ -53,22 +53,8 @@ class _PendingRequestsState extends State<PendingRequests> {
                 child: ListView.builder(
                     itemCount: data.size,
                     itemBuilder: (context, index) {
-                      GroupMember groupMember = GroupMember(
-                        groupMemberUID: data.docs[index]['groupMemberUID'],
-                        groupMemberName: data.docs[index]['groupMemberName'],
-                        groupName: data.docs[index]['groupName'],
-                        groupUID: data.docs[index]['groupUID'],
-                        isAdmin: data.docs[index]['isAdmin'],
-                        isOwner: data.docs[index]['isOwner'],
-                        isCreated: data.docs[index]['isCreated'],
-                        isInvited: data.docs[index]['isInvited'],
-                        emailAddress: data.docs[index]['emailAddress'],
-                        phoneNumber: data.docs[index]['phoneNumber'],
-                        appNotify: data.docs[index]['appNotify'],
-                        textNotify: data.docs[index]['textNotify'],
-                        emailNotify: data.docs[index]['emailNotify'],
-                        isPending: data.docs[index]['isPending'],
-                      );
+                      GroupMember groupMember = GroupMember.fromQuerySnapshot(
+                          data.docs[index], index);
                       return Card(
                           margin: const EdgeInsets.all(1),
                           child: Visibility(

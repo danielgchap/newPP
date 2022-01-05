@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer_pals/core/utils/search_array_maker.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/repositories/group_repository.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
@@ -20,37 +19,6 @@ class GroupController extends ChangeNotifier {
   final Reader _reader;
 
   GroupController(this._reader) : super();
-
-  Future<String> createGroup(
-    String groupUID,
-    String groupName,
-    String? description,
-    String creatorUID,
-    bool isPrivate,
-    String tags,
-  ) async {
-    String message = '';
-
-    if (groupName.isEmpty) {
-      message = StringConstants.creategroupErrorNoName;
-    }
-
-    final serachParamsList = SearchArrayMaker.setSearchParam(groupName);
-
-    if (message.isNotEmpty) {
-      return message;
-    } else {
-      Group group = Group(
-          groupUID: groupUID,
-          groupName: groupName,
-          description: description!,
-          creatorUID: creatorUID,
-          isPrivate: isPrivate,
-          searchParamsList: serachParamsList,
-          tags: tags);
-      return await _reader(groupRepositoryProvider).createGroup(group);
-    }
-  }
 
   Future<String> retrieveGroup(
     String groupUID,
@@ -112,9 +80,9 @@ class GroupController extends ChangeNotifier {
   }
 
   Future<String> updateGroupImage(
-      BuildContext context, File imageFile, String groupId) async {
+      BuildContext context, File imageFile, Group group) async {
     return await _reader(groupRepositoryProvider)
-        .updateGroupImage(context, imageFile, groupId);
+        .updateGroupImage(context, imageFile, group);
   }
 
   Future<Group> fetchGroup(String uid) async {

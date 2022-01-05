@@ -216,4 +216,5 @@ class StringConstants {
   //Notifications
   static const justAFriendlyReminder =
       "Just a friendly reminder to pray today! God bless!";
+  
 }

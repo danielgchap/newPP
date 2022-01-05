@@ -12,6 +12,7 @@ class GroupMember with _$GroupMember {
     required String groupMemberName,
     required String groupName,
     required String groupUID,
+    String? groupImageURL,
     required bool isAdmin,
     required bool isOwner,
     required bool isCreated,
@@ -29,5 +30,26 @@ class GroupMember with _$GroupMember {
   factory GroupMember.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data()!;
     return GroupMember.fromJson(data).copyWith(groupMemberUID: doc.id);
+  }
+
+  factory GroupMember.fromQuerySnapshot(
+      QueryDocumentSnapshot<Object?> data, int index) {
+    GroupMember groupMember = GroupMember(
+      groupMemberUID: data[index]['groupMemberUID'],
+      groupMemberName: data[index]['groupMemberName'],
+      groupName: data[index]['groupName'],
+      groupUID: data[index]['groupUID'],
+      isAdmin: data[index]['isAdmin'],
+      isOwner: data[index]['isOwner'],
+      isCreated: data[index]['isCreated'],
+      isInvited: data[index]['isInvited'],
+      emailAddress: data[index]['emailAddress'],
+      phoneNumber: data[index]['phoneNumber'],
+      appNotify: data[index]['appNotify'],
+      textNotify: data[index]['textNotify'],
+      emailNotify: data[index]['emailNotify'],
+      isPending: data[index]['isPending'],
+    );
+    return groupMember;
   }
 }

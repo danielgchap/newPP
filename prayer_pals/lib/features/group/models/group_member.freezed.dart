@@ -26,6 +26,7 @@ class _$GroupMemberTearOff {
       required String groupMemberName,
       required String groupName,
       required String groupUID,
+      String? groupImageURL,
       required bool isAdmin,
       required bool isOwner,
       required bool isCreated,
@@ -41,6 +42,7 @@ class _$GroupMemberTearOff {
       groupMemberName: groupMemberName,
       groupName: groupName,
       groupUID: groupUID,
+      groupImageURL: groupImageURL,
       isAdmin: isAdmin,
       isOwner: isOwner,
       isCreated: isCreated,
@@ -68,6 +70,7 @@ mixin _$GroupMember {
   String get groupMemberName => throw _privateConstructorUsedError;
   String get groupName => throw _privateConstructorUsedError;
   String get groupUID => throw _privateConstructorUsedError;
+  String? get groupImageURL => throw _privateConstructorUsedError;
   bool get isAdmin => throw _privateConstructorUsedError;
   bool get isOwner => throw _privateConstructorUsedError;
   bool get isCreated => throw _privateConstructorUsedError;
@@ -95,6 +98,7 @@ abstract class $GroupMemberCopyWith<$Res> {
       String groupMemberName,
       String groupName,
       String groupUID,
+      String? groupImageURL,
       bool isAdmin,
       bool isOwner,
       bool isCreated,
@@ -121,6 +125,7 @@ class _$GroupMemberCopyWithImpl<$Res> implements $GroupMemberCopyWith<$Res> {
     Object? groupMemberName = freezed,
     Object? groupName = freezed,
     Object? groupUID = freezed,
+    Object? groupImageURL = freezed,
     Object? isAdmin = freezed,
     Object? isOwner = freezed,
     Object? isCreated = freezed,
@@ -149,6 +154,10 @@ class _$GroupMemberCopyWithImpl<$Res> implements $GroupMemberCopyWith<$Res> {
           ? _value.groupUID
           : groupUID // ignore: cast_nullable_to_non_nullable
               as String,
+      groupImageURL: groupImageURL == freezed
+          ? _value.groupImageURL
+          : groupImageURL // ignore: cast_nullable_to_non_nullable
+              as String?,
       isAdmin: isAdmin == freezed
           ? _value.isAdmin
           : isAdmin // ignore: cast_nullable_to_non_nullable
@@ -205,6 +214,7 @@ abstract class _$GroupMemberCopyWith<$Res>
       String groupMemberName,
       String groupName,
       String groupUID,
+      String? groupImageURL,
       bool isAdmin,
       bool isOwner,
       bool isCreated,
@@ -233,6 +243,7 @@ class __$GroupMemberCopyWithImpl<$Res> extends _$GroupMemberCopyWithImpl<$Res>
     Object? groupMemberName = freezed,
     Object? groupName = freezed,
     Object? groupUID = freezed,
+    Object? groupImageURL = freezed,
     Object? isAdmin = freezed,
     Object? isOwner = freezed,
     Object? isCreated = freezed,
@@ -261,6 +272,10 @@ class __$GroupMemberCopyWithImpl<$Res> extends _$GroupMemberCopyWithImpl<$Res>
           ? _value.groupUID
           : groupUID // ignore: cast_nullable_to_non_nullable
               as String,
+      groupImageURL: groupImageURL == freezed
+          ? _value.groupImageURL
+          : groupImageURL // ignore: cast_nullable_to_non_nullable
+              as String?,
       isAdmin: isAdmin == freezed
           ? _value.isAdmin
           : isAdmin // ignore: cast_nullable_to_non_nullable
@@ -313,6 +328,7 @@ class _$_GroupMember with DiagnosticableTreeMixin implements _GroupMember {
       required this.groupMemberName,
       required this.groupName,
       required this.groupUID,
+      this.groupImageURL,
       required this.isAdmin,
       required this.isOwner,
       required this.isCreated,
@@ -336,6 +352,8 @@ class _$_GroupMember with DiagnosticableTreeMixin implements _GroupMember {
   @override
   final String groupUID;
   @override
+  final String? groupImageURL;
+  @override
   final bool isAdmin;
   @override
   final bool isOwner;
@@ -358,7 +376,7 @@ class _$_GroupMember with DiagnosticableTreeMixin implements _GroupMember {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'GroupMember(groupMemberUID: $groupMemberUID, groupMemberName: $groupMemberName, groupName: $groupName, groupUID: $groupUID, isAdmin: $isAdmin, isOwner: $isOwner, isCreated: $isCreated, isInvited: $isInvited, emailAddress: $emailAddress, phoneNumber: $phoneNumber, appNotify: $appNotify, textNotify: $textNotify, emailNotify: $emailNotify, isPending: $isPending)';
+    return 'GroupMember(groupMemberUID: $groupMemberUID, groupMemberName: $groupMemberName, groupName: $groupName, groupUID: $groupUID, groupImageURL: $groupImageURL, isAdmin: $isAdmin, isOwner: $isOwner, isCreated: $isCreated, isInvited: $isInvited, emailAddress: $emailAddress, phoneNumber: $phoneNumber, appNotify: $appNotify, textNotify: $textNotify, emailNotify: $emailNotify, isPending: $isPending)';
   }
 
   @override
@@ -370,6 +388,7 @@ class _$_GroupMember with DiagnosticableTreeMixin implements _GroupMember {
       ..add(DiagnosticsProperty('groupMemberName', groupMemberName))
       ..add(DiagnosticsProperty('groupName', groupName))
       ..add(DiagnosticsProperty('groupUID', groupUID))
+      ..add(DiagnosticsProperty('groupImageURL', groupImageURL))
       ..add(DiagnosticsProperty('isAdmin', isAdmin))
       ..add(DiagnosticsProperty('isOwner', isOwner))
       ..add(DiagnosticsProperty('isCreated', isCreated))
@@ -398,6 +417,9 @@ class _$_GroupMember with DiagnosticableTreeMixin implements _GroupMember {
             (identical(other.groupUID, groupUID) ||
                 const DeepCollectionEquality()
                     .equals(other.groupUID, groupUID)) &&
+            (identical(other.groupImageURL, groupImageURL) ||
+                const DeepCollectionEquality()
+                    .equals(other.groupImageURL, groupImageURL)) &&
             (identical(other.isAdmin, isAdmin) ||
                 const DeepCollectionEquality()
                     .equals(other.isAdmin, isAdmin)) &&
@@ -437,6 +459,7 @@ class _$_GroupMember with DiagnosticableTreeMixin implements _GroupMember {
       const DeepCollectionEquality().hash(groupMemberName) ^
       const DeepCollectionEquality().hash(groupName) ^
       const DeepCollectionEquality().hash(groupUID) ^
+      const DeepCollectionEquality().hash(groupImageURL) ^
       const DeepCollectionEquality().hash(isAdmin) ^
       const DeepCollectionEquality().hash(isOwner) ^
       const DeepCollectionEquality().hash(isCreated) ^
@@ -465,6 +488,7 @@ abstract class _GroupMember implements GroupMember {
       required String groupMemberName,
       required String groupName,
       required String groupUID,
+      String? groupImageURL,
       required bool isAdmin,
       required bool isOwner,
       required bool isCreated,
@@ -487,6 +511,8 @@ abstract class _GroupMember implements GroupMember {
   String get groupName => throw _privateConstructorUsedError;
   @override
   String get groupUID => throw _privateConstructorUsedError;
+  @override
+  String? get groupImageURL => throw _privateConstructorUsedError;
   @override
   bool get isAdmin => throw _privateConstructorUsedError;
   @override

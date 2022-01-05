@@ -165,7 +165,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                       context: context,
                       callback: (imageFile) async {
                         await groupProvider.updateGroupImage(
-                            context, imageFile, group.groupUID);
+                            context, imageFile, group);
                         _fetchGroup(group);
                       },
                     ),

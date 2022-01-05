@@ -85,7 +85,7 @@ class GroupClient {
   }
 
   Future<String> updateGroupImage(
-      BuildContext context, File imageFile, String groupId) async {
+      BuildContext context, File imageFile, Group group) async {
     String msg = '';
     Uuid uuid = const Uuid();
 
@@ -102,10 +102,19 @@ class GroupClient {
 
     final docRef = FirebaseFirestore.instance
         .collection(StringConstants.groupsCollection)
-        .doc(groupId);
+        .doc(group.groupUID);
     await FirebaseFirestore.instance.runTransaction((transaction) async {
       transaction.update(docRef, {StringConstants.imageURL: url});
       msg = url;
+    }).then((value) async {
+      final userGroupDocRef = FirebaseFirestore.instance
+          .collection(StringConstants.usersCollection)
+          .doc(group.creatorUID)
+          .collection(StringConstants.userGroupsCollection)
+          .doc(group.groupUID);
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        transaction.update(userGroupDocRef, {StringConstants.imageURL: url});
+      });
     }).catchError((error) {
       showDialog(
         context: context,

@@ -45,81 +45,82 @@ class PPCSearchGroupsWidget extends HookWidget {
     useProvider(searchGroupControllerProvider);
 
     return StreamBuilder<QuerySnapshot>(
-        stream: context
-            .read(searchGroupControllerProvider)
-            .searchGroups(searchTerm),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {}
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: Text("Loading ..."),
-            );
-          } else {
-            final data = snapshot.requireData;
-            return Expanded(
-                child: Padding(
+      stream:
+          context.read(searchGroupControllerProvider).searchGroups(searchTerm),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.requireData;
+
+          return Expanded(
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: data.size,
-                  itemBuilder: (context, index) {
-                    Group group = Group(
-                        groupUID: data.docs[index]['groupUID'],
-                        groupName: data.docs[index]['groupName'],
-                        description: data.docs[index]['description'],
-                        creatorUID: data.docs[index]['creatorUID'],
-                        isPrivate: data.docs[index]['isPrivate'],
-                        tags: data.docs[index]['tags']);
-                    return Card(
-                        margin: const EdgeInsets.all(1),
-                        child: ListTile(
-                          leading: PPCAvatar(
-                              radSize: 15, image: StringConstants.groupIcon),
-                          trailing: Consumer(builder: (ctx, ref, widget) {
-                            return PPCRoundedButton(
-                              textColor: Colors.white,
-                              bgColor: Colors.lightBlueAccent,
-                              buttonRatio: .4,
-                              buttonWidthRatio: .15,
-                              title: StringConstants.join,
-                              callback: () {
-                                _joinGroup(ctx, group);
-                              },
-                            );
-                          }),
-                          onTap: () {
-                            GroupMember groupMember = GroupMember(
-                                groupMemberUID: 'groupMemberUID',
-                                groupMemberName: 'Guest',
-                                groupName: group.groupName,
-                                groupUID: group.groupUID,
-                                isAdmin: false,
-                                isOwner: false,
-                                isCreated: false,
-                                isInvited: false,
-                                emailAddress: 'emailAddress',
-                                phoneNumber: 'phoneNumber',
-                                appNotify: false,
-                                textNotify: false,
-                                emailNotify: false,
-                                isPending: false);
-                            const bool _isGuest = true;
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => GroupDescriptionPage(
-                                        groupMember: groupMember,
-                                        isGuest: _isGuest),
-                                    settings: RouteSettings(
-                                      arguments: group,
-                                    )));
+                shrinkWrap: true,
+                itemCount: data.size,
+                itemBuilder: (context, index) {
+                  Group group = Group.fromQuerySnapshot(data, index);
+                  return Card(
+                    margin: const EdgeInsets.all(1),
+                    child: ListTile(
+                      leading: PPCAvatar(
+                        radSize: 15,
+                        image: StringConstants.groupIcon,
+                        networkImage: group.imageURL,
+                      ),
+                      trailing: Consumer(builder: (ctx, ref, widget) {
+                        return PPCRoundedButton(
+                          textColor: Colors.white,
+                          bgColor: Colors.lightBlueAccent,
+                          buttonRatio: .4,
+                          buttonWidthRatio: .15,
+                          title: StringConstants.join,
+                          callback: () {
+                            _joinGroup(ctx, group);
                           },
-                          title: Text(group.groupName),
-                        ));
-                  }),
-            ));
-          }
-        });
+                        );
+                      }),
+                      onTap: () {
+                        GroupMember groupMember = GroupMember(
+                            groupMemberUID: 'groupMemberUID',
+                            groupMemberName: 'Guest',
+                            groupName: group.groupName,
+                            groupUID: group.groupUID,
+                            isAdmin: false,
+                            isOwner: false,
+                            isCreated: false,
+                            isInvited: false,
+                            emailAddress: 'emailAddress',
+                            phoneNumber: 'phoneNumber',
+                            appNotify: false,
+                            textNotify: false,
+                            emailNotify: false,
+                            isPending: false);
+                        const bool _isGuest = true;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GroupDescriptionPage(
+                                groupMember: groupMember, isGuest: _isGuest),
+                            settings: RouteSettings(
+                              arguments: group,
+                            ),
+                          ),
+                        );
+                      },
+                      title: Text(group.groupName),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+        } else {
+          return const Center(
+            child: Text("Loading ..."),
+          );
+        }
+      },
+    );
   }
 }
 

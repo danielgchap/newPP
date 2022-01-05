@@ -30,7 +30,6 @@ class EditProfilePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     final _auth = useProvider(authControllerProvider);
     final authClientProv = useProvider(authClientProvider);
     final user = context.read(ppcUserCoreProvider).getCurrentUserModel();

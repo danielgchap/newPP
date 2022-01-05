@@ -79,7 +79,6 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
     isSwitchedText = widget.groupMember.textNotify;
     isSwitchedEmail = widget.groupMember.emailNotify;
 
-    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(_groupName),

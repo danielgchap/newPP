@@ -53,7 +53,6 @@ class CreatePrayerPage extends HookWidget {
     }, []);
     bool _backButton = false;
     prayer != null ? _backButton = true : _backButton = false;
-    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(_title!),

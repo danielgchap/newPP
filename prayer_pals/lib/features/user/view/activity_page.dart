@@ -17,7 +17,6 @@ class Activity extends StatefulWidget {
 class _ActivityState extends State<Activity> {
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     int _totalUsers = 4;
     // TODO get from Firestore Collection(globalPrayers)Doc(counter)
     return Scaffold(

@@ -24,7 +24,6 @@ class _GroupSearchPageState extends State<GroupSearchPage> {
   // be filtered and returned when button is pressed.
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(

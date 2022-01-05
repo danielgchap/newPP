@@ -28,7 +28,6 @@ class PrayNowPage extends HookWidget {
   Widget build(BuildContext context) {
     DateTime startTime = DateTime.now();
     bool isPrayNow = true;
-    SizeConfig().init(context);
     return Scaffold(
         backgroundColor: Colors.lightBlue[50],
         appBar: AppBar(

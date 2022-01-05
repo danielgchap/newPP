@@ -33,7 +33,6 @@ class _AdminMembersPageState extends State<AdminMembersPage> {
   @override
   Widget build(BuildContext context) {
     final group = ModalRoute.of(context)!.settings.arguments as Group;
-    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(

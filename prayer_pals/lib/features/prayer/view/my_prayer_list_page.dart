@@ -21,7 +21,6 @@ class MyPrayersPage extends HookWidget {
     } else {
       _title = StringConstants.myPrayers;
     }
-    SizeConfig().init(context);
     bool isPrayNow = false;
     return Scaffold(
       backgroundColor: Colors.lightBlue[50],

@@ -27,7 +27,6 @@ class _GlobalPrayersPageState extends State<GlobalPrayersPage> {
     } else {
       _title = "Prayer Pals";
     }
-    SizeConfig().init(context);
     return Scaffold(
         backgroundColor: Colors.lightBlue[50],
         appBar: AppBar(

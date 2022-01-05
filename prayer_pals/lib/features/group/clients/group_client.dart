@@ -19,16 +19,17 @@ final groupClientProvider = Provider<GroupClient>((ref) => GroupClient());
 
 class GroupClient {
   GroupClient();
-  Future<String> createGroup(Group group) async {
+  Future<bool> createGroup(Group group) async {
     try {
       await FirebaseFirestore.instance
           .collection(StringConstants.groupsCollection)
           .doc(group.groupUID)
           .set(group.toJson());
 
-      return StringConstants.success;
+      return true;
     } on FirebaseException catch (e) {
-      return Future.value(e.message.toString());
+      debugPrint('Error Creating Group: ${e.toString()}');
+      return Future.value(false);
     }
   }
 

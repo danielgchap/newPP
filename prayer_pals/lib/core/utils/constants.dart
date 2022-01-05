@@ -70,6 +70,8 @@ class StringConstants {
   static const signUpCaps = 'SIGN UP';
   static const username = 'Username';
   static const register = 'Register';
+  static const welcome = 'Welcome';
+  static const loading = 'Loading ...';
 
 //Page Titles
   static const addPrayer = 'Add Prayer';

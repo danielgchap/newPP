@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer_pals/core/event_bus/group_subscribtion_event.dart';
-import 'package:prayer_pals/core/event_bus/ppc_event_bus.dart';
-import 'package:prayer_pals/core/utils/providers.dart';
-import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
-import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
-import 'package:prayer_pals/features/group/providers/group_provider.dart';
-import 'package:uuid/uuid.dart';
+import 'package:prayer_pals/features/group/providers/create_group_provider.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 
 //////////////////////////////////////////////////////////////////////////
@@ -23,8 +17,6 @@ import 'package:prayer_pals/core/utils/constants.dart';
 
 class CreateGroupWidget extends HookWidget {
   final bool isCreating;
-  final PPCEventBus _eventBus = PPCEventBus();
-
   CreateGroupWidget(BuildContext context, {Key? key, required this.isCreating})
       : super(key: key);
 
@@ -56,9 +48,13 @@ class CreateGroupWidget extends HookWidget {
       ),
       actions: <Widget>[
         ElevatedButton(
-          onPressed: () {
-            // Navigator.of(context).pop();
-            _createGroup(context);
+          onPressed: () async {
+            final success = await context
+                .read(createGroupProvider)
+                .createGroup(context, _groupNameController.text, "");
+            if (success) {
+              Navigator.of(context).pop();
+            }
           },
           child: const Text(StringConstants.save),
         ),
@@ -70,57 +66,5 @@ class CreateGroupWidget extends HookWidget {
         ),
       ],
     );
-  }
-
-  _createGroup(BuildContext ctx) async {
-    Uuid uuid = const Uuid();
-    String groupId = uuid.v1();
-    final userUID = ctx.read(firebaseAuthProvider).currentUser!.uid;
-    final srvMsg = await ctx.read(groupControllerProvider).createGroup(
-          groupId,
-          _groupNameController.text,
-          "",
-          userUID,
-          true,
-          "",
-        );
-    if (srvMsg == StringConstants.success) {
-      String groupName = _groupNameController.text;
-      _joinGroup(ctx, groupId, groupName);
-    } else {
-      showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
-    }
-  }
-
-  _joinGroup(BuildContext ctx, groupId, groupName) async {
-    final groupMemberUID = ctx.read(firebaseAuthProvider).currentUser!.uid;
-    final groupMemberName =
-        ctx.read(firebaseAuthProvider).currentUser!.displayName;
-    final groupUID = groupId;
-    final emailAddress = ctx.read(firebaseAuthProvider).currentUser!.email;
-    const phoneNumber = "";
-    final srvMsg = await ctx
-        .read(groupMemberControllerProvider)
-        .createGroupMember(
-            groupMemberUID,
-            groupMemberName!,
-            groupName,
-            groupUID,
-            true,
-            true,
-            false,
-            false,
-            emailAddress!,
-            phoneNumber,
-            true,
-            false,
-            false,
-            false);
-    if (srvMsg == StringConstants.success) {
-      _eventBus.fire(SubscribeToGroupPNEvent(groupId: groupUID));
-      Navigator.of(ctx).pop();
-    } else {
-      showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
-    }
   }
 }

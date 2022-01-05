@@ -18,7 +18,7 @@ final groupRepositoryProvider = Provider.autoDispose<GroupRepository>(
     (ref) => GroupRepositoryImpl(ref.read));
 
 abstract class GroupRepository {
-  Future<String> createGroup(Group group);
+  Future<bool> createGroup(Group group);
   Future<String> retrieveGroup(Group group);
   Future<String> updateGroup(Group group);
   Future<String> deleteGroup(Group group);
@@ -34,7 +34,7 @@ class GroupRepositoryImpl implements GroupRepository {
   const GroupRepositoryImpl(this._reader);
 
   @override
-  Future<String> createGroup(Group group) async {
+  Future<bool> createGroup(Group group) async {
     return await _reader(groupClientProvider).createGroup(group);
   }
 

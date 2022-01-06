@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,9 @@ class GroupController extends ChangeNotifier {
   }
 
   Future<Group> fetchGroup(String uid) async {
-    return _reader(groupRepositoryProvider).fetchGroup(uid);
+    final group = _reader(groupRepositoryProvider).fetchGroup(uid);
+    notify();
+    return group;
   }
 
   Stream<QuerySnapshot> fetchMyGroups() {
@@ -41,6 +44,12 @@ class GroupController extends ChangeNotifier {
 
   setIsEdit(bool edit) {
     isEdit = edit;
-    notifyListeners();
+    notify();
+  }
+
+  notify() {
+    Timer.run(() {
+      notifyListeners();
+    });
   }
 }

@@ -125,12 +125,15 @@ class _PendingRequestsState extends State<PendingRequests> {
                                       Map<String, dynamic> _group =
                                           event.docs.single.data();
                                       Group group = Group(
-                                          groupUID: _group["uid"],
-                                          groupName: _group["groupName"],
-                                          description: _group["description"],
-                                          creatorUID: _group["creatorUID"],
-                                          isPrivate: _group["isPrivate"],
-                                          tags: _group["tags"]);
+                                        groupUID: _group["uid"],
+                                        groupName: _group["groupName"],
+                                        description: _group["description"],
+                                        creatorUID: _group["creatorUID"],
+                                        isPrivate: _group["isPrivate"],
+                                        tags: _group["tags"],
+                                        memberCount: _group['memberCount'],
+                                        prayerCount: _group['prayerCount'],
+                                      );
                                       const bool isGuest = true;
                                       Navigator.push(
                                           context,

@@ -49,7 +49,7 @@ class GroupMember with _$GroupMember {
       textNotify: data.docs[index]['textNotify'],
       emailNotify: data.docs[index]['emailNotify'],
       isPending: data.docs[index]['isPending'],
-      groupImageURL: data.docs[index]['imageURL'] ?? '',
+      groupImageURL: data.docs[index]['groupImageURL'] ?? '',
     );
     return groupMember;
   }

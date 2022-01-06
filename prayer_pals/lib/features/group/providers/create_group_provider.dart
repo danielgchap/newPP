@@ -7,7 +7,6 @@ import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/utils/providers.dart';
 import 'package:prayer_pals/core/utils/search_array_maker.dart';
 import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
-import 'package:prayer_pals/features/group/clients/my_groups_remote_client.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
 import 'package:prayer_pals/features/group/repositories/group_repository.dart';
@@ -34,13 +33,16 @@ class CreateGroupProvider {
     } else {
       final groupUID = const Uuid().v1();
       Group group = Group(
-          groupUID: groupUID,
-          groupName: groupName,
-          description: "",
-          creatorUID: userUID,
-          isPrivate: true,
-          searchParamsList: serachParamsList,
-          tags: tags);
+        groupUID: groupUID,
+        groupName: groupName,
+        description: "",
+        creatorUID: userUID,
+        isPrivate: true,
+        searchParamsList: serachParamsList,
+        tags: tags,
+        memberCount: 0,
+        prayerCount: 0,
+      );
       success = await read(groupRepositoryProvider).createGroup(group);
       if (success) {
         success = await joinGroup(context, groupUID, groupName);

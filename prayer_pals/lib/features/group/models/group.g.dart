@@ -7,25 +7,29 @@ part of 'group.dart';
 // **************************************************************************
 
 _$_Group _$$_GroupFromJson(Map<String, dynamic> json) => _$_Group(
+      creatorUID: json['creatorUID'] as String?,
+      description: json['description'] as String?,
       groupUID: json['groupUID'] as String,
       groupName: json['groupName'] as String,
-      description: json['description'] as String?,
-      creatorUID: json['creatorUID'] as String?,
-      isPrivate: json['isPrivate'] as bool?,
-      tags: json['tags'] as String?,
       imageURL: json['imageURL'] as String?,
+      isPrivate: json['isPrivate'] as bool?,
+      memberCount: json['memberCount'] as int,
+      prayerCount: json['prayerCount'] as int,
       searchParamsList: (json['searchParamsList'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      tags: json['tags'] as String?,
     );
 
 Map<String, dynamic> _$$_GroupToJson(_$_Group instance) => <String, dynamic>{
+      'creatorUID': instance.creatorUID,
+      'description': instance.description,
       'groupUID': instance.groupUID,
       'groupName': instance.groupName,
-      'description': instance.description,
-      'creatorUID': instance.creatorUID,
-      'isPrivate': instance.isPrivate,
-      'tags': instance.tags,
       'imageURL': instance.imageURL,
+      'isPrivate': instance.isPrivate,
+      'memberCount': instance.memberCount,
+      'prayerCount': instance.prayerCount,
       'searchParamsList': instance.searchParamsList,
+      'tags': instance.tags,
     };

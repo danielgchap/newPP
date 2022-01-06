@@ -129,6 +129,10 @@ class StringConstants {
   static const scriptureCollection = 'scriptures';
   static const imageURL = 'imageURL';
 
+//Params
+  static const memberCount = 'memberCount';
+  static const prayerCount = 'prayerCount';
+
 //Messages
   static const genericError = 'Generic Error';
   static const okCaps = 'OK';

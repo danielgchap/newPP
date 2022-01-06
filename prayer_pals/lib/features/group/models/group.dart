@@ -8,14 +8,16 @@ part 'group.g.dart';
 @freezed
 class Group with _$Group {
   factory Group({
+    String? creatorUID,
+    String? description,
     required String groupUID,
     required String groupName,
-    String? description,
-    String? creatorUID,
-    bool? isPrivate,
-    String? tags,
     String? imageURL,
+    bool? isPrivate,
+    required int memberCount,
+    required int prayerCount,
     List<String>? searchParamsList,
+    String? tags,
   }) = _Group;
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
 
@@ -28,6 +30,8 @@ class Group with _$Group {
       isPrivate: data.docs[index]['isPrivate'],
       tags: data.docs[index]['tags'],
       imageURL: data.docs[index]['imageURL'],
+      memberCount: data.docs[index]['memberCount'],
+      prayerCount: data.docs[index]['prayerCount'],
     );
   }
 }

@@ -22,23 +22,27 @@ class _$GroupTearOff {
   const _$GroupTearOff();
 
   _Group call(
-      {required String groupUID,
-      required String groupName,
+      {String? creatorUID,
       String? description,
-      String? creatorUID,
-      bool? isPrivate,
-      String? tags,
+      required String groupUID,
+      required String groupName,
       String? imageURL,
-      List<String>? searchParamsList}) {
+      bool? isPrivate,
+      required int memberCount,
+      required int prayerCount,
+      List<String>? searchParamsList,
+      String? tags}) {
     return _Group(
+      creatorUID: creatorUID,
+      description: description,
       groupUID: groupUID,
       groupName: groupName,
-      description: description,
-      creatorUID: creatorUID,
-      isPrivate: isPrivate,
-      tags: tags,
       imageURL: imageURL,
+      isPrivate: isPrivate,
+      memberCount: memberCount,
+      prayerCount: prayerCount,
       searchParamsList: searchParamsList,
+      tags: tags,
     );
   }
 
@@ -52,14 +56,16 @@ const $Group = _$GroupTearOff();
 
 /// @nodoc
 mixin _$Group {
+  String? get creatorUID => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   String get groupUID => throw _privateConstructorUsedError;
   String get groupName => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
-  String? get creatorUID => throw _privateConstructorUsedError;
-  bool? get isPrivate => throw _privateConstructorUsedError;
-  String? get tags => throw _privateConstructorUsedError;
   String? get imageURL => throw _privateConstructorUsedError;
+  bool? get isPrivate => throw _privateConstructorUsedError;
+  int get memberCount => throw _privateConstructorUsedError;
+  int get prayerCount => throw _privateConstructorUsedError;
   List<String>? get searchParamsList => throw _privateConstructorUsedError;
+  String? get tags => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -71,14 +77,16 @@ abstract class $GroupCopyWith<$Res> {
   factory $GroupCopyWith(Group value, $Res Function(Group) then) =
       _$GroupCopyWithImpl<$Res>;
   $Res call(
-      {String groupUID,
-      String groupName,
+      {String? creatorUID,
       String? description,
-      String? creatorUID,
-      bool? isPrivate,
-      String? tags,
+      String groupUID,
+      String groupName,
       String? imageURL,
-      List<String>? searchParamsList});
+      bool? isPrivate,
+      int memberCount,
+      int prayerCount,
+      List<String>? searchParamsList,
+      String? tags});
 }
 
 /// @nodoc
@@ -91,16 +99,26 @@ class _$GroupCopyWithImpl<$Res> implements $GroupCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? creatorUID = freezed,
+    Object? description = freezed,
     Object? groupUID = freezed,
     Object? groupName = freezed,
-    Object? description = freezed,
-    Object? creatorUID = freezed,
-    Object? isPrivate = freezed,
-    Object? tags = freezed,
     Object? imageURL = freezed,
+    Object? isPrivate = freezed,
+    Object? memberCount = freezed,
+    Object? prayerCount = freezed,
     Object? searchParamsList = freezed,
+    Object? tags = freezed,
   }) {
     return _then(_value.copyWith(
+      creatorUID: creatorUID == freezed
+          ? _value.creatorUID
+          : creatorUID // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
       groupUID: groupUID == freezed
           ? _value.groupUID
           : groupUID // ignore: cast_nullable_to_non_nullable
@@ -109,30 +127,30 @@ class _$GroupCopyWithImpl<$Res> implements $GroupCopyWith<$Res> {
           ? _value.groupName
           : groupName // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      creatorUID: creatorUID == freezed
-          ? _value.creatorUID
-          : creatorUID // ignore: cast_nullable_to_non_nullable
+      imageURL: imageURL == freezed
+          ? _value.imageURL
+          : imageURL // ignore: cast_nullable_to_non_nullable
               as String?,
       isPrivate: isPrivate == freezed
           ? _value.isPrivate
           : isPrivate // ignore: cast_nullable_to_non_nullable
               as bool?,
-      tags: tags == freezed
-          ? _value.tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as String?,
-      imageURL: imageURL == freezed
-          ? _value.imageURL
-          : imageURL // ignore: cast_nullable_to_non_nullable
-              as String?,
+      memberCount: memberCount == freezed
+          ? _value.memberCount
+          : memberCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      prayerCount: prayerCount == freezed
+          ? _value.prayerCount
+          : prayerCount // ignore: cast_nullable_to_non_nullable
+              as int,
       searchParamsList: searchParamsList == freezed
           ? _value.searchParamsList
           : searchParamsList // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      tags: tags == freezed
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -143,14 +161,16 @@ abstract class _$GroupCopyWith<$Res> implements $GroupCopyWith<$Res> {
       __$GroupCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String groupUID,
-      String groupName,
+      {String? creatorUID,
       String? description,
-      String? creatorUID,
-      bool? isPrivate,
-      String? tags,
+      String groupUID,
+      String groupName,
       String? imageURL,
-      List<String>? searchParamsList});
+      bool? isPrivate,
+      int memberCount,
+      int prayerCount,
+      List<String>? searchParamsList,
+      String? tags});
 }
 
 /// @nodoc
@@ -164,16 +184,26 @@ class __$GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? creatorUID = freezed,
+    Object? description = freezed,
     Object? groupUID = freezed,
     Object? groupName = freezed,
-    Object? description = freezed,
-    Object? creatorUID = freezed,
-    Object? isPrivate = freezed,
-    Object? tags = freezed,
     Object? imageURL = freezed,
+    Object? isPrivate = freezed,
+    Object? memberCount = freezed,
+    Object? prayerCount = freezed,
     Object? searchParamsList = freezed,
+    Object? tags = freezed,
   }) {
     return _then(_Group(
+      creatorUID: creatorUID == freezed
+          ? _value.creatorUID
+          : creatorUID // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
       groupUID: groupUID == freezed
           ? _value.groupUID
           : groupUID // ignore: cast_nullable_to_non_nullable
@@ -182,30 +212,30 @@ class __$GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res>
           ? _value.groupName
           : groupName // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      creatorUID: creatorUID == freezed
-          ? _value.creatorUID
-          : creatorUID // ignore: cast_nullable_to_non_nullable
+      imageURL: imageURL == freezed
+          ? _value.imageURL
+          : imageURL // ignore: cast_nullable_to_non_nullable
               as String?,
       isPrivate: isPrivate == freezed
           ? _value.isPrivate
           : isPrivate // ignore: cast_nullable_to_non_nullable
               as bool?,
-      tags: tags == freezed
-          ? _value.tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as String?,
-      imageURL: imageURL == freezed
-          ? _value.imageURL
-          : imageURL // ignore: cast_nullable_to_non_nullable
-              as String?,
+      memberCount: memberCount == freezed
+          ? _value.memberCount
+          : memberCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      prayerCount: prayerCount == freezed
+          ? _value.prayerCount
+          : prayerCount // ignore: cast_nullable_to_non_nullable
+              as int,
       searchParamsList: searchParamsList == freezed
           ? _value.searchParamsList
           : searchParamsList // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      tags: tags == freezed
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -214,38 +244,44 @@ class __$GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Group with DiagnosticableTreeMixin implements _Group {
   _$_Group(
-      {required this.groupUID,
-      required this.groupName,
+      {this.creatorUID,
       this.description,
-      this.creatorUID,
-      this.isPrivate,
-      this.tags,
+      required this.groupUID,
+      required this.groupName,
       this.imageURL,
-      this.searchParamsList});
+      this.isPrivate,
+      required this.memberCount,
+      required this.prayerCount,
+      this.searchParamsList,
+      this.tags});
 
   factory _$_Group.fromJson(Map<String, dynamic> json) =>
       _$$_GroupFromJson(json);
 
   @override
+  final String? creatorUID;
+  @override
+  final String? description;
+  @override
   final String groupUID;
   @override
   final String groupName;
   @override
-  final String? description;
-  @override
-  final String? creatorUID;
+  final String? imageURL;
   @override
   final bool? isPrivate;
   @override
-  final String? tags;
+  final int memberCount;
   @override
-  final String? imageURL;
+  final int prayerCount;
   @override
   final List<String>? searchParamsList;
+  @override
+  final String? tags;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Group(groupUID: $groupUID, groupName: $groupName, description: $description, creatorUID: $creatorUID, isPrivate: $isPrivate, tags: $tags, imageURL: $imageURL, searchParamsList: $searchParamsList)';
+    return 'Group(creatorUID: $creatorUID, description: $description, groupUID: $groupUID, groupName: $groupName, imageURL: $imageURL, isPrivate: $isPrivate, memberCount: $memberCount, prayerCount: $prayerCount, searchParamsList: $searchParamsList, tags: $tags)';
   }
 
   @override
@@ -253,56 +289,66 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'Group'))
+      ..add(DiagnosticsProperty('creatorUID', creatorUID))
+      ..add(DiagnosticsProperty('description', description))
       ..add(DiagnosticsProperty('groupUID', groupUID))
       ..add(DiagnosticsProperty('groupName', groupName))
-      ..add(DiagnosticsProperty('description', description))
-      ..add(DiagnosticsProperty('creatorUID', creatorUID))
-      ..add(DiagnosticsProperty('isPrivate', isPrivate))
-      ..add(DiagnosticsProperty('tags', tags))
       ..add(DiagnosticsProperty('imageURL', imageURL))
-      ..add(DiagnosticsProperty('searchParamsList', searchParamsList));
+      ..add(DiagnosticsProperty('isPrivate', isPrivate))
+      ..add(DiagnosticsProperty('memberCount', memberCount))
+      ..add(DiagnosticsProperty('prayerCount', prayerCount))
+      ..add(DiagnosticsProperty('searchParamsList', searchParamsList))
+      ..add(DiagnosticsProperty('tags', tags));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _Group &&
+            (identical(other.creatorUID, creatorUID) ||
+                const DeepCollectionEquality()
+                    .equals(other.creatorUID, creatorUID)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
             (identical(other.groupUID, groupUID) ||
                 const DeepCollectionEquality()
                     .equals(other.groupUID, groupUID)) &&
             (identical(other.groupName, groupName) ||
                 const DeepCollectionEquality()
                     .equals(other.groupName, groupName)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
-            (identical(other.creatorUID, creatorUID) ||
-                const DeepCollectionEquality()
-                    .equals(other.creatorUID, creatorUID)) &&
-            (identical(other.isPrivate, isPrivate) ||
-                const DeepCollectionEquality()
-                    .equals(other.isPrivate, isPrivate)) &&
-            (identical(other.tags, tags) ||
-                const DeepCollectionEquality().equals(other.tags, tags)) &&
             (identical(other.imageURL, imageURL) ||
                 const DeepCollectionEquality()
                     .equals(other.imageURL, imageURL)) &&
+            (identical(other.isPrivate, isPrivate) ||
+                const DeepCollectionEquality()
+                    .equals(other.isPrivate, isPrivate)) &&
+            (identical(other.memberCount, memberCount) ||
+                const DeepCollectionEquality()
+                    .equals(other.memberCount, memberCount)) &&
+            (identical(other.prayerCount, prayerCount) ||
+                const DeepCollectionEquality()
+                    .equals(other.prayerCount, prayerCount)) &&
             (identical(other.searchParamsList, searchParamsList) ||
                 const DeepCollectionEquality()
-                    .equals(other.searchParamsList, searchParamsList)));
+                    .equals(other.searchParamsList, searchParamsList)) &&
+            (identical(other.tags, tags) ||
+                const DeepCollectionEquality().equals(other.tags, tags)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(creatorUID) ^
+      const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(groupUID) ^
       const DeepCollectionEquality().hash(groupName) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(creatorUID) ^
-      const DeepCollectionEquality().hash(isPrivate) ^
-      const DeepCollectionEquality().hash(tags) ^
       const DeepCollectionEquality().hash(imageURL) ^
-      const DeepCollectionEquality().hash(searchParamsList);
+      const DeepCollectionEquality().hash(isPrivate) ^
+      const DeepCollectionEquality().hash(memberCount) ^
+      const DeepCollectionEquality().hash(prayerCount) ^
+      const DeepCollectionEquality().hash(searchParamsList) ^
+      const DeepCollectionEquality().hash(tags);
 
   @JsonKey(ignore: true)
   @override
@@ -317,33 +363,39 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
 
 abstract class _Group implements Group {
   factory _Group(
-      {required String groupUID,
-      required String groupName,
+      {String? creatorUID,
       String? description,
-      String? creatorUID,
-      bool? isPrivate,
-      String? tags,
+      required String groupUID,
+      required String groupName,
       String? imageURL,
-      List<String>? searchParamsList}) = _$_Group;
+      bool? isPrivate,
+      required int memberCount,
+      required int prayerCount,
+      List<String>? searchParamsList,
+      String? tags}) = _$_Group;
 
   factory _Group.fromJson(Map<String, dynamic> json) = _$_Group.fromJson;
 
+  @override
+  String? get creatorUID => throw _privateConstructorUsedError;
+  @override
+  String? get description => throw _privateConstructorUsedError;
   @override
   String get groupUID => throw _privateConstructorUsedError;
   @override
   String get groupName => throw _privateConstructorUsedError;
   @override
-  String? get description => throw _privateConstructorUsedError;
-  @override
-  String? get creatorUID => throw _privateConstructorUsedError;
+  String? get imageURL => throw _privateConstructorUsedError;
   @override
   bool? get isPrivate => throw _privateConstructorUsedError;
   @override
-  String? get tags => throw _privateConstructorUsedError;
+  int get memberCount => throw _privateConstructorUsedError;
   @override
-  String? get imageURL => throw _privateConstructorUsedError;
+  int get prayerCount => throw _privateConstructorUsedError;
   @override
   List<String>? get searchParamsList => throw _privateConstructorUsedError;
+  @override
+  String? get tags => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$GroupCopyWith<_Group> get copyWith => throw _privateConstructorUsedError;

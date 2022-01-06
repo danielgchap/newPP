@@ -20,7 +20,9 @@ class PPCAvatar extends HookWidget {
     bool hasPicture = true; //change to passed in value
 
     if (hasPicture == true) {
-      if (networkImage == null || networkImage == image) {
+      if (networkImage == null ||
+          networkImage == image ||
+          networkImage!.isEmpty) {
         return CircleAvatar(
             foregroundImage: AssetImage(image), radius: radSize);
       } else {

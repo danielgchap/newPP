@@ -96,6 +96,8 @@ class MyGroups extends HookWidget {
                                 creatorUID: _group["creatorUID"],
                                 isPrivate: _group["isPrivate"],
                                 tags: _group["tags"],
+                                prayerCount: _group['prayerCount'],
+                                memberCount: _group['memberCount'],
                               );
                               const bool isGuest = false;
                               Navigator.push(

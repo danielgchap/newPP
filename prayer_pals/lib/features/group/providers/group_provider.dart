@@ -21,61 +21,6 @@ class GroupController extends ChangeNotifier {
 
   GroupController(this._reader) : super();
 
-  Future<String> retrieveGroup(
-    String groupUID,
-    String? groupName,
-    String? description,
-    String creatorUID,
-    bool isPrivate,
-    String tags,
-  ) async {
-    String message = '';
-
-    if (groupName == null || groupName.isEmpty) {
-      message = StringConstants.creategroupErrorNoName;
-    }
-
-    if (message.isNotEmpty) {
-      return message;
-    } else {
-      Group group = Group(
-          groupUID: groupUID,
-          groupName: groupName!,
-          description: description!,
-          creatorUID: creatorUID,
-          isPrivate: isPrivate,
-          tags: tags);
-      return await _reader(groupRepositoryProvider).retrieveGroup(group);
-    }
-  }
-
-  Future<String> updateGroup(
-      String groupUID,
-      String? groupName,
-      String? description,
-      String creatorUID,
-      bool isPrivate,
-      String tags) async {
-    String message = '';
-
-    if (groupName == null || groupName.isEmpty) {
-      message = StringConstants.creategroupErrorNoName;
-    }
-
-    if (message.isNotEmpty) {
-      return message;
-    } else {
-      Group group = Group(
-          groupUID: groupUID,
-          groupName: groupName!,
-          description: description!,
-          creatorUID: creatorUID,
-          isPrivate: isPrivate,
-          tags: tags);
-      return await _reader(groupRepositoryProvider).updateGroup(group);
-    }
-  }
-
   Future<String> deleteGroup(Group group) async {
     return await _reader(groupRepositoryProvider).deleteGroup(group);
   }

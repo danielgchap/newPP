@@ -30,6 +30,19 @@ class GroupMemberClient {
           .collection(StringConstants.userGroupsCollection)
           .doc(groupMember.groupUID)
           .set(groupMember.toJson());
+      final docRef = FirebaseFirestore.instance
+          .collection(StringConstants.groupsCollection)
+          .doc(groupMember.groupUID);
+
+      final docSnap = await docRef.get();
+
+      int memberCount = docSnap.data()![StringConstants.memberCount];
+      memberCount = memberCount + 1;
+
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        transaction.update(docRef, {StringConstants.memberCount: memberCount});
+      });
+
       return StringConstants.success;
     } on FirebaseException catch (e) {
       return Future.value(e.message.toString());

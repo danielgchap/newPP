@@ -116,7 +116,7 @@ class PPCSearchGroupsWidget extends HookWidget {
           );
         } else {
           return const Center(
-            child: Text("Loading ..."),
+            child: Text(StringConstants.loading),
           );
         }
       },

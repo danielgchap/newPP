@@ -47,10 +47,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
   bool isSwitchedEmail = true; //will come from user data
   Group? group;
   GroupController? groupProvider;
-
-  final int _memberCount = 50; //will come from group data
-  final int _prayerCount = 25; //will come from group data
-
+//TODO: switch to provider, when user updates picture, needs to update list in my_groups
   bool isEdit = false;
 
   @override
@@ -216,7 +213,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                 Container(
                   width: SizeConfig.safeBlockHorizontal! * 20,
                   alignment: Alignment.centerLeft,
-                  child: Text(_memberCount.toString(),
+                  child: Text(group.memberCount.toString(),
                       style: TextStyle(
                         fontSize: SizeConfig.safeBlockVertical! * 2,
                         height: SizeConfig.safeBlockVertical! * .2,
@@ -237,7 +234,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
                 Container(
                   width: SizeConfig.safeBlockHorizontal! * 20,
                   alignment: Alignment.centerLeft,
-                  child: Text(_prayerCount.toString(),
+                  child: Text(group.prayerCount.toString(),
                       style: TextStyle(
                         fontSize: SizeConfig.safeBlockVertical! * 2,
                         height: SizeConfig.safeBlockVertical! * .2,

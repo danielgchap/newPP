@@ -113,6 +113,7 @@ class StringConstants {
   static const add = 'Add';
   static const global = 'global';
   static const lowercaseAnswered = 'answered';
+  static const hoursPrayer = 'hoursPrayer';
 
 //Collections
   static const usersCollection = 'users';

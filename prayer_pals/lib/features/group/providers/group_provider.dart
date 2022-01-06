@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/repositories/group_repository.dart';
-import 'package:prayer_pals/core/utils/constants.dart';
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -14,12 +13,13 @@ import 'package:prayer_pals/core/utils/constants.dart';
 //////////////////////////////////////////////////////////////////////////
 
 final groupControllerProvider =
-    ChangeNotifierProvider((ref) => GroupController(ref.read));
+    ChangeNotifierProvider((ref) => GroupController(ref.read, false));
 
 class GroupController extends ChangeNotifier {
   final Reader _reader;
+  bool isEdit;
 
-  GroupController(this._reader) : super();
+  GroupController(this._reader, this.isEdit) : super();
 
   Future<String> deleteGroup(Group group) async {
     return await _reader(groupRepositoryProvider).deleteGroup(group);
@@ -37,5 +37,10 @@ class GroupController extends ChangeNotifier {
 
   Stream<QuerySnapshot> fetchMyGroups() {
     return _reader(groupRepositoryProvider).fetchMyGroups();
+  }
+
+  setIsEdit(bool edit) {
+    isEdit = edit;
+    notifyListeners();
   }
 }

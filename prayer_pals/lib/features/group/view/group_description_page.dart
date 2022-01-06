@@ -48,7 +48,6 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
   Group? group;
   GroupController? groupProvider;
 //TODO: switch to provider, when user updates picture, needs to update list in my_groups
-  bool isEdit = false;
 
   @override
   void initState() {
@@ -82,13 +81,13 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
         centerTitle: true,
         leading: IconButton(
             icon: Visibility(
-              visible: !isEdit,
+              visible: !groupProvider!.isEdit,
               child:
                   Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
               replacement: Icon(Icons.edit, color: Colors.white),
             ),
             onPressed: () {
-              if (isEdit == false) {
+              if (groupProvider!.isEdit == false) {
                 Navigator.of(context).pop();
               } else {
                 showDialog(
@@ -101,7 +100,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
           Consumer(builder: (ctx, ref, widget) {
             return IconButton(
                 icon: Visibility(
-                  visible: isEdit,
+                  visible: groupProvider!.isEdit,
                   child: Icon(CupertinoIcons.floppy_disk, color: Colors.white),
                 ),
                 onPressed: () {
@@ -116,12 +115,14 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
             visible: widget.groupMember.isAdmin,
             child: IconButton(
               icon: Visibility(
-                visible: !isEdit,
+                visible: !groupProvider!.isEdit,
                 child: const Icon(Icons.edit, color: Colors.white),
                 replacement: const Icon(Icons.clear, color: Colors.white),
               ),
               onPressed: () {
-                isEdit == true ? isEdit = false : isEdit = true;
+                groupProvider!.isEdit == true
+                    ? groupProvider!.setIsEdit(false)
+                    : groupProvider!.setIsEdit(true);
                 setState(() {});
               },
             ),
@@ -248,7 +249,7 @@ class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
       ),
       PPCstuff.divider,
       Visibility(
-        visible: isEdit,
+        visible: groupProvider.isEdit,
         child: AdminEdit(
           groupName: _groupName,
           groupDescription: _groupDescription,

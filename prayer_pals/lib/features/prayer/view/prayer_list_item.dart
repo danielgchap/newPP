@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
-import 'package:prayer_pals/core/widgets/ppc_logo_widget.dart';
 import 'package:prayer_pals/core/widgets/prayer_list_item_bottom_row.dart';
 import 'package:prayer_pals/core/widgets/prayer_list_item_detail_row.dart';
 import 'package:prayer_pals/core/widgets/prayer_list_item_header_row.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:prayer_pals/core/utils/constants.dart';
 import 'create_prayer_page.dart';
 import 'prayer_detail_page.dart';
 

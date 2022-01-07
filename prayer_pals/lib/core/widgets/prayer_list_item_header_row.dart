@@ -8,7 +8,8 @@ import 'package:prayer_pals/features/prayer/models/prayer.dart';
 class PrayerListItemHeaderRow extends HookWidget {
   final Prayer prayer;
 
-  const PrayerListItemHeaderRow({required this.prayer});
+  const PrayerListItemHeaderRow({Key? key, required this.prayer})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(

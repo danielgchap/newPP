@@ -142,6 +142,7 @@ class StringConstants {
   static const success = 'Success';
   static const unknownError =
       'Sorry! An unknown error occurred.\nPlease try again later';
+  static const couldNotLaunch = 'Could not launch ';
 
 //Activity
   static const memberSince = 'Member Since';
@@ -175,6 +176,9 @@ class StringConstants {
   static const ppcTerms = 'https://www.prayerpalsapp.com/terms-of-service';
   static const ppcSupport = 'Support@PrayerPalsApp.com';
   static const ppcInfo = 'Info@PrayerPalsApp.com';
+  static const oldPassword = 'Old Password';
+  static const newPassword = 'New Password';
+  static const verifyPassword = 'Verify New Password';
 
 //Buttons
   static const share = 'Share';

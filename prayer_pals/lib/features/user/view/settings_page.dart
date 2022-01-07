@@ -6,8 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/services/settings_service.dart';
 import 'package:prayer_pals/core/utils/credential_textfield.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
+import 'package:prayer_pals/core/widgets/settings/change_password_dialog.dart';
+import 'package:prayer_pals/core/widgets/settings/clickable_row.dart';
+import 'package:prayer_pals/core/widgets/settings/reminder_row.dart';
+import 'package:prayer_pals/core/widgets/settings/settings_title_row.dart';
 import 'package:prayer_pals/core/widgets/user_info_bar.dart';
 import 'package:prayer_pals/features/user/clients/auth_client.dart';
 import 'package:prayer_pals/features/user/models/ppcuser.dart';
@@ -26,7 +31,6 @@ class SettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     loadUser();
     final settingsProvider = watch(settingsControllerProvider);
-    //final _auth = watch(authStateProvider);
     bool isSwitched = true;
     final _auth = AuthClient(FirebaseAuth.instance);
 
@@ -43,7 +47,7 @@ class SettingsPage extends ConsumerWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    _titleRow(StringConstants.settingsCaps),
+                    const SettingsTitleRow(title: StringConstants.settingsCaps),
                     Row(children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
@@ -54,23 +58,21 @@ class SettingsPage extends ConsumerWidget {
                           ),
                           onTap: () {
                             showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    _changePassword(context));
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  ChangePasswordDialog(),
+                            );
                           },
                         ),
                       ),
                     ]),
-
-                    _reminderRow(
-                        settingsProvider.timeString != null &&
+                    ReminderRow(
+                        clickableText: settingsProvider.timeString != null &&
                                 settingsProvider.timeString!.isNotEmpty &&
                                 settingsProvider.timeString != "null"
                             ? '${StringConstants.cancelReminder} \n(Daily @ ${settingsProvider.timeString})'
                             : StringConstants.setReminder,
-                        context,
-                        settingsProvider),
-
+                        settingsProvider: settingsProvider),
                     Row(children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
@@ -109,7 +111,7 @@ class SettingsPage extends ConsumerWidget {
                         onChanged: (value) {
                           //setState(() {
                           isSwitched = value;
-                          _toggleNotifications();
+                          SettingsService.toggleNotifications();
                           //});
                         },
                         activeTrackColor: Colors.grey,
@@ -117,17 +119,28 @@ class SettingsPage extends ConsumerWidget {
                       ),
                     ]),
                     const SizedBox(height: 20),
-                    _titleRow(StringConstants.supportCaps),
-                    _clickableRow(StringConstants.aboutUs, _aboutUs),
-                    _clickableRow(StringConstants.usersGuide, _usersGuide),
-                    _clickableRow(
-                        StringConstants.privacyPolicy, _privacyPolicy),
-                    _clickableRow(StringConstants.terms, _termsOfService),
-                    _clickableRow(
-                        StringConstants.reportProblem, _reportAProblem),
-                    _clickableRow(StringConstants.sendFeedback, _sendFeedback),
-                    _clickableRow(StringConstants.removeAds, _removeAds),
-                    //_clickableRow(StringConstants.logOutCaps, _logOut(_auth)),
+                    const SettingsTitleRow(title: StringConstants.supportCaps),
+                    const ClickableRow(
+                        clickableText: StringConstants.aboutUs,
+                        clickPath: SettingsService.aboutUs),
+                    const ClickableRow(
+                        clickableText: StringConstants.usersGuide,
+                        clickPath: SettingsService.usersGuide),
+                    const ClickableRow(
+                        clickableText: StringConstants.privacyPolicy,
+                        clickPath: SettingsService.privacyPolicy),
+                    const ClickableRow(
+                        clickableText: StringConstants.terms,
+                        clickPath: SettingsService.termsOfService),
+                    const ClickableRow(
+                        clickableText: StringConstants.reportProblem,
+                        clickPath: SettingsService.reportAProblem),
+                    const ClickableRow(
+                        clickableText: StringConstants.sendFeedback,
+                        clickPath: SettingsService.sendFeedback),
+                    const ClickableRow(
+                        clickableText: StringConstants.removeAds,
+                        clickPath: SettingsService.removeAds),
                     Row(children: [
                       Padding(
                           padding: const EdgeInsets.fromLTRB(20, 10, 0, 15),
@@ -184,162 +197,3 @@ class SettingsPage extends ConsumerWidget {
     });
   }
 }
-
-Widget _titleRow(String titleText) {
-  return Row(children: [
-    Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-      child: Text(
-        titleText,
-        style: const TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 18,
-        ),
-      ),
-    )
-  ]);
-}
-
-Widget _clickableRow(String clickableText, Function() clickPath) {
-  return Row(children: [
-    Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
-      child: InkWell(
-          child: Text(
-            clickableText,
-            style: const TextStyle(color: Colors.black, fontSize: 16),
-          ),
-          onTap: (clickPath)),
-    ),
-  ]);
-}
-
-Widget _reminderRow(String clickableText, BuildContext context,
-    SettingsController settingsProvider) {
-  return Row(children: [
-    Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
-      child: InkWell(
-          child: Text(
-            clickableText,
-            style: const TextStyle(color: Colors.black, fontSize: 16),
-          ),
-          onTap: () {
-            if (settingsProvider.timeString != null &&
-                settingsProvider.timeString!.isNotEmpty &&
-                settingsProvider.timeString != "null") {
-              settingsProvider.cancelReminder(context);
-            } else {
-              settingsProvider.setReminder(context);
-            }
-          }),
-    ),
-  ]);
-}
-
-Widget _changePassword(BuildContext context) {
-  final TextEditingController _oldPasswordController = TextEditingController();
-  final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _verifyPasswordController =
-      TextEditingController();
-
-  return AlertDialog(
-    title: const Text(
-      StringConstants.changePassword,
-    ),
-    content: SizedBox(
-      height: 220,
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          CredentialTextfield(
-            controller: _oldPasswordController,
-            hintText: 'Old Password',
-            obscure: true,
-          ),
-          const SizedBox(height: 20),
-          CredentialTextfield(
-            controller: _newPasswordController,
-            hintText: 'New Password',
-            obscure: true,
-          ),
-          const SizedBox(height: 20),
-          CredentialTextfield(
-            controller: _verifyPasswordController,
-            hintText: 'Verify New Password',
-            obscure: true,
-          ),
-        ],
-      ),
-    ),
-    actions: <Widget>[
-      ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        child: const Text(StringConstants.cancel),
-      ),
-      ElevatedButton(
-        onPressed: () async {
-          //_newPasswordController.text == _verifyPasswordController.text ?
-          // TODO figure out logic to verify old and new passwords before updating
-          try {
-            await FirebaseAuth.instance.currentUser!
-                .updatePassword(_verifyPasswordController.text);
-            return Navigator.of(context).pop();
-          } catch (e) {
-            debugPrint(e.toString());
-            return;
-          }
-        },
-        child: const Text(StringConstants.changePassword),
-      ),
-    ],
-  );
-}
-
-void _toggleNotifications() {}
-
-void _aboutUs() async => await canLaunch(StringConstants.ppcHome)
-    ? await launch(StringConstants.ppcHome)
-    : throw 'Could not launch ' + StringConstants.ppcHome;
-
-void _usersGuide() async => await canLaunch(StringConstants.ppcGuide)
-    ? await launch(StringConstants.ppcGuide)
-    : throw 'Could not launch ' + StringConstants.ppcGuide;
-
-void _privacyPolicy() async => await canLaunch(StringConstants.ppcPolicy)
-    ? await launch(StringConstants.ppcPolicy)
-    : throw 'Could not launch ' + StringConstants.ppcPolicy;
-
-void _termsOfService() async => await canLaunch(StringConstants.ppcTerms)
-    ? await launch(StringConstants.ppcTerms)
-    : throw 'Could not launch ' + StringConstants.ppcTerms;
-
-void _reportAProblem() async {
-  final Uri params = Uri(
-    scheme: 'mailto',
-    path: StringConstants.ppcSupport,
-  );
-  String url = params.toString();
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    debugPrint('Could not launch $url');
-  }
-}
-
-void _sendFeedback() async {
-  final Uri params = Uri(
-    scheme: 'mailto',
-    path: StringConstants.ppcInfo,
-  );
-  String url = params.toString();
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    debugPrint('Could not launch $url');
-  }
-}
-
-void _removeAds() {}

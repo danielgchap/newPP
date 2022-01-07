@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,8 +40,7 @@ class GroupDescriptionPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final groupObj = ModalRoute.of(context)!.settings.arguments as Group;
-    groupProvider = useProvider(groupControllerProvider);
+    final groupProvider = useProvider(groupControllerProvider);
 
 //TODO:
     // isSwitchedApp = groupMember.appNotify;
@@ -49,6 +48,7 @@ class GroupDescriptionPage extends HookWidget {
     // isSwitchedEmail = groupMember.emailNotify;
 
     return FutureBuilder(
+      future: groupProvider.fetchGroup(groupUID),
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
           group = snapshot.data as Group;
@@ -60,13 +60,13 @@ class GroupDescriptionPage extends HookWidget {
               centerTitle: true,
               leading: IconButton(
                 icon: Visibility(
-                  visible: !groupProvider!.isEdit,
+                  visible: !groupProvider.isEdit,
                   child: Icon(Icons.arrow_back_ios_new_rounded,
                       color: Colors.white),
                   replacement: Icon(Icons.edit, color: Colors.white),
                 ),
                 onPressed: () {
-                  if (groupProvider!.isEdit == false) {
+                  if (groupProvider.isEdit == false) {
                     Navigator.of(context).pop();
                   } else {
                     showDialog(
@@ -81,7 +81,7 @@ class GroupDescriptionPage extends HookWidget {
                 Consumer(builder: (ctx, ref, widget) {
                   return IconButton(
                       icon: Visibility(
-                        visible: groupProvider!.isEdit,
+                        visible: groupProvider.isEdit,
                         child: Icon(CupertinoIcons.floppy_disk,
                             color: Colors.white),
                       ),
@@ -98,14 +98,14 @@ class GroupDescriptionPage extends HookWidget {
                   visible: userIsAdmin,
                   child: IconButton(
                     icon: Visibility(
-                      visible: !groupProvider!.isEdit,
+                      visible: !groupProvider.isEdit,
                       child: const Icon(Icons.edit, color: Colors.white),
                       replacement: const Icon(Icons.clear, color: Colors.white),
                     ),
                     onPressed: () {
-                      groupProvider!.isEdit == true
-                          ? groupProvider!.setIsEdit(false)
-                          : groupProvider!.setIsEdit(true);
+                      groupProvider.isEdit == true
+                          ? groupProvider.setIsEdit(false)
+                          : groupProvider.setIsEdit(true);
                     },
                   ),
                 ),
@@ -135,10 +135,10 @@ class GroupDescriptionPage extends HookWidget {
                                     UpdatePicture(
                                   context: context,
                                   callback: (imageFile) async {
-                                    await groupProvider!.updateGroupImage(
+                                    await groupProvider.updateGroupImage(
                                         context, imageFile, group!);
-                                    group = await groupProvider!
-                                        .fetchGroup(groupObj.groupUID);
+                                    group = await groupProvider
+                                        .fetchGroup(groupUID);
                                   },
                                 ),
                               );
@@ -253,8 +253,10 @@ class GroupDescriptionPage extends HookWidget {
             ),
           );
         } else {
-          return const Center(
-            child: Text(StringConstants.loading),
+          return Scaffold(
+            body: const Center(
+              child: Text(StringConstants.loading),
+            ),
           );
         }
       },

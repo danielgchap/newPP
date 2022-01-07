@@ -75,3 +75,6 @@ class GroupRepositoryImpl implements GroupRepository {
     return _reader(myGroupsControllerProvider).fetchMyGroups();
   }
 }
+
+//TODO: test prayerCount incrementing and decrementing in group
+//TODO: test memberCount incrementing and decremnting in group

@@ -96,10 +96,12 @@ class PPCSearchGroupsWidget extends HookWidget {
               ),
             ),
           );
-        } else {
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: Text(StringConstants.loading),
           );
+        } else {
+          return const SizedBox();
         }
       },
     );

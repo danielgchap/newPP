@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
-import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/core/widgets/ppc_logo_widget.dart';
+import 'package:prayer_pals/core/widgets/prayer_list_item_bottom_row.dart';
+import 'package:prayer_pals/core/widgets/prayer_list_item_detail_row.dart';
+import 'package:prayer_pals/core/widgets/prayer_list_item_header_row.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
@@ -38,12 +40,12 @@ class PrayerListItem extends HookWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              _headerRow(StringConstants.userIcon),
-              _detailRow(),
+              PrayerListItemHeaderRow(prayer: prayer),
+              PrayerListItemDetailRow(description: prayer.description),
               SizedBox(
                 height: SizeConfig.safeBlockVertical! * 1,
               ),
-              _bottomRow(_isOwner, context)
+              PrayerListItemBottomRow(null, prayer: prayer, isOwner: _isOwner),
             ],
           ),
         ),
@@ -66,163 +68,5 @@ class PrayerListItem extends HookWidget {
         }
       },
     );
-  }
-
-  Widget _headerRow(_image) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                PPCAvatar(
-                  radSize: 20,
-                  image: _image,
-                  networkImage: prayer.creatorImageURL ?? _image,
-                ),
-                SizedBox(
-                  width: SizeConfig.safeBlockHorizontal! * 2,
-                ),
-                SizedBox(
-                  width: SizeConfig.safeBlockHorizontal! * 45,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        prayer.creatorDisplayName,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: SizeConfig.safeBlockVertical! * 2.5,
-                        ),
-                      ),
-                      Text(
-                        prayer.title,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          height: SizeConfig.safeBlockVertical! * 0.2,
-                          fontSize: SizeConfig.safeBlockVertical! * 2.2,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 8, 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    prayer.dateCreated,
-                    style: TextStyle(
-                      fontSize: SizeConfig.safeBlockVertical! * 2.2,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        const Divider(),
-      ],
-    );
-  }
-
-  Widget _detailRow() {
-    return Container(
-      padding: const EdgeInsets.all(0),
-      width: SizeConfig.screenWidth,
-      child: Text(prayer.description,
-          textAlign: TextAlign.left,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis),
-    );
-  }
-
-  Widget _bottomRow(_isOwner, context) {
-    String _groupName;
-    if (prayer.isGlobal == true) {
-      _groupName = StringConstants.prayerPals;
-    } else {
-      if (_isOwner == true) {
-        _groupName = StringConstants.myPrayer;
-      } else {
-        _groupName = prayer.groups[0];
-        //Name of the first group from Firebase TODO
-      }
-    }
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(bottom: 5),
-          width: SizeConfig.safeBlockHorizontal! * 52,
-          child: Row(
-            children: [
-              Visibility(
-                child: const PPCLogoWidget(size: 2.5),
-                visible: prayer.isGlobal,
-              ),
-              Text(
-                _groupName,
-                style: TextStyle(
-                  fontSize: SizeConfig.safeBlockVertical! * 2.3,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Row(
-          children: [
-            Visibility(
-              visible: _isOwner,
-              maintainState: true,
-              maintainAnimation: true,
-              maintainSize: true,
-              child: IconButton(
-                icon: Icon(
-                  CupertinoIcons.delete,
-                  color: Colors.lightBlue,
-                  size: SizeConfig.safeBlockHorizontal! * 5,
-                ),
-                onPressed: () async {
-                  //move to bottom and add a pop up "are you sure"
-                  //TODO: are you sure dialog
-                  if (callback != null) callback!();
-                }, //Delete prayer, or remove it from your list if it is group/global TODO
-              ),
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.ios_share,
-                color: Colors.lightBlue,
-                size: SizeConfig.safeBlockVertical! * 3,
-              ),
-              onPressed: () {
-                _onShare(context);
-              }, //Share - should use phones sharing system just like sharing photo TODO
-            ),
-            IconButton(
-              icon: Icon(
-                CupertinoIcons.alarm,
-                color: Colors.lightBlue,
-                size: SizeConfig.safeBlockHorizontal! * 5,
-              ),
-              onPressed: () {
-                //Set a prayer reminder notification TODO
-              },
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  void _onShare(BuildContext context) async {
-    final box = context.findRenderObject() as RenderBox?;
-    await Share.share("${prayer.title}\n${prayer.description}",
-        subject: prayer.description,
-        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
   }
 }

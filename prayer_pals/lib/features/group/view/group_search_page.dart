@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/features/group/providers/search_groups_provider.dart';
 import 'package:prayer_pals/features/group/view/search_groups_widget.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
@@ -11,19 +14,13 @@ import 'package:prayer_pals/core/utils/constants.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class GroupSearchPage extends StatefulWidget {
-  const GroupSearchPage({Key? key}) : super(key: key);
+class GroupSearchPage extends HookWidget {
+  GroupSearchPage({Key? key}) : super(key: key);
 
-  @override
-  _GroupSearchPageState createState() => _GroupSearchPageState();
-}
-
-class _GroupSearchPageState extends State<GroupSearchPage> {
   final TextEditingController _groupNameController = TextEditingController();
-  bool showResults = false; // this is just temporary. The results should
-  // be filtered and returned when button is pressed.
   @override
   Widget build(BuildContext context) {
+    final searchGroupsController = useProvider(searchGroupControllerProvider);
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -69,18 +66,14 @@ class _GroupSearchPageState extends State<GroupSearchPage> {
                         size: SizeConfig.safeBlockHorizontal! * 8,
                       ),
                       onPressed: () {
-                        showResults = true;
-                        //PPCSearchGroupsWidget(result: _groupNameController.text);
-                        setState(() {});
+                        searchGroupsController.notify();
                       },
                     ),
                   ),
                 ]),
           ),
           PPCstuff.divider,
-          showResults == true
-              ? PPCSearchGroupsWidget(searchTerm: _groupNameController.text)
-              : const Text(""), //Find a better way of doing this TODO
+          PPCSearchGroupsWidget(searchTerm: _groupNameController.text),
         ]));
   }
 }

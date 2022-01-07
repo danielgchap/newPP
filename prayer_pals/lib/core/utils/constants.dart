@@ -128,6 +128,7 @@ class StringConstants {
   static const groupAnsweredCollection = "groupAnswered";
   static const scriptureCollection = 'scriptures';
   static const imageURL = 'imageURL';
+  static const createdGroupsCollection = 'createdGroups';
 
 //Params
   static const memberCount = 'memberCount';

@@ -26,6 +26,13 @@ class GroupClient {
           .doc(group.groupUID)
           .set(group.toJson());
 
+      await FirebaseFirestore.instance
+          .collection(StringConstants.usersCollection)
+          .doc(group.creatorUID)
+          .collection(StringConstants.createdGroupsCollection)
+          .doc(group.groupUID)
+          .set(group.toJson());
+
       return true;
     } on FirebaseException catch (e) {
       debugPrint('Error Creating Group: ${e.toString()}');

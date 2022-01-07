@@ -11,7 +11,7 @@ class SearchGroupClient {
     return FirebaseFirestore.instance
         .collection(StringConstants.usersCollection)
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection(StringConstants.userGroupsCollection)
+        .collection(StringConstants.createdGroupsCollection)
         .snapshots();
   }
 }

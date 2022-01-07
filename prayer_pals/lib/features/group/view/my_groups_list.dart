@@ -42,21 +42,16 @@ class MyGroups extends HookWidget {
             child: ListView.builder(
               itemCount: data.size,
               itemBuilder: (context, index) {
-                GroupMember groupMember =
-                    GroupMember.fromQuerySnapshot(data, index);
-                Color _titleColor;
-                groupMember.isAdmin == true
-                    ? _titleColor = Colors.lightBlue
-                    : _titleColor = Colors.black;
+                Group group = Group.fromQuerySnapshot(data, index);
                 return Visibility(
-                  visible: !groupMember.isPending,
+                  visible: true,
                   child: Card(
                     margin: const EdgeInsets.all(1),
                     child: ListTile(
                       leading: PPCAvatar(
                         radSize: 15,
                         image: StringConstants.groupIcon,
-                        networkImage: groupMember.groupImageURL,
+                        networkImage: group.imageURL,
                       ),
                       trailing: IconButton(
                         icon: const Icon(CupertinoIcons.chat_bubble_2),
@@ -65,54 +60,30 @@ class MyGroups extends HookWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => GroupPrayersPage(
-                                groupId: groupMember.groupUID,
-                                groupName: groupMember.groupName,
+                                groupId: group.groupUID,
+                                groupName: group.groupName,
                               ),
                             ),
                           );
                         },
                       ),
                       title: Text(
-                        groupMember.groupName,
-                        style: TextStyle(
-                          color: _titleColor,
+                        group.groupName,
+                        style: const TextStyle(
+                          color: Colors.lightBlue,
                         ),
                       ),
                       onTap: () async {
-                        await FirebaseFirestore.instance
-                            .collection(StringConstants.groupsCollection)
-                            .where(FieldPath.documentId,
-                                isEqualTo: groupMember.groupUID)
-                            .get()
-                            .then(
-                          (event) {
-                            if (event.docs.isNotEmpty) {
-                              Map<String, dynamic> _group =
-                                  event.docs.single.data();
-                              Group group = Group(
-                                groupUID: _group["groupUID"],
-                                groupName: _group["groupName"],
-                                description: _group["description"],
-                                creatorUID: _group["creatorUID"],
-                                isPrivate: _group["isPrivate"],
-                                tags: _group["tags"],
-                                prayerCount: _group['prayerCount'],
-                                memberCount: _group['memberCount'],
-                              );
-                              const bool isGuest = false;
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => GroupDescriptionPage(
-                                    groupMember: groupMember,
-                                    isGuest: isGuest,
-                                  ),
-                                  settings: RouteSettings(arguments: group),
-                                ),
-                              );
-                            }
-                          },
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => GroupDescriptionPage(
+                        //       groupMember: groupMember,
+                        //       isGuest: isGuest,
+                        //     ),
+                        //     settings: RouteSettings(arguments: group),
+                        //   ),
+                        // );
                       },
                     ),
                   ),

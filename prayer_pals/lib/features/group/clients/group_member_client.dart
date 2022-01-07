@@ -24,12 +24,6 @@ class GroupMemberClient {
           .collection(StringConstants.groupMemberCollection)
           .doc(groupMember.groupMemberUID)
           .set(groupMember.toJson());
-      await FirebaseFirestore.instance
-          .collection(StringConstants.usersCollection)
-          .doc(groupMember.groupMemberUID)
-          .collection(StringConstants.userGroupsCollection)
-          .doc(groupMember.groupUID)
-          .set(groupMember.toJson());
       final docRef = FirebaseFirestore.instance
           .collection(StringConstants.groupsCollection)
           .doc(groupMember.groupUID);

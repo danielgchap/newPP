@@ -201,7 +201,7 @@ class PrayerClient {
     final querySnap = await FirebaseFirestore.instance
         .collection(StringConstants.usersCollection)
         .doc(userUID)
-        .collection(StringConstants.userGroupsCollection)
+        .collection(StringConstants.createdGroupsCollection)
         .get();
     for (var doc in querySnap.docs) {
       final group = Group.fromJson(doc.data());

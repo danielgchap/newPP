@@ -79,7 +79,8 @@ class EditProfilePage extends HookWidget {
                 InkWell(
                     child: PPCAvatar(
                       radSize: 80,
-                      image: _auth.userImage,
+                      image: StringConstants.userIcon,
+                      networkImage: _auth.userImage,
                     ),
                     onTap: () {
                       showDialog(
@@ -266,7 +267,7 @@ class EditProfilePage extends HookWidget {
           final groupMemberRef = FirebaseFirestore.instance
               .collection('groups')
               .doc(group.groupUID)
-              .collection('groupMember');
+              .collection(StringConstants.groupMemberCollection);
 
           await groupMemberRef
               .where('groupMemberUID', isEqualTo: user.uid)

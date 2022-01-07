@@ -20,7 +20,7 @@ class MyApp extends ConsumerWidget {
         '/LoginPage': (context) => LoginPage(),
         '/HomePage': (context) => const HomePage(),
         '/PrayNowPage': (context) => const PrayNowPage(),
-        '/GroupSearchPage': (context) => const GroupSearchPage(),
+        '/GroupSearchPage': (context) => GroupSearchPage(),
         '/AdminMembersPage': (context) => const AdminMembersPage(),
         // '/Activity': (context) => Activity(),
       },

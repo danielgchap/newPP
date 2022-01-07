@@ -143,6 +143,8 @@ class StringConstants {
   static const unknownError =
       'Sorry! An unknown error occurred.\nPlease try again later';
   static const couldNotLaunch = 'Could not launch ';
+  static const areYouSureYouWishToCancelThisReminder =
+      'Are you sure you wish to cancel this reminder?';
 
 //Activity
   static const memberSince = 'Member Since';
@@ -204,6 +206,7 @@ class StringConstants {
   static const assignAdmin = 'Assign Admin';
   static const removeAdmin = 'Remove Admin';
   static const report = 'Report Abuse';
+  static const daily = 'Daily';
 
 //Hints
   static const keywords = 'Keyword(s)';
@@ -230,4 +233,5 @@ class StringConstants {
   //Notifications
   static const justAFriendlyReminder =
       "Just a friendly reminder to pray today! God bless!";
+  static const prayerReminder = 'Prayer Reminder';
 }

@@ -6,8 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/providers/reminder_provider.dart';
 import 'package:prayer_pals/core/services/settings_service.dart';
-import 'package:prayer_pals/core/utils/credential_textfield.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/settings/change_password_dialog.dart';
 import 'package:prayer_pals/core/widgets/settings/clickable_row.dart';
@@ -16,8 +16,6 @@ import 'package:prayer_pals/core/widgets/settings/settings_title_row.dart';
 import 'package:prayer_pals/core/widgets/user_info_bar.dart';
 import 'package:prayer_pals/features/user/clients/auth_client.dart';
 import 'package:prayer_pals/features/user/models/ppcuser.dart';
-import 'package:prayer_pals/features/user/providers/settings_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'activity_page.dart';
 import 'login_page.dart';
@@ -30,7 +28,7 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     loadUser();
-    final settingsProvider = watch(settingsControllerProvider);
+    final settingsProvider = watch(reminderControllerProvider);
     bool isSwitched = true;
     final _auth = AuthClient(FirebaseAuth.instance);
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:prayer_pals/features/user/providers/settings_provider.dart';
+import 'package:prayer_pals/core/providers/reminder_provider.dart';
 
 class ReminderRow extends HookWidget {
   final String clickableText;
-  final SettingsController settingsProvider;
+  final ReminderController settingsProvider;
   const ReminderRow({
     Key? key,
     required this.clickableText,
@@ -26,9 +26,10 @@ class ReminderRow extends HookWidget {
                 if (settingsProvider.timeString != null &&
                     settingsProvider.timeString!.isNotEmpty &&
                     settingsProvider.timeString != "null") {
-                  settingsProvider.cancelReminder(context);
+                  settingsProvider.cancelGeneralReminder();
                 } else {
-                  settingsProvider.setReminder(context);
+                  //General Reminder is id 001
+                  settingsProvider.setReminder(context, 001);
                 }
               }),
         ),

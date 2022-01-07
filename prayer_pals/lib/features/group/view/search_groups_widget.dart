@@ -80,29 +80,11 @@ class PPCSearchGroupsWidget extends HookWidget {
                         );
                       }),
                       onTap: () {
-                        GroupMember groupMember = GroupMember(
-                            groupMemberUID: 'groupMemberUID',
-                            groupMemberName: 'Guest',
-                            groupName: group.groupName,
-                            groupUID: group.groupUID,
-                            isAdmin: false,
-                            isOwner: false,
-                            isCreated: false,
-                            isInvited: false,
-                            emailAddress: 'emailAddress',
-                            phoneNumber: 'phoneNumber',
-                            appNotify: false,
-                            textNotify: false,
-                            emailNotify: false,
-                            isPending: false);
-                        const bool _isGuest = true;
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => GroupDescriptionPage(
-                                groupMember: groupMember, isGuest: _isGuest),
-                            settings: RouteSettings(
-                              arguments: group,
+                              groupUID: group.groupUID,
                             ),
                           ),
                         );

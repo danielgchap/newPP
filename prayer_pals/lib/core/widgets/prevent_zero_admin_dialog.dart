@@ -6,7 +6,8 @@ import 'package:prayer_pals/features/group/models/group_member.dart';
 class PreventZeroAdminDialog extends HookWidget {
   final GroupMember groupMember;
 
-  const PreventZeroAdminDialog({Key? key, required this.groupMember});
+  const PreventZeroAdminDialog({Key? key, required this.groupMember})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

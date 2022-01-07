@@ -129,6 +129,7 @@ class StringConstants {
   static const scriptureCollection = 'scriptures';
   static const imageURL = 'imageURL';
   static const createdGroupsCollection = 'createdGroups';
+  static const pendingRequestsCollection = 'pendingRequests';
 
 //Params
   static const memberCount = 'memberCount';

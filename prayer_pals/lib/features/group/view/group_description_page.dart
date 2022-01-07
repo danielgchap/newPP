@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,7 +10,6 @@ import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/core/widgets/edit_group_name_dialog.dart';
 import 'package:prayer_pals/core/widgets/update_profile_pic.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
-import 'package:prayer_pals/features/group/models/group_member.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/group/providers/group_provider.dart';
 import 'admin_edit.dart';
@@ -29,102 +29,99 @@ import 'group_desription_nonedit.dart';
 //////////////////////////////////////////////////////////////////////////
 
 class GroupDescriptionPage extends HookWidget {
-  final GroupMember groupMember;
-  final bool isGuest;
+  final String groupUID;
   bool isSwitchedApp = true; //will come from user data
   bool isSwitchedText = true; //will come from user data
   bool isSwitchedEmail = true; //will come from user data
   Group? group;
   GroupController? groupProvider;
 
-  GroupDescriptionPage(
-      {Key? key, required this.groupMember, required this.isGuest})
-      : super(key: key);
-
-//TODO: switch to provider, when user updates picture, needs to update list in my_groups
+  GroupDescriptionPage({Key? key, required this.groupUID}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final groupObj = ModalRoute.of(context)!.settings.arguments as Group;
     groupProvider = useProvider(groupControllerProvider);
 
-    final _groupName = groupObj.groupName;
-    final _groupDescription = groupObj.description;
+//TODO:
+    // isSwitchedApp = groupMember.appNotify;
+    // isSwitchedText = groupMember.textNotify;
+    // isSwitchedEmail = groupMember.emailNotify;
 
-    isSwitchedApp = groupMember.appNotify;
-    isSwitchedText = groupMember.textNotify;
-    isSwitchedEmail = groupMember.emailNotify;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_groupName),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Visibility(
-            visible: !groupProvider!.isEdit,
-            child: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
-            replacement: Icon(Icons.edit, color: Colors.white),
-          ),
-          onPressed: () {
-            if (groupProvider!.isEdit == false) {
-              Navigator.of(context).pop();
-            } else {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) =>
-                    EditGroupNameDialog(groupName: _groupName),
-              );
-            }
-          },
-        ),
-        actions: [
-          Consumer(builder: (ctx, ref, widget) {
-            return IconButton(
+    return FutureBuilder(
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.hasData) {
+          group = snapshot.data as Group;
+          final userIsAdmin =
+              group!.creatorUID == FirebaseAuth.instance.currentUser!.uid;
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(group!.groupName),
+              centerTitle: true,
+              leading: IconButton(
                 icon: Visibility(
-                  visible: groupProvider!.isEdit,
-                  child: Icon(CupertinoIcons.floppy_disk, color: Colors.white),
+                  visible: !groupProvider!.isEdit,
+                  child: Icon(Icons.arrow_back_ios_new_rounded,
+                      color: Colors.white),
+                  replacement: Icon(Icons.edit, color: Colors.white),
                 ),
                 onPressed: () {
-                  _saveDescription(ctx);
-                  // need to save the changes that are made to the Description
-                  // would like a better way to edit the page. maybe the pencil
-                  // should be next to the member and prayer counts rather than
-                  // on the top.
-                });
-          }),
-          Visibility(
-            visible: groupMember.isAdmin,
-            child: IconButton(
-              icon: Visibility(
-                visible: !groupProvider!.isEdit,
-                child: const Icon(Icons.edit, color: Colors.white),
-                replacement: const Icon(Icons.clear, color: Colors.white),
+                  if (groupProvider!.isEdit == false) {
+                    Navigator.of(context).pop();
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          EditGroupNameDialog(groupName: group!.groupName),
+                    );
+                  }
+                },
               ),
-              onPressed: () {
-                groupProvider!.isEdit == true
-                    ? groupProvider!.setIsEdit(false)
-                    : groupProvider!.setIsEdit(true);
-              },
+              actions: [
+                Consumer(builder: (ctx, ref, widget) {
+                  return IconButton(
+                      icon: Visibility(
+                        visible: groupProvider!.isEdit,
+                        child: Icon(CupertinoIcons.floppy_disk,
+                            color: Colors.white),
+                      ),
+                      onPressed: () {
+                        //TODO:
+                        // _saveDescription(ctx);
+                        // need to save the changes that are made to the Description
+                        // would like a better way to edit the page. maybe the pencil
+                        // should be next to the member and prayer counts rather than
+                        // on the top.
+                      });
+                }),
+                Visibility(
+                  visible: userIsAdmin,
+                  child: IconButton(
+                    icon: Visibility(
+                      visible: !groupProvider!.isEdit,
+                      child: const Icon(Icons.edit, color: Colors.white),
+                      replacement: const Icon(Icons.clear, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      groupProvider!.isEdit == true
+                          ? groupProvider!.setIsEdit(false)
+                          : groupProvider!.setIsEdit(true);
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: groupProvider!.fetchGroup(groupObj.groupUID),
-        builder: (BuildContext context, snapshot) {
-          if (snapshot.hasData) {
-            group = snapshot.data as Group;
-            return SingleChildScrollView(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
                   Container(
                     padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                     child: Row(children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
                         child: Visibility(
-                          visible: groupMember.isAdmin,
+                          visible: userIsAdmin,
                           child: InkWell(
                             child: PPCAvatar(
                               radSize: 25,
@@ -164,11 +161,11 @@ class GroupDescriptionPage extends HookWidget {
                               width: SizeConfig.safeBlockHorizontal! * 20,
                               alignment: Alignment.centerRight,
                               child: Visibility(
-                                visible: groupMember.isAdmin,
+                                visible: userIsAdmin,
                                 child: InkWell(
                                     child: Text(StringConstants.members,
                                         style: TextStyle(
-                                          color: groupMember.isAdmin == true
+                                          color: userIsAdmin == true
                                               ? Colors.lightBlue
                                               : Colors.black,
                                           fontSize:
@@ -188,7 +185,7 @@ class GroupDescriptionPage extends HookWidget {
                                     }),
                                 replacement: Text(StringConstants.members,
                                     style: TextStyle(
-                                      color: groupMember.isAdmin == true
+                                      color: userIsAdmin == true
                                           ? Colors.lightBlue
                                           : Colors.black,
                                       fontSize:
@@ -238,41 +235,29 @@ class GroupDescriptionPage extends HookWidget {
                     ]),
                   ),
                   PPCstuff.divider,
-                  Visibility(
-                    visible: groupProvider!.isEdit,
-                    child: AdminEdit(
-                      groupName: _groupName,
-                      groupDescription: _groupDescription,
-                    ),
-                    replacement: GroupDescriptionNonEdit(
-                        groupName: _groupName,
-                        groupDescription: _groupDescription,
-                        groupMember: groupMember,
-                        isGuest: isGuest),
-                  ),
-                ]));
-          } else {
-            return const Center(
-              child: Text(StringConstants.loading),
-            );
-          }
-        },
-      ),
+                  //TODO:
+                  // Visibility(
+                  //   visible: groupProvider!.isEdit,
+                  //   child: AdminEdit(
+                  //     groupName: _groupName,
+                  //     groupDescription: _groupDescription,
+                  //   ),
+                  //   replacement: GroupDescriptionNonEdit(
+                  //       groupName: _groupName,
+                  //       groupDescription: _groupDescription,
+                  //       groupMember: groupMember,
+                  //       isGuest: isGuest),
+                  // ),
+                ],
+              ),
+            ),
+          );
+        } else {
+          return const Center(
+            child: Text(StringConstants.loading),
+          );
+        }
+      },
     );
-  }
-
-  _saveDescription(BuildContext ctx) async {
-    // final userUID = ctx.read(firebaseAuthProvider).currentUser!.uid;
-    // final srvMsg = await ctx.read(prayerControllerProvider).createPrayer(
-    //     _titleController.text,
-    //     _detailsController.text,
-    //     userUID,
-    //     [],
-    //     _shareGlobal);
-    //if (srvMsg == StringConstants.success) {
-    //  ctx.read(homeControllerProvider).setIndex(1);
-    //} else {
-    //  showPPCDialog(context, StringConstants.almostThere, srvMsg, null);
-    // }
   }
 }

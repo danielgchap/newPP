@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/rounded_button.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/core/utils/constants.dart';

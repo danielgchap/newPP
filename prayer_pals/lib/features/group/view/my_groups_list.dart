@@ -74,16 +74,14 @@ class MyGroups extends HookWidget {
                         ),
                       ),
                       onTap: () async {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => GroupDescriptionPage(
-                        //       groupMember: groupMember,
-                        //       isGuest: isGuest,
-                        //     ),
-                        //     settings: RouteSettings(arguments: group),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GroupDescriptionPage(
+                              groupUID: group.groupUID,
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ),

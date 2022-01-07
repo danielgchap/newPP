@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
@@ -9,6 +11,7 @@ import 'package:prayer_pals/features/group/models/group_member.dart';
 import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/features/group/providers/pending_requests_provider.dart';
 import '../group_description_page.dart';
 
 //////////////////////////////////////////////////////////////////////////
@@ -19,26 +22,16 @@ import '../group_description_page.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class PendingRequests extends StatefulWidget {
+class PendingRequests extends HookWidget {
   const PendingRequests({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<PendingRequests> createState() => _PendingRequestsState();
-}
-
-class _PendingRequestsState extends State<PendingRequests> {
-  @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> pendingGroups = FirebaseFirestore.instance
-        .collection(StringConstants.usersCollection)
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection(StringConstants.userGroupsCollection)
-        .snapshots();
-
+    final pendingRequestsProvider = useProvider(pendingRequestProvider);
     return StreamBuilder<QuerySnapshot>(
-        stream: pendingGroups,
+        stream: pendingRequestsProvider.fetchMyPendingRequests(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -102,7 +95,7 @@ class _PendingRequestsState extends State<PendingRequests> {
                                                     .groupMemberCollection)
                                                 .doc(groupMember.groupMemberUID)
                                                 .delete();
-                                            return setState(() {});
+                                            return;
                                           } catch (e) {
                                             debugPrint(e.toString());
                                             return;
@@ -134,17 +127,15 @@ class _PendingRequestsState extends State<PendingRequests> {
                                         memberCount: _group['memberCount'],
                                         prayerCount: _group['prayerCount'],
                                       );
-                                      const bool isGuest = true;
                                       Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  GroupDescriptionPage(
-                                                    groupMember: groupMember,
-                                                    isGuest: isGuest,
-                                                  ),
-                                              settings: RouteSettings(
-                                                  arguments: group)));
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              GroupDescriptionPage(
+                                            groupUID: group.groupUID,
+                                          ),
+                                        ),
+                                      );
                                     }
                                   }).catchError((e) {
                                     debugPrint("error fetching data: $e");

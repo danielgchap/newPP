@@ -33,6 +33,7 @@ class _$PPCUserTearOff {
       required int daysPrayedLastYear,
       required bool removedAds,
       required int supportLevel,
+      required List<dynamic> subscribedGroups,
       String? imageURL,
       String? phoneNumber,
       int? answered,
@@ -49,6 +50,7 @@ class _$PPCUserTearOff {
       daysPrayedLastYear: daysPrayedLastYear,
       removedAds: removedAds,
       supportLevel: supportLevel,
+      subscribedGroups: subscribedGroups,
       imageURL: imageURL,
       phoneNumber: phoneNumber,
       answered: answered,
@@ -77,6 +79,7 @@ mixin _$PPCUser {
   int get daysPrayedLastYear => throw _privateConstructorUsedError;
   bool get removedAds => throw _privateConstructorUsedError;
   int get supportLevel => throw _privateConstructorUsedError;
+  List<dynamic> get subscribedGroups => throw _privateConstructorUsedError;
   String? get imageURL => throw _privateConstructorUsedError;
   String? get phoneNumber => throw _privateConstructorUsedError;
   int? get answered => throw _privateConstructorUsedError;
@@ -103,6 +106,7 @@ abstract class $PPCUserCopyWith<$Res> {
       int daysPrayedLastYear,
       bool removedAds,
       int supportLevel,
+      List<dynamic> subscribedGroups,
       String? imageURL,
       String? phoneNumber,
       int? answered,
@@ -130,6 +134,7 @@ class _$PPCUserCopyWithImpl<$Res> implements $PPCUserCopyWith<$Res> {
     Object? daysPrayedLastYear = freezed,
     Object? removedAds = freezed,
     Object? supportLevel = freezed,
+    Object? subscribedGroups = freezed,
     Object? imageURL = freezed,
     Object? phoneNumber = freezed,
     Object? answered = freezed,
@@ -180,6 +185,10 @@ class _$PPCUserCopyWithImpl<$Res> implements $PPCUserCopyWith<$Res> {
           ? _value.supportLevel
           : supportLevel // ignore: cast_nullable_to_non_nullable
               as int,
+      subscribedGroups: subscribedGroups == freezed
+          ? _value.subscribedGroups
+          : subscribedGroups // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
       imageURL: imageURL == freezed
           ? _value.imageURL
           : imageURL // ignore: cast_nullable_to_non_nullable
@@ -217,6 +226,7 @@ abstract class _$PPCUserCopyWith<$Res> implements $PPCUserCopyWith<$Res> {
       int daysPrayedLastYear,
       bool removedAds,
       int supportLevel,
+      List<dynamic> subscribedGroups,
       String? imageURL,
       String? phoneNumber,
       int? answered,
@@ -245,6 +255,7 @@ class __$PPCUserCopyWithImpl<$Res> extends _$PPCUserCopyWithImpl<$Res>
     Object? daysPrayedLastYear = freezed,
     Object? removedAds = freezed,
     Object? supportLevel = freezed,
+    Object? subscribedGroups = freezed,
     Object? imageURL = freezed,
     Object? phoneNumber = freezed,
     Object? answered = freezed,
@@ -295,6 +306,10 @@ class __$PPCUserCopyWithImpl<$Res> extends _$PPCUserCopyWithImpl<$Res>
           ? _value.supportLevel
           : supportLevel // ignore: cast_nullable_to_non_nullable
               as int,
+      subscribedGroups: subscribedGroups == freezed
+          ? _value.subscribedGroups
+          : subscribedGroups // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
       imageURL: imageURL == freezed
           ? _value.imageURL
           : imageURL // ignore: cast_nullable_to_non_nullable
@@ -330,6 +345,7 @@ class _$_PPCUser with DiagnosticableTreeMixin implements _PPCUser {
       required this.daysPrayedLastYear,
       required this.removedAds,
       required this.supportLevel,
+      required this.subscribedGroups,
       this.imageURL,
       this.phoneNumber,
       this.answered,
@@ -361,6 +377,8 @@ class _$_PPCUser with DiagnosticableTreeMixin implements _PPCUser {
   @override
   final int supportLevel;
   @override
+  final List<dynamic> subscribedGroups;
+  @override
   final String? imageURL;
   @override
   final String? phoneNumber;
@@ -371,7 +389,7 @@ class _$_PPCUser with DiagnosticableTreeMixin implements _PPCUser {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PPCUser(username: $username, emailAddress: $emailAddress, uid: $uid, dateJoined: $dateJoined, daysPrayedWeek: $daysPrayedWeek, hoursPrayer: $hoursPrayer, daysPrayedMonth: $daysPrayedMonth, daysPrayedYear: $daysPrayedYear, daysPrayedLastYear: $daysPrayedLastYear, removedAds: $removedAds, supportLevel: $supportLevel, imageURL: $imageURL, phoneNumber: $phoneNumber, answered: $answered, prayers: $prayers)';
+    return 'PPCUser(username: $username, emailAddress: $emailAddress, uid: $uid, dateJoined: $dateJoined, daysPrayedWeek: $daysPrayedWeek, hoursPrayer: $hoursPrayer, daysPrayedMonth: $daysPrayedMonth, daysPrayedYear: $daysPrayedYear, daysPrayedLastYear: $daysPrayedLastYear, removedAds: $removedAds, supportLevel: $supportLevel, subscribedGroups: $subscribedGroups, imageURL: $imageURL, phoneNumber: $phoneNumber, answered: $answered, prayers: $prayers)';
   }
 
   @override
@@ -390,6 +408,7 @@ class _$_PPCUser with DiagnosticableTreeMixin implements _PPCUser {
       ..add(DiagnosticsProperty('daysPrayedLastYear', daysPrayedLastYear))
       ..add(DiagnosticsProperty('removedAds', removedAds))
       ..add(DiagnosticsProperty('supportLevel', supportLevel))
+      ..add(DiagnosticsProperty('subscribedGroups', subscribedGroups))
       ..add(DiagnosticsProperty('imageURL', imageURL))
       ..add(DiagnosticsProperty('phoneNumber', phoneNumber))
       ..add(DiagnosticsProperty('answered', answered))
@@ -432,6 +451,9 @@ class _$_PPCUser with DiagnosticableTreeMixin implements _PPCUser {
             (identical(other.supportLevel, supportLevel) ||
                 const DeepCollectionEquality()
                     .equals(other.supportLevel, supportLevel)) &&
+            (identical(other.subscribedGroups, subscribedGroups) ||
+                const DeepCollectionEquality()
+                    .equals(other.subscribedGroups, subscribedGroups)) &&
             (identical(other.imageURL, imageURL) ||
                 const DeepCollectionEquality()
                     .equals(other.imageURL, imageURL)) &&
@@ -459,6 +481,7 @@ class _$_PPCUser with DiagnosticableTreeMixin implements _PPCUser {
       const DeepCollectionEquality().hash(daysPrayedLastYear) ^
       const DeepCollectionEquality().hash(removedAds) ^
       const DeepCollectionEquality().hash(supportLevel) ^
+      const DeepCollectionEquality().hash(subscribedGroups) ^
       const DeepCollectionEquality().hash(imageURL) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(answered) ^
@@ -488,6 +511,7 @@ abstract class _PPCUser implements PPCUser {
       required int daysPrayedLastYear,
       required bool removedAds,
       required int supportLevel,
+      required List<dynamic> subscribedGroups,
       String? imageURL,
       String? phoneNumber,
       int? answered,
@@ -517,6 +541,8 @@ abstract class _PPCUser implements PPCUser {
   bool get removedAds => throw _privateConstructorUsedError;
   @override
   int get supportLevel => throw _privateConstructorUsedError;
+  @override
+  List<dynamic> get subscribedGroups => throw _privateConstructorUsedError;
   @override
   String? get imageURL => throw _privateConstructorUsedError;
   @override

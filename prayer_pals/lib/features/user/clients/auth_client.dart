@@ -89,24 +89,26 @@ class AuthClient {
     required String emailAddress,
   }) {
     PPCUser user = PPCUser(
-        username: username,
-        emailAddress: emailAddress,
-        uid: _firebaseAuth.currentUser!.uid,
-        dateJoined: DateTime.now().month.toString() +
-            "/" +
-            DateTime.now().day.toString() +
-            "/" +
-            DateTime.now().year.toString(),
-        hoursPrayer: 0,
-        daysPrayedWeek: 0,
-        daysPrayedMonth: 0,
-        daysPrayedYear: 0,
-        daysPrayedLastYear: 0,
-        removedAds: false,
-        supportLevel: 0,
-        answered: 0,
-        prayers: 0,
-        imageURL: '');
+      username: username,
+      emailAddress: emailAddress,
+      uid: _firebaseAuth.currentUser!.uid,
+      dateJoined: DateTime.now().month.toString() +
+          "/" +
+          DateTime.now().day.toString() +
+          "/" +
+          DateTime.now().year.toString(),
+      hoursPrayer: 0,
+      daysPrayedWeek: 0,
+      daysPrayedMonth: 0,
+      daysPrayedYear: 0,
+      daysPrayedLastYear: 0,
+      removedAds: false,
+      supportLevel: 0,
+      answered: 0,
+      prayers: 0,
+      imageURL: '',
+      subscribedGroups: [],
+    );
     FirebaseFirestore.instance
         .collection('users')
         .doc(_firebaseAuth.currentUser!.uid)
@@ -144,24 +146,26 @@ class AuthClient {
     required String emailAddress,
   }) {
     PPCUser user = PPCUser(
-        username: username,
-        emailAddress: emailAddress,
-        uid: _firebaseAuth.currentUser!.uid,
-        dateJoined: DateTime.now().month.toString() +
-            "/" +
-            DateTime.now().day.toString() +
-            "/" +
-            DateTime.now().year.toString(),
-        hoursPrayer: 0,
-        daysPrayedWeek: 0,
-        daysPrayedMonth: 0,
-        daysPrayedYear: 0,
-        daysPrayedLastYear: 0,
-        removedAds: false,
-        supportLevel: 0,
-        answered: 0,
-        prayers: 0,
-        imageURL: '');
+      username: username,
+      emailAddress: emailAddress,
+      uid: _firebaseAuth.currentUser!.uid,
+      dateJoined: DateTime.now().month.toString() +
+          "/" +
+          DateTime.now().day.toString() +
+          "/" +
+          DateTime.now().year.toString(),
+      hoursPrayer: 0,
+      daysPrayedWeek: 0,
+      daysPrayedMonth: 0,
+      daysPrayedYear: 0,
+      daysPrayedLastYear: 0,
+      removedAds: false,
+      supportLevel: 0,
+      answered: 0,
+      prayers: 0,
+      imageURL: '',
+      subscribedGroups: [],
+    );
     FirebaseFirestore.instance
         .collection('users')
         .doc(_firebaseAuth.currentUser!.uid)

@@ -28,9 +28,10 @@ class _$GroupTearOff {
       required String groupName,
       String? imageURL,
       bool? isPrivate,
-      required int memberCount,
-      required int prayerCount,
-      List<String>? searchParamsList,
+      int? memberCount,
+      int? prayerCount,
+      List<dynamic>? searchParamsList,
+      bool? subscribed,
       String? tags}) {
     return _Group(
       creatorUID: creatorUID,
@@ -42,6 +43,7 @@ class _$GroupTearOff {
       memberCount: memberCount,
       prayerCount: prayerCount,
       searchParamsList: searchParamsList,
+      subscribed: subscribed,
       tags: tags,
     );
   }
@@ -62,9 +64,10 @@ mixin _$Group {
   String get groupName => throw _privateConstructorUsedError;
   String? get imageURL => throw _privateConstructorUsedError;
   bool? get isPrivate => throw _privateConstructorUsedError;
-  int get memberCount => throw _privateConstructorUsedError;
-  int get prayerCount => throw _privateConstructorUsedError;
-  List<String>? get searchParamsList => throw _privateConstructorUsedError;
+  int? get memberCount => throw _privateConstructorUsedError;
+  int? get prayerCount => throw _privateConstructorUsedError;
+  List<dynamic>? get searchParamsList => throw _privateConstructorUsedError;
+  bool? get subscribed => throw _privateConstructorUsedError;
   String? get tags => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -83,9 +86,10 @@ abstract class $GroupCopyWith<$Res> {
       String groupName,
       String? imageURL,
       bool? isPrivate,
-      int memberCount,
-      int prayerCount,
-      List<String>? searchParamsList,
+      int? memberCount,
+      int? prayerCount,
+      List<dynamic>? searchParamsList,
+      bool? subscribed,
       String? tags});
 }
 
@@ -108,6 +112,7 @@ class _$GroupCopyWithImpl<$Res> implements $GroupCopyWith<$Res> {
     Object? memberCount = freezed,
     Object? prayerCount = freezed,
     Object? searchParamsList = freezed,
+    Object? subscribed = freezed,
     Object? tags = freezed,
   }) {
     return _then(_value.copyWith(
@@ -138,15 +143,19 @@ class _$GroupCopyWithImpl<$Res> implements $GroupCopyWith<$Res> {
       memberCount: memberCount == freezed
           ? _value.memberCount
           : memberCount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       prayerCount: prayerCount == freezed
           ? _value.prayerCount
           : prayerCount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       searchParamsList: searchParamsList == freezed
           ? _value.searchParamsList
           : searchParamsList // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<dynamic>?,
+      subscribed: subscribed == freezed
+          ? _value.subscribed
+          : subscribed // ignore: cast_nullable_to_non_nullable
+              as bool?,
       tags: tags == freezed
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -167,9 +176,10 @@ abstract class _$GroupCopyWith<$Res> implements $GroupCopyWith<$Res> {
       String groupName,
       String? imageURL,
       bool? isPrivate,
-      int memberCount,
-      int prayerCount,
-      List<String>? searchParamsList,
+      int? memberCount,
+      int? prayerCount,
+      List<dynamic>? searchParamsList,
+      bool? subscribed,
       String? tags});
 }
 
@@ -193,6 +203,7 @@ class __$GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res>
     Object? memberCount = freezed,
     Object? prayerCount = freezed,
     Object? searchParamsList = freezed,
+    Object? subscribed = freezed,
     Object? tags = freezed,
   }) {
     return _then(_Group(
@@ -223,15 +234,19 @@ class __$GroupCopyWithImpl<$Res> extends _$GroupCopyWithImpl<$Res>
       memberCount: memberCount == freezed
           ? _value.memberCount
           : memberCount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       prayerCount: prayerCount == freezed
           ? _value.prayerCount
           : prayerCount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       searchParamsList: searchParamsList == freezed
           ? _value.searchParamsList
           : searchParamsList // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<dynamic>?,
+      subscribed: subscribed == freezed
+          ? _value.subscribed
+          : subscribed // ignore: cast_nullable_to_non_nullable
+              as bool?,
       tags: tags == freezed
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -250,9 +265,10 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
       required this.groupName,
       this.imageURL,
       this.isPrivate,
-      required this.memberCount,
-      required this.prayerCount,
+      this.memberCount,
+      this.prayerCount,
       this.searchParamsList,
+      this.subscribed,
       this.tags});
 
   factory _$_Group.fromJson(Map<String, dynamic> json) =>
@@ -271,17 +287,19 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
   @override
   final bool? isPrivate;
   @override
-  final int memberCount;
+  final int? memberCount;
   @override
-  final int prayerCount;
+  final int? prayerCount;
   @override
-  final List<String>? searchParamsList;
+  final List<dynamic>? searchParamsList;
+  @override
+  final bool? subscribed;
   @override
   final String? tags;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Group(creatorUID: $creatorUID, description: $description, groupUID: $groupUID, groupName: $groupName, imageURL: $imageURL, isPrivate: $isPrivate, memberCount: $memberCount, prayerCount: $prayerCount, searchParamsList: $searchParamsList, tags: $tags)';
+    return 'Group(creatorUID: $creatorUID, description: $description, groupUID: $groupUID, groupName: $groupName, imageURL: $imageURL, isPrivate: $isPrivate, memberCount: $memberCount, prayerCount: $prayerCount, searchParamsList: $searchParamsList, subscribed: $subscribed, tags: $tags)';
   }
 
   @override
@@ -298,6 +316,7 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
       ..add(DiagnosticsProperty('memberCount', memberCount))
       ..add(DiagnosticsProperty('prayerCount', prayerCount))
       ..add(DiagnosticsProperty('searchParamsList', searchParamsList))
+      ..add(DiagnosticsProperty('subscribed', subscribed))
       ..add(DiagnosticsProperty('tags', tags));
   }
 
@@ -332,6 +351,9 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
             (identical(other.searchParamsList, searchParamsList) ||
                 const DeepCollectionEquality()
                     .equals(other.searchParamsList, searchParamsList)) &&
+            (identical(other.subscribed, subscribed) ||
+                const DeepCollectionEquality()
+                    .equals(other.subscribed, subscribed)) &&
             (identical(other.tags, tags) ||
                 const DeepCollectionEquality().equals(other.tags, tags)));
   }
@@ -348,6 +370,7 @@ class _$_Group with DiagnosticableTreeMixin implements _Group {
       const DeepCollectionEquality().hash(memberCount) ^
       const DeepCollectionEquality().hash(prayerCount) ^
       const DeepCollectionEquality().hash(searchParamsList) ^
+      const DeepCollectionEquality().hash(subscribed) ^
       const DeepCollectionEquality().hash(tags);
 
   @JsonKey(ignore: true)
@@ -369,9 +392,10 @@ abstract class _Group implements Group {
       required String groupName,
       String? imageURL,
       bool? isPrivate,
-      required int memberCount,
-      required int prayerCount,
-      List<String>? searchParamsList,
+      int? memberCount,
+      int? prayerCount,
+      List<dynamic>? searchParamsList,
+      bool? subscribed,
       String? tags}) = _$_Group;
 
   factory _Group.fromJson(Map<String, dynamic> json) = _$_Group.fromJson;
@@ -389,11 +413,13 @@ abstract class _Group implements Group {
   @override
   bool? get isPrivate => throw _privateConstructorUsedError;
   @override
-  int get memberCount => throw _privateConstructorUsedError;
+  int? get memberCount => throw _privateConstructorUsedError;
   @override
-  int get prayerCount => throw _privateConstructorUsedError;
+  int? get prayerCount => throw _privateConstructorUsedError;
   @override
-  List<String>? get searchParamsList => throw _privateConstructorUsedError;
+  List<dynamic>? get searchParamsList => throw _privateConstructorUsedError;
+  @override
+  bool? get subscribed => throw _privateConstructorUsedError;
   @override
   String? get tags => throw _privateConstructorUsedError;
   @override

@@ -31,12 +31,11 @@ class MyGroups extends HookWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: groupProvider.fetchMyGroups(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {}
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: Text(StringConstants.loading),
           );
-        } else {
+        } else if (snapshot.hasData) {
           final data = snapshot.requireData;
           return Expanded(
             child: ListView.builder(
@@ -89,6 +88,8 @@ class MyGroups extends HookWidget {
               },
             ),
           );
+        } else {
+          return const SizedBox();
         }
       },
     );

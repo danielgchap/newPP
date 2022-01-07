@@ -109,6 +109,7 @@ class PPCSearchGroupsWidget extends HookWidget {
 }
 
 _joinGroup(BuildContext ctx, Group group) async {
+  //TODO: add subscribe to group
   final groupMemberUID = ctx.read(firebaseAuthProvider).currentUser!.uid;
   final groupMemberName =
       ctx.read(firebaseAuthProvider).currentUser!.displayName;

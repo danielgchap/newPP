@@ -9,6 +9,7 @@ import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
 import 'package:prayer_pals/features/group/repositories/group_repository.dart';
+import 'package:prayer_pals/features/user/providers/group_notifications_list_provider.dart';
 import 'package:uuid/uuid.dart';
 
 final createGroupProvider = Provider((ref) => CreateGroupProvider(ref.read));
@@ -41,8 +42,10 @@ class CreateGroupProvider {
         tags: tags,
         memberCount: 0,
         prayerCount: 0,
+        subscribed: true,
       );
       success = await read(groupRepositoryProvider).createGroup(group);
+      await read(groupNotificationsProvider).subscribeToGroup(group);
       if (success) {
         success = await joinGroup(context, groupUID, groupName);
       } else {

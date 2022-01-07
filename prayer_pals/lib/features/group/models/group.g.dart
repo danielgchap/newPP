@@ -13,11 +13,10 @@ _$_Group _$$_GroupFromJson(Map<String, dynamic> json) => _$_Group(
       groupName: json['groupName'] as String,
       imageURL: json['imageURL'] as String?,
       isPrivate: json['isPrivate'] as bool?,
-      memberCount: json['memberCount'] as int,
-      prayerCount: json['prayerCount'] as int,
-      searchParamsList: (json['searchParamsList'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      memberCount: json['memberCount'] as int?,
+      prayerCount: json['prayerCount'] as int?,
+      searchParamsList: json['searchParamsList'] as List<dynamic>?,
+      subscribed: json['subscribed'] as bool?,
       tags: json['tags'] as String?,
     );
 
@@ -31,5 +30,6 @@ Map<String, dynamic> _$$_GroupToJson(_$_Group instance) => <String, dynamic>{
       'memberCount': instance.memberCount,
       'prayerCount': instance.prayerCount,
       'searchParamsList': instance.searchParamsList,
+      'subscribed': instance.subscribed,
       'tags': instance.tags,
     };

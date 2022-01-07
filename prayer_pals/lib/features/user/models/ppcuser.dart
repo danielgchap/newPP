@@ -18,6 +18,7 @@ class PPCUser with _$PPCUser {
       required int daysPrayedLastYear,
       required bool removedAds,
       required int supportLevel,
+      required List subscribedGroups,
       String? imageURL,
       String? phoneNumber,
       int? answered,

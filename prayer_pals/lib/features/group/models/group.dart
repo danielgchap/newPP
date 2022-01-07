@@ -15,9 +15,10 @@ class Group with _$Group {
     required String groupName,
     String? imageURL,
     bool? isPrivate,
-    required int memberCount,
-    required int prayerCount,
-    List<String>? searchParamsList,
+    int? memberCount,
+    int? prayerCount,
+    List? searchParamsList,
+    bool? subscribed,
     String? tags,
   }) = _Group;
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
@@ -33,6 +34,8 @@ class Group with _$Group {
       imageURL: data.docs[index]['imageURL'],
       memberCount: data.docs[index]['memberCount'],
       prayerCount: data.docs[index]['prayerCount'],
+      searchParamsList: data.docs[index]['searchParamsList'],
+      subscribed: data.docs[index]['subscribed'],
     );
   }
 }

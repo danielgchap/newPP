@@ -130,6 +130,7 @@ class StringConstants {
   static const imageURL = 'imageURL';
   static const createdGroupsCollection = 'createdGroups';
   static const pendingRequestsCollection = 'pendingRequests';
+  static const subscribedGroups = 'subscribedGroups';
 
 //Params
   static const memberCount = 'memberCount';

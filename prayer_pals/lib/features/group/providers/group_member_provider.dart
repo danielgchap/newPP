@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
 import 'package:prayer_pals/features/group/repositories/group_member_repository.dart';
+import 'package:prayer_pals/features/user/providers/group_notifications_list_provider.dart';
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -53,8 +54,10 @@ class GroupMemberController {
       isPending: isPending,
       groupImageURL: groupImageURL,
     );
-    return await _reader(groupMemberRepositoryProvider)
+    final successString = await _reader(groupMemberRepositoryProvider)
         .createGroupMember(groupMember);
+    _reader(groupNotificationsProvider).notify();
+    return successString;
   }
 
   Future<String> updateGroupMember(

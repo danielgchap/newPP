@@ -164,6 +164,7 @@ class StringConstants {
   static const cancelReminder = 'Cancel Daily Prayer Reminder';
   static const viewActivity = 'View Activity';
   static const notifications = 'Notifications';
+  static const notificationsCaps = 'NOTIFICATIONS';
   static const supportCaps = 'SUPPORT';
   static const aboutUs = 'About Us';
   static const usersGuide = "User's Guide";

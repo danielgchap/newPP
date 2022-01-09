@@ -1,8 +1,6 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 
 class GroupNotificationsListItem extends HookWidget {
@@ -19,25 +17,24 @@ class GroupNotificationsListItem extends HookWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-          child: Text(
-            StringConstants.notifications,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16,
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+            child: Text(
+              "Group: $groupName",
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          width: SizeConfig.safeBlockHorizontal! * 55,
         ),
         Switch(
           value: isSubbed!,
           onChanged: (value) {
             isSubbed = value;
           },
-          activeTrackColor: Colors.grey,
+          activeTrackColor: Colors.blueAccent[100],
           activeColor: Colors.lightBlueAccent,
         ),
       ],

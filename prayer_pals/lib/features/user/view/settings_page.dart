@@ -39,129 +39,138 @@ class SettingsPage extends ConsumerWidget {
           centerTitle: true,
         ),
         body: Column(
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const UserInfoBarWidget(isSettings: true),
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SettingsTitleRow(title: StringConstants.settingsCaps),
-                  Row(children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
-                      child: InkWell(
-                        child: const Text(
-                          StringConstants.changePassword,
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                ChangePasswordDialog(),
-                          );
-                        },
-                      ),
-                    ),
-                  ]),
-                  ReminderRow(
-                      clickableText: settingsProvider.timeString != null &&
-                              settingsProvider.timeString!.isNotEmpty &&
-                              settingsProvider.timeString != "null"
-                          ? '${StringConstants.cancelReminder} \n(Daily @ ${settingsProvider.timeString})'
-                          : StringConstants.setReminder,
-                      settingsProvider: settingsProvider),
-                  Row(children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
-                      child: InkWell(
-                        child: const Text(
-                          StringConstants.viewActivity,
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      Activity(ppcUser: _ppcUser!)));
-                          //settings: RouteSettings(arguments: ppcUser)));
-                        },
-                      ),
-                    )
-                  ]),
-                  Row(children: [
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: Text(
-                        StringConstants.notifications,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: SizeConfig.safeBlockHorizontal! * 55,
-                    ),
-                    Switch(
-                      value: isSwitched,
-                      onChanged: (value) {
-                        //setState(() {
-                        isSwitched = value;
-                        SettingsService.toggleNotifications();
-                        //});
-                      },
-                      activeTrackColor: Colors.grey,
-                      activeColor: Colors.lightBlueAccent,
-                    ),
-                  ]),
-                  // const GroupNotificationsList(),
-                  const SizedBox(height: 20),
-                  const SettingsTitleRow(title: StringConstants.supportCaps),
-                  const ClickableRow(
-                      clickableText: StringConstants.aboutUs,
-                      clickPath: SettingsService.aboutUs),
-                  const ClickableRow(
-                      clickableText: StringConstants.usersGuide,
-                      clickPath: SettingsService.usersGuide),
-                  const ClickableRow(
-                      clickableText: StringConstants.privacyPolicy,
-                      clickPath: SettingsService.privacyPolicy),
-                  const ClickableRow(
-                      clickableText: StringConstants.terms,
-                      clickPath: SettingsService.termsOfService),
-                  const ClickableRow(
-                      clickableText: StringConstants.reportProblem,
-                      clickPath: SettingsService.reportAProblem),
-                  const ClickableRow(
-                      clickableText: StringConstants.sendFeedback,
-                      clickPath: SettingsService.sendFeedback),
-                  const ClickableRow(
-                      clickableText: StringConstants.removeAds,
-                      clickPath: SettingsService.removeAds),
-                  Row(children: [
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 0, 15),
+            const Expanded(
+              child: UserInfoBarWidget(isSettings: true),
+            ),
+            Expanded(
+              flex: 4,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SettingsTitleRow(title: StringConstants.settingsCaps),
+                    Row(children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
                         child: InkWell(
                           child: const Text(
-                            StringConstants.logOutCaps,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
+                            StringConstants.changePassword,
+                            style: TextStyle(color: Colors.black, fontSize: 16),
                           ),
-                          onTap: () async {
-                            await _auth.signOut();
-                            Navigator.pushReplacementNamed(
-                                context, '/LoginPage');
-                            LoginPage();
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  ChangePasswordDialog(),
+                            );
                           },
-                        )),
-                  ]),
-                ],
+                        ),
+                      ),
+                    ]),
+                    ReminderRow(
+                        clickableText: settingsProvider.timeString != null &&
+                                settingsProvider.timeString!.isNotEmpty &&
+                                settingsProvider.timeString != "null"
+                            ? '${StringConstants.cancelReminder} \n(Daily @ ${settingsProvider.timeString})'
+                            : StringConstants.setReminder,
+                        settingsProvider: settingsProvider),
+                    Row(children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
+                          child: InkWell(
+                            child: const Text(
+                              StringConstants.viewActivity,
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Activity(ppcUser: _ppcUser!)));
+                            },
+                          ),
+                        ),
+                      )
+                    ]),
+                    const SizedBox(height: 20),
+                    const SettingsTitleRow(
+                        title: StringConstants.notificationsCaps),
+                    Row(children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        child: Text(
+                          StringConstants.notifications,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.safeBlockHorizontal! * 55,
+                      ),
+                      Switch(
+                        value: isSwitched,
+                        onChanged: (value) {
+                          //setState(() {
+                          isSwitched = value;
+                          SettingsService.toggleNotifications();
+                          //});
+                        },
+                        activeTrackColor: Colors.blueAccent[100],
+                        activeColor: Colors.lightBlueAccent,
+                      ),
+                    ]),
+                    const GroupNotificationsList(),
+                    const SizedBox(height: 20),
+                    const SettingsTitleRow(title: StringConstants.supportCaps),
+                    const ClickableRow(
+                        clickableText: StringConstants.aboutUs,
+                        clickPath: SettingsService.aboutUs),
+                    const ClickableRow(
+                        clickableText: StringConstants.usersGuide,
+                        clickPath: SettingsService.usersGuide),
+                    const ClickableRow(
+                        clickableText: StringConstants.privacyPolicy,
+                        clickPath: SettingsService.privacyPolicy),
+                    const ClickableRow(
+                        clickableText: StringConstants.terms,
+                        clickPath: SettingsService.termsOfService),
+                    const ClickableRow(
+                        clickableText: StringConstants.reportProblem,
+                        clickPath: SettingsService.reportAProblem),
+                    const ClickableRow(
+                        clickableText: StringConstants.sendFeedback,
+                        clickPath: SettingsService.sendFeedback),
+                    const ClickableRow(
+                        clickableText: StringConstants.removeAds,
+                        clickPath: SettingsService.removeAds),
+                    Row(children: [
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 10, 0, 15),
+                          child: InkWell(
+                            child: const Text(
+                              StringConstants.logOutCaps,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
+                            ),
+                            onTap: () async {
+                              await _auth.signOut();
+                              Navigator.pushReplacementNamed(
+                                  context, '/LoginPage');
+                              LoginPage();
+                            },
+                          )),
+                    ]),
+                  ],
+                ),
               ),
             ),
           ],

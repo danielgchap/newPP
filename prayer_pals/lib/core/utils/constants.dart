@@ -146,6 +146,8 @@ class StringConstants {
   static const couldNotLaunch = 'Could not launch ';
   static const areYouSureYouWishToCancelThisReminder =
       'Are you sure you wish to cancel this reminder?';
+  static const areYouSureYouWishToDisableAllNotifications =
+      'Are you sure you wish to disbale all notifications';
 
 //Activity
   static const memberSince = 'Member Since';

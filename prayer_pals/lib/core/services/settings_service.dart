@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:prayer_pals/core/services/remove_notifications_dialog.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsService {
-  static toggleNotifications() {}
+  static Future<bool> toggleNotifications(BuildContext context) async {
+    bool disableNotfications = false;
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) =>
+          RemoveNotificationsDialog(callback: (disable) {
+        disableNotfications = disable;
+      }),
+    );
+    return disableNotfications;
+  }
 
   static aboutUs() async => await canLaunch(StringConstants.ppcHome)
       ? await launch(StringConstants.ppcHome)

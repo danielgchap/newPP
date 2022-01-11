@@ -116,10 +116,8 @@ class SettingsPage extends ConsumerWidget {
                       Switch(
                         value: isSwitched,
                         onChanged: (value) {
-                          //setState(() {
                           isSwitched = value;
-                          SettingsService.toggleNotifications();
-                          //});
+                          SettingsService.toggleNotifications(context);
                         },
                         activeTrackColor: Colors.blueAccent[100],
                         activeColor: Colors.lightBlueAccent,

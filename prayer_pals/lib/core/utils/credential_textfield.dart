@@ -32,7 +32,7 @@ class CredentialTextfield extends HookWidget {
         cursorColor: Colors.white,
         decoration: InputDecoration(
           hintStyle: const TextStyle(
-            fontSize: 20,
+            fontSize: 14,
             color: Colors.white,
           ),
           hintText: hintText,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/utils/credential_textfield.dart';
+import 'package:prayer_pals/core/utils/size_config.dart';
 
 class ChangePasswordDialog extends HookWidget {
   final TextEditingController _oldPasswordController = TextEditingController();
@@ -55,8 +56,52 @@ class ChangePasswordDialog extends HookWidget {
               await FirebaseAuth.instance.currentUser!
                   .updatePassword(_verifyPasswordController.text);
               return Navigator.of(context).pop();
-            } catch (e) {
+            } on FirebaseAuthException catch (exception, e) {
               debugPrint(e.toString());
+              if (exception.code == 'requires-recent-login') {
+                final user = FirebaseAuth.instance.currentUser;
+                AuthCredential cred = EmailAuthProvider.credential(
+                    email: user!.email!, password: _oldPasswordController.text);
+                await FirebaseAuth.instance.currentUser!
+                    .reauthenticateWithCredential(cred)
+                    .then((value) async {
+                  await FirebaseAuth.instance.currentUser!
+                      .updatePassword(_verifyPasswordController.text);
+                  return Navigator.of(context).pop();
+                });
+              } else {
+                debugPrint(e.toString());
+                AlertDialog(
+                  title: const Text(
+                    StringConstants.prayerPals,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  actions: [
+                    // action button
+                    IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        size: SizeConfig.safeBlockHorizontal! * 8,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }, //Change to Answered prayer
+                    ),
+                  ],
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        e.toString(),
+                        style: const TextStyle(
+                          fontFamily: 'Helvetica',
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }
               return;
             }
           },

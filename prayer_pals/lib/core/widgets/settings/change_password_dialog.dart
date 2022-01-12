@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/utils/credential_textfield.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
+import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 
 class ChangePasswordDialog extends HookWidget {
   final TextEditingController _oldPasswordController = TextEditingController();
@@ -52,55 +53,56 @@ class ChangePasswordDialog extends HookWidget {
         ),
         ElevatedButton(
           onPressed: () async {
-            try {
-              await FirebaseAuth.instance.currentUser!
-                  .updatePassword(_verifyPasswordController.text);
-              return Navigator.of(context).pop();
-            } on FirebaseAuthException catch (exception, e) {
-              debugPrint(e.toString());
-              if (exception.code == 'requires-recent-login') {
-                final user = FirebaseAuth.instance.currentUser;
-                AuthCredential cred = EmailAuthProvider.credential(
-                    email: user!.email!, password: _oldPasswordController.text);
+            if (await compareNewPasswords(context, _newPasswordController.text,
+                _verifyPasswordController.text)) {
+              try {
                 await FirebaseAuth.instance.currentUser!
-                    .reauthenticateWithCredential(cred)
-                    .then((value) async {
-                  await FirebaseAuth.instance.currentUser!
-                      .updatePassword(_verifyPasswordController.text);
-                  return Navigator.of(context).pop();
-                });
-              } else {
+                    .updatePassword(_verifyPasswordController.text);
+                Navigator.of(context).pop();
+              } on FirebaseAuthException catch (exception, e) {
                 debugPrint(e.toString());
-                AlertDialog(
-                  title: const Text(
-                    StringConstants.prayerPals,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  actions: [
-                    // action button
-                    IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        size: SizeConfig.safeBlockHorizontal! * 8,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      }, //Change to Answered prayer
+                if (exception.code == 'requires-recent-login') {
+                  if (await authenticateCurrentPassword(
+                    context,
+                    _oldPasswordController.text,
+                  )) {
+                    await FirebaseAuth.instance.currentUser!
+                        .updatePassword(_verifyPasswordController.text);
+                    Navigator.of(context).pop();
+                  }
+                } else {
+                  debugPrint(e.toString());
+                  AlertDialog(
+                    title: const Text(
+                      StringConstants.prayerPals,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ],
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        e.toString(),
-                        style: const TextStyle(
-                          fontFamily: 'Helvetica',
+                    actions: [
+                      // action button
+                      IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          size: SizeConfig.safeBlockHorizontal! * 8,
                         ),
-                      )
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }, //Change to Answered prayer
+                      ),
                     ],
-                  ),
-                );
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          e.toString(),
+                          style: const TextStyle(
+                            fontFamily: 'Helvetica',
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }
               }
               return;
             }
@@ -109,5 +111,38 @@ class ChangePasswordDialog extends HookWidget {
         ),
       ],
     );
+  }
+
+  Future<bool> authenticateCurrentPassword(
+      BuildContext context, String password) async {
+    final user = FirebaseAuth.instance.currentUser;
+    AuthCredential cred = EmailAuthProvider.credential(
+        email: user!.email!, password: _oldPasswordController.text);
+    try {
+      final authResult = await FirebaseAuth.instance.currentUser!
+          .reauthenticateWithCredential(cred);
+      return authResult.user != null;
+    } catch (error) {
+      await showPPCDialog(
+          context, StringConstants.prayerPals, error.toString(), null);
+      return false;
+    }
+  }
+
+  Future<bool> compareNewPasswords(BuildContext context, String newPassword,
+      String newPasswordMatcher) async {
+    if (newPassword.isEmpty ||
+        newPasswordMatcher.isEmpty ||
+        newPassword != newPasswordMatcher) {
+      await showPPCDialog(
+        context,
+        StringConstants.prayerPals,
+        StringConstants.newPasswordMustMatch,
+        null,
+      );
+      return false;
+    } else {
+      return true;
+    }
   }
 }

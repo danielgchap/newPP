@@ -185,6 +185,7 @@ class StringConstants {
   static const oldPassword = 'Old Password';
   static const newPassword = 'New Password';
   static const verifyPassword = 'Verify New Password';
+  static const newPasswordMustMatch = 'New password must match';
 
 //Buttons
   static const share = 'Share';

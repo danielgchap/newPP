@@ -148,6 +148,8 @@ class StringConstants {
       'Are you sure you wish to cancel this reminder?';
   static const areYouSureYouWishToDisableAllNotifications =
       'Are you sure you wish to disbale all notifications';
+  static const reporthingThisPrayer =
+      'Reporting this prayer will remove it from the app and send it to the review process. If it is found to be in violation of our Terms of Use, the prayer will be removed and the user may be permanently blocked.\n\nAre you sure you want to report this prayer?';
 
 //Activity
   static const memberSince = 'Member Since';

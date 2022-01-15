@@ -1,27 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'group.freezed.dart';
 part 'group.g.dart';
 
-@freezed
-class Group with _$Group {
-  factory Group({
-    String? creatorUID,
-    String? description,
-    required String groupUID,
-    required String groupName,
-    String? imageURL,
-    bool? isPrivate,
-    int? memberCount,
-    int? prayerCount,
-    List? searchParamsList,
-    bool? subscribed,
-    String? tags,
-  }) = _Group;
+@JsonSerializable()
+class Group {
+  String? creatorUID;
+  String? description;
+  String groupUID;
+  String groupName;
+  String? imageURL;
+  bool? isPrivate;
+  int? memberCount;
+  int? prayerCount;
+  List? searchParamsList;
+  bool? subscribed;
+  String? tags;
+
+  Group({
+    this.creatorUID,
+    this.description,
+    required this.groupUID,
+    required this.groupName,
+    this.imageURL,
+    this.isPrivate,
+    this.memberCount,
+    this.prayerCount,
+    this.searchParamsList,
+    this.subscribed,
+    this.tags,
+  });
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GroupToJson(this);
 
   factory Group.fromQuerySnapshot(QuerySnapshot<Object?> data, int index) {
     return Group(

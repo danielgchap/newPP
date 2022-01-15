@@ -24,7 +24,7 @@ class GroupPrayerController {
       String? title,
       String? description,
       String creatorUID,
-      List<String> groupsToAdd,
+      List<Group> groupsToAdd,
       bool isGlobal) async {
     String message = '';
 
@@ -74,7 +74,7 @@ class GroupPrayerController {
       String creatorUID,
       String displayName,
       String dateCreated,
-      List<String> groupsToAdd,
+      List<Group> groupsToAdd,
       bool isGlobal) async {
     String message = '';
 

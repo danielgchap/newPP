@@ -25,10 +25,10 @@ class PrayerListItemBottomRow extends HookWidget {
     if (prayer.isGlobal == true) {
       _groupName = StringConstants.prayerPals;
     } else {
-      if (isOwner == true) {
+      if (isOwner == true && prayer.groups.isEmpty) {
         _groupName = StringConstants.myPrayer;
       } else {
-        _groupName = prayer.groups[0];
+        _groupName = prayer.groups[0].groupName;
       }
     }
     return FutureBuilder(

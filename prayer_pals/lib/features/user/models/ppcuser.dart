@@ -1,29 +1,47 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'ppcuser.freezed.dart';
 part 'ppcuser.g.dart';
 
-@freezed
-class PPCUser with _$PPCUser {
-  factory PPCUser(
-      {required String username,
-      required String emailAddress,
-      required String uid,
-      required String dateJoined,
-      required int daysPrayedWeek,
-      required int hoursPrayer,
-      required int daysPrayedMonth,
-      required int daysPrayedYear,
-      required int daysPrayedLastYear,
-      required bool removedAds,
-      required int supportLevel,
-      required List subscribedGroups,
-      String? imageURL,
-      String? phoneNumber,
-      int? answered,
-      int? prayers}) = _PPCUser;
+@JsonSerializable()
+class PPCUser {
+  String username;
+  String emailAddress;
+  String uid;
+  String dateJoined;
+  int daysPrayedWeek;
+  int hoursPrayer;
+  int daysPrayedMonth;
+  int daysPrayedYear;
+  int daysPrayedLastYear;
+  bool removedAds;
+  int supportLevel;
+  List subscribedGroups;
+  String? imageURL;
+  String? phoneNumber;
+  int? answered;
+  int? prayers;
+
+  PPCUser({
+    required this.username,
+    required this.emailAddress,
+    required this.uid,
+    required this.dateJoined,
+    required this.daysPrayedWeek,
+    required this.hoursPrayer,
+    required this.daysPrayedMonth,
+    required this.daysPrayedYear,
+    required this.daysPrayedLastYear,
+    required this.removedAds,
+    required this.supportLevel,
+    required this.subscribedGroups,
+    this.imageURL,
+    this.phoneNumber,
+    this.answered,
+    this.prayers,
+  });
 
   factory PPCUser.fromJson(Map<String, dynamic> json) =>
       _$PPCUserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PPCUserToJson(this);
 }

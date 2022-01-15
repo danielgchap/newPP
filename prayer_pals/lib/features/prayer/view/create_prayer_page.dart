@@ -18,8 +18,8 @@ class CreatePrayerPage extends HookWidget {
   final Prayer? prayer;
   TextEditingController? _titleController;
   TextEditingController? _detailsController;
-  ValueNotifier<List<String>>? _groupsToShareTo;
-  ValueNotifier<List<String>>? _groupsForUpdateToAddTo;
+  ValueNotifier<List<Group>>? _groupsToShareTo;
+  ValueNotifier<List<Group>>? _groupsForUpdateToAddTo;
   CreatePrayerPage({
     Key? key,
     this.prayer,
@@ -27,7 +27,7 @@ class CreatePrayerPage extends HookWidget {
 
   bool _shareGlobal = false;
   String? _title;
-  ValueNotifier<List<String>>? _groupsToRemovePrayerFrom;
+  ValueNotifier<List<Group>>? _groupsToRemovePrayerFrom;
 
   @override
   Widget build(BuildContext context) {
@@ -171,36 +171,31 @@ class CreatePrayerPage extends HookWidget {
                     title: group.groupName,
                     size: 2.5,
                     toggleState: _groupsToShareTo!.value.contains(
-                      group.groupUID,
+                      group,
                     ),
                     callback: (value) {
                       if (prayer != null) {
                         //editing
-                        if (_groupsToShareTo!.value.contains(group.groupUID)) {
+                        if (_groupsToShareTo!.value.contains(group)) {
                           // add to delete
                           if (!_groupsToRemovePrayerFrom!.value
-                              .contains(group.groupUID)) {
-                            _groupsToRemovePrayerFrom!.value
-                                .add(group.groupUID);
+                              .contains(group)) {
+                            _groupsToRemovePrayerFrom!.value.add(group);
                           }
-                          if (!_groupsToShareTo!.value
-                              .contains(group.groupUID)) {
-                            _groupsForUpdateToAddTo!.value
-                                .remove(group.groupUID);
+                          if (!_groupsToShareTo!.value.contains(group)) {
+                            _groupsForUpdateToAddTo!.value.remove(group);
                           }
                         } else {
-                          if (!_groupsToShareTo!.value
-                              .contains(group.groupUID)) {
-                            _groupsForUpdateToAddTo!.value.add(group.groupUID);
+                          if (!_groupsToShareTo!.value.contains(group)) {
+                            _groupsForUpdateToAddTo!.value.add(group);
                           }
                           if (_groupsToRemovePrayerFrom!.value
-                              .contains(group.groupUID)) {
-                            _groupsToRemovePrayerFrom!.value
-                                .remove(group.groupUID);
+                              .contains(group)) {
+                            _groupsToRemovePrayerFrom!.value.remove(group);
                           }
                         }
                       } else {
-                        _groupsToShareTo!.value.add(group.groupUID);
+                        _groupsToShareTo!.value.add(group);
                       }
                     },
                   );

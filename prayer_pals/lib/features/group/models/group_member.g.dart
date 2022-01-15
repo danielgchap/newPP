@@ -6,8 +6,7 @@ part of 'group_member.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_GroupMember _$$_GroupMemberFromJson(Map<String, dynamic> json) =>
-    _$_GroupMember(
+GroupMember _$GroupMemberFromJson(Map<String, dynamic> json) => GroupMember(
       groupMemberUID: json['groupMemberUID'] as String,
       groupMemberName: json['groupMemberName'] as String,
       groupName: json['groupName'] as String,
@@ -25,7 +24,7 @@ _$_GroupMember _$$_GroupMemberFromJson(Map<String, dynamic> json) =>
       isPending: json['isPending'] as bool,
     );
 
-Map<String, dynamic> _$$_GroupMemberToJson(_$_GroupMember instance) =>
+Map<String, dynamic> _$GroupMemberToJson(GroupMember instance) =>
     <String, dynamic>{
       'groupMemberUID': instance.groupMemberUID,
       'groupMemberName': instance.groupMemberName,

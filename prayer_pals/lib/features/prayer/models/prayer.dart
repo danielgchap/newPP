@@ -1,27 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
+import 'package:prayer_pals/features/group/models/group.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'prayer.freezed.dart';
 part 'prayer.g.dart';
 
-@freezed
-class Prayer with _$Prayer {
-  factory Prayer({
-    required String uid,
-    required String title,
-    required String description,
-    required String creatorUID,
-    required String creatorDisplayName,
-    required String? creatorImageURL,
-    required String dateCreated,
-    required bool isGlobal,
-    required List<String> groups,
-  }) = _Prayer;
+@JsonSerializable()
+class Prayer {
+  String uid;
+  String title;
+  String description;
+  String creatorUID;
+  String creatorDisplayName;
+  String? creatorImageURL;
+  String dateCreated;
+  bool isGlobal;
+  List<Group> groups;
+
+  Prayer({
+    required this.uid,
+    required this.title,
+    required this.description,
+    required this.creatorUID,
+    required this.creatorDisplayName,
+    required this.creatorImageURL,
+    required this.dateCreated,
+    required this.isGlobal,
+    required this.groups,
+  });
   factory Prayer.fromJson(Map<String, dynamic> json) => _$PrayerFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PrayerToJson(this);
 
   factory Prayer.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data()!;
-    return Prayer.fromJson(data).copyWith(uid: doc.id);
+    return Prayer.fromJson(data);
   }
 }

@@ -6,7 +6,7 @@ part of 'prayer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Prayer _$$_PrayerFromJson(Map<String, dynamic> json) => _$_Prayer(
+Prayer _$PrayerFromJson(Map<String, dynamic> json) => Prayer(
       uid: json['uid'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
@@ -15,11 +15,12 @@ _$_Prayer _$$_PrayerFromJson(Map<String, dynamic> json) => _$_Prayer(
       creatorImageURL: json['creatorImageURL'] as String?,
       dateCreated: json['dateCreated'] as String,
       isGlobal: json['isGlobal'] as bool,
-      groups:
-          (json['groups'] as List<dynamic>).map((e) => e as String).toList(),
+      groups: (json['groups'] as List<dynamic>)
+          .map((e) => Group.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
-Map<String, dynamic> _$$_PrayerToJson(_$_Prayer instance) => <String, dynamic>{
+Map<String, dynamic> _$PrayerToJson(Prayer instance) => <String, dynamic>{
       'uid': instance.uid,
       'title': instance.title,
       'description': instance.description,

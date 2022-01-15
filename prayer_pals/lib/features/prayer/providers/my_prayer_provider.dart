@@ -18,7 +18,7 @@ class PrayerController extends ChangeNotifier {
   PrayerController(this._reader) : super();
 
   Future<String> createPrayer(String? title, String? description,
-      String creatorUID, List<String> groupsToAdd, bool isGlobal) async {
+      String creatorUID, List<Group> groupsToAdd, bool isGlobal) async {
     String message = '';
 
     if (title == null || title.isEmpty) {
@@ -63,9 +63,9 @@ class PrayerController extends ChangeNotifier {
       String creatorUID,
       String displayName,
       String dateCreated,
-      List<String> groupsToAdd,
-      List<String> groupsToUpdateAdd,
-      List<String> groupsToUpdateDelete,
+      List<Group> groupsToAdd,
+      List<Group> groupsToUpdateAdd,
+      List<Group> groupsToUpdateDelete,
       bool isGlobal) async {
     String message = '';
 

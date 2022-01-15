@@ -120,9 +120,9 @@ class AuthController extends ChangeNotifier {
     if (phoneNumber != null) {
       //TODO: update phonenumber
     }
-    user = user.copyWith(emailAddress: emailAddress!);
-    user = user.copyWith(username: username!);
-    user = user.copyWith(phoneNumber: phoneNumber!);
+    user.emailAddress = emailAddress!;
+    user.username = username!;
+    user.phoneNumber = phoneNumber!;
     final srvMsg = await reader(authRepositoryProvider).updateUser(user);
     if (srvMsg == StringConstants.success) {
       notifyListeners();

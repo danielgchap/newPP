@@ -6,7 +6,7 @@ part of 'ppcuser.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PPCUser _$$_PPCUserFromJson(Map<String, dynamic> json) => _$_PPCUser(
+PPCUser _$PPCUserFromJson(Map<String, dynamic> json) => PPCUser(
       username: json['username'] as String,
       emailAddress: json['emailAddress'] as String,
       uid: json['uid'] as String,
@@ -25,8 +25,7 @@ _$_PPCUser _$$_PPCUserFromJson(Map<String, dynamic> json) => _$_PPCUser(
       prayers: json['prayers'] as int?,
     );
 
-Map<String, dynamic> _$$_PPCUserToJson(_$_PPCUser instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PPCUserToJson(PPCUser instance) => <String, dynamic>{
       'username': instance.username,
       'emailAddress': instance.emailAddress,
       'uid': instance.uid,

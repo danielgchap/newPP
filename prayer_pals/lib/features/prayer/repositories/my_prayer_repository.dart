@@ -13,8 +13,8 @@ abstract class PrayerRepository {
   Future<String> updatePrayer(
     Prayer prayer,
     PrayerType prayerType,
-    List<String> groupsToRemoveFrom,
-    List<String> groupsToAddTo,
+    List<Group> groupsToRemoveFrom,
+    List<Group> groupsToAddTo,
   );
   Future<String> deletePrayer(Prayer prayer);
   Future<List<Group>> fetchGroupsForCurrentUser();
@@ -39,8 +39,8 @@ class PrayerRepositoryImpl implements PrayerRepository {
   Future<String> updatePrayer(
     Prayer prayer,
     PrayerType prayerType,
-    List<String> groupsToRemoveFrom,
-    List<String> groupsToAddTo,
+    List<Group> groupsToRemoveFrom,
+    List<Group> groupsToAddTo,
   ) async {
     return await _reader(prayerClientProvider).updatePrayer(
       prayer,

@@ -27,7 +27,7 @@ class PrayerDetailPage extends HookWidget {
         title: Text(
           prayer.isGlobal == true
               ? StringConstants.prayerPals
-              : prayer.groups[0],
+              : prayer.groups[0].groupName,
         ),
         centerTitle: true,
       ),

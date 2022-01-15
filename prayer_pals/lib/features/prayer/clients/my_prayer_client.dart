@@ -32,36 +32,36 @@ class PrayerClient {
   }
 
   _addPrayerToGroups(Prayer prayer) {
-    for (String groupUID in prayer.groups) {
-      _triggerGroupPrayerUpload(groupUID, prayer);
+    for (Group group in prayer.groups) {
+      _triggerGroupPrayerUpload(group, prayer);
     }
   }
 
-  addPrayersToGroups(Prayer prayer, List<String> groups) {
+  addPrayersToGroups(Prayer prayer, List<Group> groups) {
     for (var group in groups) {
       _triggerGroupPrayerUpload(group, prayer);
     }
   }
 
-  deletePrayerFromGroups(Prayer prayer, List<String> groups) {
+  deletePrayerFromGroups(Prayer prayer, List<Group> groups) {
     for (var group in groups) {
       _triggerGroupPrayerDelete(group, prayer);
     }
   }
 
-  _triggerGroupPrayerUpload(String groupUID, Prayer prayer) {
+  _triggerGroupPrayerUpload(Group group, Prayer prayer) {
     FirebaseFirestore.instance
         .collection(StringConstants.groupsCollection)
-        .doc(groupUID)
+        .doc(group.groupUID)
         .collection(StringConstants.groupPrayerCollection)
         .doc(prayer.uid)
         .set(prayer.toJson());
   }
 
-  _triggerGroupPrayerDelete(String groupUID, Prayer prayer) {
+  _triggerGroupPrayerDelete(Group group, Prayer prayer) {
     FirebaseFirestore.instance
         .collection(StringConstants.groupsCollection)
-        .doc(groupUID)
+        .doc(group.groupUID)
         .collection(StringConstants.groupPrayerCollection)
         .doc(prayer.uid)
         .delete();
@@ -98,8 +98,8 @@ class PrayerClient {
   Future<String> updatePrayer(
     Prayer prayer,
     PrayerType prayerType,
-    List<String> groupsToRemoveFrom,
-    List<String> groupsToAddTo,
+    List<Group> groupsToRemoveFrom,
+    List<Group> groupsToAddTo,
   ) async {
     if (prayerType == PrayerType.answered) {
       try {

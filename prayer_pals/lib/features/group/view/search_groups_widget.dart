@@ -12,7 +12,6 @@ import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/core/widgets/rounded_button.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
-import 'package:prayer_pals/features/group/models/group_member.dart';
 import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/group/providers/search_groups_provider.dart';

@@ -118,7 +118,16 @@ class AuthController extends ChangeNotifier {
     }
 
     if (phoneNumber != null) {
-      //TODO: update phonenumber
+      FirebaseAuth.instance.verifyPhoneNumber(
+          phoneNumber: phoneNumber,
+          verificationCompleted: (credential) {
+            FirebaseAuth.instance.currentUser!.updatePhoneNumber(credential);
+          },
+          verificationFailed: (exception) {
+            debugPrint(exception.toString());
+          },
+          codeSent: (string, integer) {},
+          codeAutoRetrievalTimeout: (string) {});
     }
     user.emailAddress = emailAddress!;
     user.username = username!;

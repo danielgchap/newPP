@@ -15,6 +15,11 @@ class PrayerDetailController {
         .fetchPrayer(uid, isGlobal);
   }
 
+  Future<bool> isPrayerInMyPersonalList(Prayer prayer) async {
+    return await _reader(prayerDetailRepositoryProvider)
+        .isPrayerInMyPersonalList(prayer);
+  }
+
   Future<bool> reportPrayer(Prayer prayer) async {
     return await _reader(prayerDetailRepositoryProvider).reportPrayer(prayer);
   }

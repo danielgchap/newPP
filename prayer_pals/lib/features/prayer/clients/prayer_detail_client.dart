@@ -77,4 +77,20 @@ class PrayerDetailClient {
     }
     return true;
   }
+
+  Future<bool> isPrayerInMyPersonalList(Prayer prayer) async {
+    PPCUser currentUser =
+        await read(ppcUserCoreProvider).currentUserNetworkFetch();
+    final docRef = await FirebaseFirestore.instance
+        .collection(StringConstants.userGroupsCollection)
+        .doc(currentUser.uid)
+        .collection(StringConstants.myPrayersCollection)
+        .doc(prayer.uid)
+        .get();
+    if (docRef.exists) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

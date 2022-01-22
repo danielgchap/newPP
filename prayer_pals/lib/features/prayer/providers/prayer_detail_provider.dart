@@ -14,4 +14,8 @@ class PrayerDetailController {
     return await _reader(prayerDetailRepositoryProvider)
         .fetchPrayer(uid, isGlobal);
   }
+
+  Future<bool> reportPrayer(Prayer prayer) async {
+    return await _reader(prayerDetailRepositoryProvider).reportPrayer(prayer);
+  }
 }

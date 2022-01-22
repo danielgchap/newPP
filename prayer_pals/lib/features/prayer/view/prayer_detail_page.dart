@@ -108,7 +108,9 @@ class PrayerDetailPage extends HookConsumerWidget {
                 AddRemovePrayerButton(
                   isListed: isListed,
                 ),
-                const ReportButton()
+                ReportButton(
+                  prayer: prayer,
+                ),
               ],
             );
           } else {

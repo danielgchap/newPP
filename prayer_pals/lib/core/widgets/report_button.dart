@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/core/widgets/rounded_button.dart';
+import 'package:prayer_pals/features/prayer/models/prayer.dart';
+import 'package:prayer_pals/features/prayer/providers/prayer_detail_provider.dart';
 
-class ReportButton extends HookWidget {
-  const ReportButton({Key? key}) : super(key: key);
+class ReportButton extends HookConsumerWidget {
+  final Prayer prayer;
+  const ReportButton({
+    Key? key,
+    required this.prayer,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
@@ -17,7 +24,7 @@ class ReportButton extends HookWidget {
           buttonRatio: .9,
           buttonWidthRatio: .9,
           callback: () {
-            showDialogForReport(context);
+            showDialogForReport(context, ref);
           },
           bgColor: Colors.lightBlueAccent.shade100,
           textColor: Colors.white,
@@ -26,7 +33,7 @@ class ReportButton extends HookWidget {
     );
   }
 
-  showDialogForReport(BuildContext context) {
+  showDialogForReport(BuildContext context, WidgetRef ref) {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -52,8 +59,12 @@ class ReportButton extends HookWidget {
             ),
             TextButton(
               child: const Text(StringConstants.okCaps),
-              onPressed: () {
+              onPressed: () async {
+                await ref.read(prayerDetailProvider).reportPrayer(prayer);
+
                 Navigator.of(context).pop();
+                showPPCDialog(context, StringConstants.prayerPals,
+                    StringConstants.prayerReported, () {});
               },
             ),
           ],

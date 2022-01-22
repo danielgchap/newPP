@@ -8,6 +8,7 @@ final prayerDetailRepositoryProvider =
 
 abstract class PrayerDetailRepository {
   Future<Prayer> fetchPrayer(String id, bool isGlobal);
+  Future<bool> reportPrayer(Prayer prayer);
 }
 
 class PrayerDetailRepositoryImpl implements PrayerDetailRepository {
@@ -17,5 +18,10 @@ class PrayerDetailRepositoryImpl implements PrayerDetailRepository {
   @override
   Future<Prayer> fetchPrayer(String id, bool isGlobal) async {
     return await read(prayerDetailClientProvider).fetchPrayer(id, isGlobal);
+  }
+
+  @override
+  Future<bool> reportPrayer(Prayer prayer) async {
+    return await read(prayerDetailClientProvider).reportPrayer(prayer);
   }
 }

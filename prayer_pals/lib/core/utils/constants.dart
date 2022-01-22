@@ -131,10 +131,13 @@ class StringConstants {
   static const createdGroupsCollection = 'createdGroups';
   static const pendingRequestsCollection = 'pendingRequests';
   static const subscribedGroups = 'subscribedGroups';
+  static const reportedPrayersCollection = 'reportedPrayers';
 
 //Params
   static const memberCount = 'memberCount';
   static const prayerCount = 'prayerCount';
+  static const reportCount = 'reportCount';
+  static const reportedBy = 'reportedBy';
 
 //Messages
   static const genericError = 'Generic Error';
@@ -148,6 +151,8 @@ class StringConstants {
       'Are you sure you wish to cancel this reminder?';
   static const areYouSureYouWishToDisableAllNotifications =
       'Are you sure you wish to disbale all notifications';
+  static const prayerReported =
+      'This prayer has been reported and submitted for review.\n\nThank you for your feedback.';
   static const reporthingThisPrayer =
       'Reporting this prayer will remove it from the app and send it to the review process. If it is found to be in violation of our Terms of Use, the prayer will be removed and the user may be permanently blocked.\n\nAre you sure you want to report this prayer?';
 

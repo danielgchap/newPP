@@ -18,6 +18,10 @@ Prayer _$PrayerFromJson(Map<String, dynamic> json) => Prayer(
       groups: (json['groups'] as List<dynamic>)
           .map((e) => Group.fromJson(e as Map<String, dynamic>))
           .toList(),
+      reportCount: json['reportCount'] as int?,
+      reportedBy: (json['reportedBy'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$PrayerToJson(Prayer instance) => <String, dynamic>{
@@ -29,5 +33,7 @@ Map<String, dynamic> _$PrayerToJson(Prayer instance) => <String, dynamic>{
       'creatorImageURL': instance.creatorImageURL,
       'dateCreated': instance.dateCreated,
       'isGlobal': instance.isGlobal,
+      'reportCount': instance.reportCount,
       'groups': instance.groups,
+      'reportedBy': instance.reportedBy,
     };

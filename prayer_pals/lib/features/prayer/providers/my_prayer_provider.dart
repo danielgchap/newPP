@@ -9,8 +9,8 @@ import 'package:prayer_pals/features/user/models/ppcuser.dart';
 import 'package:uuid/uuid.dart';
 import '../../../core/utils/constants.dart';
 
-final prayerControllerProvider =
-    ChangeNotifierProvider<PrayerController>((ref) => PrayerController(ref.read));
+final prayerControllerProvider = ChangeNotifierProvider<PrayerController>(
+    (ref) => PrayerController(ref.read));
 
 class PrayerController extends ChangeNotifier {
   final Reader _reader;
@@ -46,6 +46,8 @@ class PrayerController extends ChangeNotifier {
         dateCreated: DateFormat("MM-dd-yyyy").format(DateTime.now()).toString(),
         isGlobal: isGlobal,
         groups: groupsToAdd,
+        reportCount: 0,
+        reportedBy: [],
       );
       return await _reader(prayerRepositoryProvider).createPrayer(prayer);
     }

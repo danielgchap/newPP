@@ -50,6 +50,8 @@ class GroupPrayerController {
         dateCreated: DateFormat("MM-dd-yyyy").format(DateTime.now()).toString(),
         isGlobal: isGlobal,
         groups: groupsToAdd,
+        reportCount: 0,
+        reportedBy: [],
       );
       return await _reader(groupPrayerRepositoryProvider)
           .createPrayer(prayer, groupMember);

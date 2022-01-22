@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:prayer_pals/features/user/models/ppcuser.dart';
 
 part 'prayer.g.dart';
 
@@ -14,7 +15,9 @@ class Prayer {
   String? creatorImageURL;
   String dateCreated;
   bool isGlobal;
+  int? reportCount;
   List<Group> groups;
+  List<String>? reportedBy;
 
   Prayer({
     required this.uid,
@@ -26,6 +29,8 @@ class Prayer {
     required this.dateCreated,
     required this.isGlobal,
     required this.groups,
+    this.reportCount,
+    this.reportedBy,
   });
   factory Prayer.fromJson(Map<String, dynamic> json) => _$PrayerFromJson(json);
 

@@ -106,11 +106,15 @@ class PrayerController extends ChangeNotifier {
   Future<String> deletePrayer(Prayer prayer) async {
     String result =
         await _reader(prayerRepositoryProvider).deletePrayer(prayer);
-    if (result == StringConstants.success) notifyListeners();
+    if (result == StringConstants.success) notify();
     return result;
   }
 
   Future<List<Group>> fetchGroupsForCurrentUser() async {
     return await _reader(prayerRepositoryProvider).fetchGroupsForCurrentUser();
+  }
+
+  notify() {
+    notifyListeners();
   }
 }

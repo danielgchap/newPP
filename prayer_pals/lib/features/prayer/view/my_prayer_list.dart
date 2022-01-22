@@ -17,8 +17,9 @@ class PrayerList extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final prayerProvider = ref.watch(prayerControllerProvider);
     return FutureBuilder<List<Prayer>>(
-        future: ref.read(prayerControllerProvider).retrievePrayers(prayerType),
+        future: prayerProvider.retrievePrayers(prayerType),
         builder: (BuildContext context, AsyncSnapshot<List<Prayer>> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {

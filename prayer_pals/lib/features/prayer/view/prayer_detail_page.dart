@@ -14,7 +14,7 @@ class PrayerDetailPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    bool isListed = false;
+    ref.watch(prayerDetailProvider);
 
     return Scaffold(
       appBar: AppBar(

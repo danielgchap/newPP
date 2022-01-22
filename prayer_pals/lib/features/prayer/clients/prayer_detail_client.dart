@@ -82,7 +82,7 @@ class PrayerDetailClient {
     PPCUser currentUser =
         await read(ppcUserCoreProvider).currentUserNetworkFetch();
     final docRef = await FirebaseFirestore.instance
-        .collection(StringConstants.userGroupsCollection)
+        .collection(StringConstants.usersCollection)
         .doc(currentUser.uid)
         .collection(StringConstants.myPrayersCollection)
         .doc(prayer.uid)
@@ -92,5 +92,27 @@ class PrayerDetailClient {
     } else {
       return false;
     }
+  }
+
+  Future<bool> addPrayerToMyList(Prayer prayer) async {
+    final userUID = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection(StringConstants.usersCollection)
+        .doc(userUID)
+        .collection(StringConstants.myPrayersCollection)
+        .doc(prayer.uid)
+        .set(prayer.toJson());
+    return true;
+  }
+
+  Future<bool> removePrayerFromMyList(Prayer prayer) async {
+    final userUID = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection(StringConstants.usersCollection)
+        .doc(userUID)
+        .collection(StringConstants.myPrayersCollection)
+        .doc(prayer.uid)
+        .delete();
+    return true;
   }
 }

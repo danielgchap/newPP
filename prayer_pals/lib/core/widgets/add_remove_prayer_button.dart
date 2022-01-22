@@ -28,7 +28,9 @@ class AddRemovePrayerButton extends HookConsumerWidget {
                   buttonRatio: .9,
                   buttonWidthRatio: .9,
                   callback: () {
-//remove from personal list
+                    ref
+                        .read(prayerDetailProvider)
+                        .removePrayerFromMyList(prayer);
                   },
                   bgColor: Colors.lightBlueAccent.shade100,
                   textColor: Colors.white,
@@ -38,7 +40,7 @@ class AddRemovePrayerButton extends HookConsumerWidget {
                   buttonRatio: .9,
                   buttonWidthRatio: .9,
                   callback: () {
-//add to personal list
+                    ref.read(prayerDetailProvider).addPrayerToMyList(prayer);
                   },
                   bgColor: Colors.lightBlueAccent.shade100,
                   textColor: Colors.white,

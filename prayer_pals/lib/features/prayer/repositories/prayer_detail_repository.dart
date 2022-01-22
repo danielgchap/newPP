@@ -10,6 +10,8 @@ abstract class PrayerDetailRepository {
   Future<Prayer> fetchPrayer(String id, bool isGlobal);
   Future<bool> reportPrayer(Prayer prayer);
   Future<bool> isPrayerInMyPersonalList(Prayer prayer);
+  Future<bool> addPrayerToMyList(Prayer prayer);
+  Future<bool> removePrayerFromMyList(Prayer prayer);
 }
 
 class PrayerDetailRepositoryImpl implements PrayerDetailRepository {
@@ -30,5 +32,16 @@ class PrayerDetailRepositoryImpl implements PrayerDetailRepository {
   Future<bool> isPrayerInMyPersonalList(Prayer prayer) async {
     return await read(prayerDetailClientProvider)
         .isPrayerInMyPersonalList(prayer);
+  }
+
+  @override
+  Future<bool> addPrayerToMyList(Prayer prayer) async {
+    return await read(prayerDetailClientProvider).addPrayerToMyList(prayer);
+  }
+
+  @override
+  Future<bool> removePrayerFromMyList(Prayer prayer) async {
+    return await read(prayerDetailClientProvider)
+        .removePrayerFromMyList(prayer);
   }
 }

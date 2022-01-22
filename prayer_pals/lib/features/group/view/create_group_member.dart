@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:uuid/uuid.dart';
@@ -16,23 +17,17 @@ import 'package:prayer_pals/features/group/providers/group_member_provider.dart'
 //
 //////////////////////////////////////////////////////////////////////////
 
-class CreateGroupMemberWidget extends StatefulWidget {
+class CreateGroupMemberWidget extends HookConsumerWidget {
   final Group group;
 
-  const CreateGroupMemberWidget({Key? key, context, required this.group})
+  CreateGroupMemberWidget({Key? key, context, required this.group})
       : super(key: key);
 
-  @override
-  _CreateGroupMemberWidgetState createState() =>
-      _CreateGroupMemberWidgetState();
-}
-
-class _CreateGroupMemberWidgetState extends State<CreateGroupMemberWidget> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailAddressController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: const Text(
         StringConstants.createMember,
@@ -74,7 +69,7 @@ class _CreateGroupMemberWidgetState extends State<CreateGroupMemberWidget> {
       actions: <Widget>[
         ElevatedButton(
           onPressed: () {
-            _createMember(context, widget.group);
+            _createMember(context, ref, group);
           },
           child: const Text(StringConstants.create),
         ),
@@ -88,13 +83,13 @@ class _CreateGroupMemberWidgetState extends State<CreateGroupMemberWidget> {
     );
   }
 
-  _createMember(BuildContext ctx, group) async {
+  _createMember(BuildContext ctx, WidgetRef ref, group) async {
     Uuid uuid = const Uuid();
     String createdMemberId = uuid.v1();
     final groupMemberName = _userNameController.text;
     final emailAddress = _emailAddressController.text;
     const phoneNumber = "";
-    final srvMsg = await ctx
+    final srvMsg = await ref
         .read(groupMemberControllerProvider)
         .createGroupMember(
             createdMemberId,

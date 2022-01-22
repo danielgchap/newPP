@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
-import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
-import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 
 //////////////////////////////////////////////////////////////////////////
@@ -81,8 +78,8 @@ class _GroupPendingRequestsState extends State<GroupPendingRequests> {
                                     icon: const Icon(Icons.check),
                                     color: Colors.green,
                                     onPressed: () {
-                                      _updateGroups(
-                                          context, groupMember, widget.group);
+                                      // _updateGroups(
+                                      //     context, groupMember, widget.group);
                                     },
                                   ),
                                   IconButton(
@@ -123,28 +120,28 @@ class _GroupPendingRequestsState extends State<GroupPendingRequests> {
         });
   }
 
-  _updateGroups(BuildContext ctx, groupMember, group) async {
-    final srvMsg =
-        await ctx.read(groupMemberControllerProvider).createGroupMember(
-              groupMember.groupMemberUID,
-              groupMember.groupMemberName!,
-              groupMember.groupName,
-              groupMember.groupUID,
-              false,
-              false,
-              false,
-              false,
-              groupMember.emailAddress!,
-              groupMember.phoneNumber,
-              true,
-              false,
-              false,
-              false,
-              "",
-            );
-    if (srvMsg == StringConstants.success) {
-    } else {
-      showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
-    }
-  }
+  // _updateGroups(BuildContext ctx, groupMember, group) async {
+  //   final srvMsg =
+  //       await ctx.read(groupMemberControllerProvider).createGroupMember(
+  //             groupMember.groupMemberUID,
+  //             groupMember.groupMemberName!,
+  //             groupMember.groupName,
+  //             groupMember.groupUID,
+  //             false,
+  //             false,
+  //             false,
+  //             false,
+  //             groupMember.emailAddress!,
+  //             groupMember.phoneNumber,
+  //             true,
+  //             false,
+  //             false,
+  //             false,
+  //             "",
+  //           );
+  //   if (srvMsg == StringConstants.success) {
+  //   } else {
+  //     showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
+  //   }
+  // }
 }

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/user/models/ppcuser.dart';
 import 'package:prayer_pals/features/user/view/edit_profile.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'avatar_widget.dart';
 
-class UserInfoBarWidget extends HookWidget {
+class UserInfoBarWidget extends HookConsumerWidget {
   final bool isSettings;
 
   const UserInfoBarWidget({
@@ -18,9 +17,9 @@ class UserInfoBarWidget extends HookWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder(
-        future: useProvider(ppcUserCoreProvider).currentUserNetworkFetch(),
+        future: ref.watch(ppcUserCoreProvider).currentUserNetworkFetch(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             PPCUser ppcUser = snapshot.data as PPCUser;

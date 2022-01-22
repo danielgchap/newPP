@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/core/utils/credential_textfield.dart';
@@ -20,7 +19,7 @@ import 'package:prayer_pals/core/utils/constants.dart';
 // Save changes needs to update Firestore
 // might want to change to white background with app bar to be consistent??
 
-class EditProfilePage extends HookWidget {
+class EditProfilePage extends HookConsumerWidget {
   EditProfilePage({Key? key}) : super(key: key);
 
   final TextEditingController _usernameController = TextEditingController();
@@ -28,10 +27,10 @@ class EditProfilePage extends HookWidget {
   final TextEditingController _phoneController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    final _auth = useProvider(authControllerProvider);
-    final authClientProv = useProvider(authClientProvider);
-    final user = context.read(ppcUserCoreProvider).getCurrentUserModel();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _auth = ref.watch(authControllerProvider);
+    final authClientProv = ref.watch(authClientProvider);
+    final user = ref.read(ppcUserCoreProvider).getCurrentUserModel();
 
     if (user != null &&
         user.imageURL != null &&

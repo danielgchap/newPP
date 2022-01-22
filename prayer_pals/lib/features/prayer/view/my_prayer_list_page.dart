@@ -1,20 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/prayer/providers/my_prayer_list_page_provider.dart';
 import 'my_prayer_list.dart';
 
-class MyPrayersPage extends HookWidget {
+class MyPrayersPage extends HookConsumerWidget {
   const MyPrayersPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final myPrayerListProvider = useProvider(myPrayerListPageProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final myPrayerListProvider = ref.watch(myPrayerListPageProvider);
     String _title;
     if (myPrayerListProvider.prayerType == PrayerType.answered) {
       _title = StringConstants.answeredPrayer;

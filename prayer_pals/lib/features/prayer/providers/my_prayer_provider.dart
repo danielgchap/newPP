@@ -10,7 +10,7 @@ import 'package:uuid/uuid.dart';
 import '../../../core/utils/constants.dart';
 
 final prayerControllerProvider =
-    ChangeNotifierProvider((ref) => PrayerController(ref.read));
+    ChangeNotifierProvider<PrayerController>((ref) => PrayerController(ref.read));
 
 class PrayerController extends ChangeNotifier {
   final Reader _reader;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/features/group/providers/create_group_provider.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
@@ -15,14 +14,14 @@ import 'package:prayer_pals/core/utils/constants.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class CreateGroupWidget extends HookWidget {
+class CreateGroupWidget extends HookConsumerWidget {
   final bool isCreating;
   CreateGroupWidget(BuildContext context, {Key? key, required this.isCreating})
       : super(key: key);
 
   final TextEditingController _groupNameController = TextEditingController();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: const Text(
         StringConstants.createGroup,
@@ -49,7 +48,7 @@ class CreateGroupWidget extends HookWidget {
       actions: <Widget>[
         ElevatedButton(
           onPressed: () async {
-            final success = await context
+            final success = await ref
                 .read(createGroupProvider)
                 .createGroup(context, _groupNameController.text, "");
             if (success) {

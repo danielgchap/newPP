@@ -65,24 +65,23 @@ class CreateGroupProvider {
     final groupUID = groupId;
     final emailAddress = read(firebaseAuthProvider).currentUser!.email;
     const phoneNumber = "";
-    final srvMsg =
-        await context.read(groupMemberControllerProvider).createGroupMember(
-              groupMemberUID,
-              groupMemberName!,
-              groupName,
-              groupUID,
-              true,
-              true,
-              false,
-              false,
-              emailAddress!,
-              phoneNumber,
-              true,
-              false,
-              false,
-              false,
-              "",
-            );
+    final srvMsg = await read(groupMemberControllerProvider).createGroupMember(
+      groupMemberUID,
+      groupMemberName!,
+      groupName,
+      groupUID,
+      true,
+      true,
+      false,
+      false,
+      emailAddress!,
+      phoneNumber,
+      true,
+      false,
+      false,
+      false,
+      "",
+    );
     if (srvMsg == StringConstants.success) {
       _eventBus.fire(SubscribeToGroupPNEvent(groupId: groupUID));
       return true;

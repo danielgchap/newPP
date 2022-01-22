@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
-import 'package:prayer_pals/features/group/models/group_member.dart';
 import 'package:prayer_pals/features/group/providers/group_provider.dart';
 import 'package:prayer_pals/features/prayer/view/group_prayer_list_page.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
@@ -20,14 +18,14 @@ import 'group_description_page.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class MyGroups extends HookWidget {
+class MyGroups extends HookConsumerWidget {
   const MyGroups({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final groupProvider = useProvider(groupControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final groupProvider = ref.watch(groupControllerProvider);
     return StreamBuilder<QuerySnapshot>(
       stream: groupProvider.fetchMyGroups(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

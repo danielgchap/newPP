@@ -1,21 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/prayer/providers/global_prayer_provider.dart';
 import 'global_prayer_list.dart';
 
-class GlobalPrayersPage extends HookWidget {
+class GlobalPrayersPage extends HookConsumerWidget {
   const GlobalPrayersPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final globalPrayerListController =
-        useProvider(globalPrayerControllerProvider);
+        ref.watch(globalPrayerControllerProvider);
     String _title;
     globalPrayerListController.listType ==
             globalPrayerListController.previousType

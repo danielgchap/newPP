@@ -5,7 +5,7 @@ import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/features/prayer/providers/group_prayer_provider.dart';
 import 'prayer_list_item.dart';
 
-class GroupPrayerList extends ConsumerWidget {
+class GroupPrayerList extends HookConsumerWidget {
   final String groupId;
   final String groupName;
   final PrayerType prayerType;
@@ -18,8 +18,9 @@ class GroupPrayerList extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final prayerList = watch(groupPrayerControllerProvider)
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prayerList = ref
+        .watch(groupPrayerControllerProvider)
         .retrievePrayers(groupId, prayerType);
 
     return FutureBuilder<List<Prayer>>(

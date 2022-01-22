@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/features/prayer/repositories/pray_now_repository.dart';
 
-final prayerNowProvider = Provider((ref) => PrayerNowController(ref.read));
+final prayerNowProvider = Provider<PrayerNowController>((ref) => PrayerNowController(ref.read));
 
 class PrayerNowController {
   final Reader reader;

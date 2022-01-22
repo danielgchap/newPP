@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
@@ -21,14 +19,14 @@ import '../group_description_page.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class PendingRequests extends HookWidget {
+class PendingRequests extends HookConsumerWidget {
   const PendingRequests({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final pendingRequestsProvider = useProvider(pendingRequestProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pendingRequestsProvider = ref.watch(pendingRequestProvider);
     return StreamBuilder<QuerySnapshot>(
         stream: pendingRequestsProvider.fetchMyPendingRequests(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -70,7 +68,7 @@ class PendingRequests extends HookWidget {
                                             color: Colors.green,
                                             onPressed: () {
                                               _updateGroups(
-                                                  context, groupMember);
+                                                  context, ref, groupMember);
                                             }),
                                       ),
                                       IconButton(
@@ -147,9 +145,9 @@ class PendingRequests extends HookWidget {
   }
 }
 
-_updateGroups(BuildContext ctx, GroupMember groupMember) async {
+_updateGroups(BuildContext ctx, WidgetRef ref, GroupMember groupMember) async {
   final srvMsg =
-      await ctx.read(groupMemberControllerProvider).createGroupMember(
+      await ref.read(groupMemberControllerProvider).createGroupMember(
             groupMember.groupMemberUID,
             groupMember.groupMemberName,
             groupMember.groupName,

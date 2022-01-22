@@ -9,14 +9,14 @@ import 'package:prayer_pals/features/user/providers/auth_providers.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'sign_up_page.dart';
 
-class LoginPage extends ConsumerWidget {
+class LoginPage extends HookConsumerWidget {
   LoginPage({Key? key}) : super(key: key);
 
   final TextEditingController _emailAddressController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     SizeConfig().init(context);
     return Scaffold(
       body: Stack(
@@ -58,7 +58,7 @@ class LoginPage extends ConsumerWidget {
                     hintText: StringConstants.password,
                     controller: _passwordController,
                   ),
-                  _forgotPasswordButton(context),
+                  _forgotPasswordButton(context, ref),
                   SizedBox(
                     height: SizeConfig.safeBlockVertical! * 3,
                   ),
@@ -67,7 +67,7 @@ class LoginPage extends ConsumerWidget {
                     buttonRatio: .9,
                     buttonWidthRatio: 1,
                     callback: () async {
-                      _validateSignIn(context);
+                      _validateSignIn(context, ref);
                     },
                   ),
                   SizedBox(
@@ -104,7 +104,7 @@ class LoginPage extends ConsumerWidget {
     );
   }
 
-  Widget _forgotPasswordButton(BuildContext context) {
+  Widget _forgotPasswordButton(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: EdgeInsets.only(right: SizeConfig.safeBlockVertical! * 4),
       child: Align(
@@ -112,7 +112,7 @@ class LoginPage extends ConsumerWidget {
         child: TextButton(
           onPressed: () async {
             if (_emailAddressController.text.isNotEmpty) {
-              final srvMsg = await context
+              final srvMsg = await ref
                   .read(authControllerProvider)
                   .sendForgotPasswordLink(
                       emailAddress: _emailAddressController.text);
@@ -139,8 +139,8 @@ class LoginPage extends ConsumerWidget {
     );
   }
 
-  _validateSignIn(BuildContext context) {
-    context.read(authControllerProvider).signInUser(
+  _validateSignIn(BuildContext context, WidgetRef ref) {
+    ref.read(authControllerProvider).signInUser(
           emailAddress: _emailAddressController.text,
           password: _passwordController.text,
           callback: (value) {

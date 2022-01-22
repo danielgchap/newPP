@@ -7,7 +7,7 @@ import 'package:prayer_pals/core/utils/constants.dart';
 import 'group_prayer_list.dart';
 
 // ignore: must_be_immutable
-class GroupPrayersPage extends ConsumerWidget {
+class GroupPrayersPage extends HookConsumerWidget {
   final String groupId;
   final String groupName;
   final bool _backButton = true;
@@ -20,7 +20,7 @@ class GroupPrayersPage extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     PrayerType _prayerType = PrayerType.group;
     return Scaffold(
       backgroundColor: Colors.lightBlue[50],

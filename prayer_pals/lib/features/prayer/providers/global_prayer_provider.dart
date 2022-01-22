@@ -7,7 +7,7 @@ import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/features/prayer/repositories/global_prayer_repository.dart';
 
 final globalPrayerControllerProvider =
-    ChangeNotifierProvider((ref) => GlobalPrayerController(ref.read));
+    ChangeNotifierProvider<GlobalPrayerController>((ref) => GlobalPrayerController(ref.read));
 
 class GlobalPrayerController extends ChangeNotifier {
   bool showAnswered = true;

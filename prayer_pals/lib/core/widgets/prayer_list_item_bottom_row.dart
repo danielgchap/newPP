@@ -9,7 +9,7 @@ import 'package:prayer_pals/core/widgets/ppc_logo_widget.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:share_plus/share_plus.dart';
 
-class PrayerListItemBottomRow extends HookWidget {
+class PrayerListItemBottomRow extends HookConsumerWidget {
   final Prayer prayer;
   final bool isOwner;
   final VoidCallback? callback;
@@ -19,8 +19,8 @@ class PrayerListItemBottomRow extends HookWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final reminderProvider = useProvider(reminderControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final reminderProvider = ref.watch(reminderControllerProvider);
     String _groupName;
     if (prayer.isGlobal == true) {
       _groupName = StringConstants.prayerPals;

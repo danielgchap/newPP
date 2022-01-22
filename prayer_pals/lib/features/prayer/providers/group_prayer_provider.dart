@@ -9,7 +9,7 @@ import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/user/models/ppcuser.dart';
 
 final groupPrayerControllerProvider =
-    Provider((ref) => GroupPrayerController(ref.read));
+    Provider<GroupPrayerController>((ref) => GroupPrayerController(ref.read));
 
 class GroupPrayerController {
   final Reader _reader;

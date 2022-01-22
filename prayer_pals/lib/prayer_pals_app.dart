@@ -9,12 +9,12 @@ import 'features/prayer/view/pray_now_page.dart';
 import 'features/user/providers/auth_providers.dart';
 import 'features/user/view/login_page.dart';
 
-class MyApp extends ConsumerWidget {
+class MyApp extends HookConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final _authState = watch(authStateProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _authState = ref.watch(authStateProvider);
     return MaterialApp(
       routes: {
         '/LoginPage': (context) => LoginPage(),

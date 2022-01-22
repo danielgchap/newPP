@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 
-final myPrayerListPageProvider = ChangeNotifierProvider(
+final myPrayerListPageProvider = ChangeNotifierProvider<MyPrayerListPageController>(
     (ref) => MyPrayerListPageController(ref.read, PrayerType.myPrayers));
 
 class MyPrayerListPageController extends ChangeNotifier {

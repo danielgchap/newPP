@@ -9,11 +9,11 @@ import 'package:prayer_pals/core/widgets/home_page_button_section.dart';
 import 'package:prayer_pals/core/widgets/scripture_section.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 
-class HomePage extends HookWidget {
+class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    final ppCoreProvider = useProvider(ppcUserCoreProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ppCoreProvider = ref.watch(ppcUserCoreProvider);
     useEffect(() {
       if (ppCoreProvider.getCurrentUserModel() == null) {
         ppCoreProvider.setupPPUserListener();

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/add_remove_prayer_button.dart';
@@ -9,12 +8,12 @@ import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/prayer/providers/prayer_detail_provider.dart';
 
-class PrayerDetailPage extends HookWidget {
+class PrayerDetailPage extends HookConsumerWidget {
   final Prayer prayer;
   const PrayerDetailPage({required this.prayer, Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     bool isListed = false;
 
     return Scaffold(
@@ -32,7 +31,7 @@ class PrayerDetailPage extends HookWidget {
         centerTitle: true,
       ),
       body: FutureBuilder(
-        future: context
+        future: ref
             .read(prayerDetailProvider)
             .fetchPrayer(prayer.uid, prayer.isGlobal),
         builder: (context, snapshot) {

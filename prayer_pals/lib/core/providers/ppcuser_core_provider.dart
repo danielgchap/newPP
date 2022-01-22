@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/features/user/models/ppcuser.dart';
 
 final ppcUserCoreProvider =
-    ChangeNotifierProvider.autoDispose((ref) => PPCUserCore(ref.read));
+    ChangeNotifierProvider.autoDispose<PPCUserCore>((ref) => PPCUserCore(ref.read));
 
 class PPCUserCore extends ChangeNotifier {
   Reader reader;

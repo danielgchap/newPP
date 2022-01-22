@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/features/group/providers/search_groups_provider.dart';
 import 'package:prayer_pals/features/group/view/search_groups_widget.dart';
@@ -14,13 +13,13 @@ import 'package:prayer_pals/core/utils/constants.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class GroupSearchPage extends HookWidget {
+class GroupSearchPage extends HookConsumerWidget {
   GroupSearchPage({Key? key}) : super(key: key);
 
   final TextEditingController _groupNameController = TextEditingController();
   @override
-  Widget build(BuildContext context) {
-    final searchGroupsController = useProvider(searchGroupControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final searchGroupsController = ref.watch(searchGroupControllerProvider);
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(

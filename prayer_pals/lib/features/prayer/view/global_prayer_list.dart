@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/features/prayer/providers/global_prayer_provider.dart';
 import 'prayer_list_item.dart';
 
-class GlobalPrayerList extends HookWidget {
+class GlobalPrayerList extends HookConsumerWidget {
   final PrayerType prayerType;
 
   const GlobalPrayerList(this.prayerType, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final globalPrayerController = useProvider(globalPrayerControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final globalPrayerController = ref.watch(globalPrayerControllerProvider);
     return FutureBuilder<List<Prayer>>(
       future: globalPrayerController.retrievePrayers(prayerType),
       builder: (BuildContext context, AsyncSnapshot<List<Prayer>> snapshot) {

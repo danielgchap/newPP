@@ -5,7 +5,7 @@ import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final reminderControllerProvider = ChangeNotifierProvider(
+final reminderControllerProvider = ChangeNotifierProvider<ReminderController>(
   (ref) => ReminderController(
     ref.read,
     NotificationService(),
@@ -13,11 +13,11 @@ final reminderControllerProvider = ChangeNotifierProvider(
 );
 
 class ReminderController extends ChangeNotifier {
-  final Reader _reader;
+  final Reader reader;
   String? timeString = '';
   final NotificationService _notificationService;
 
-  ReminderController(this._reader, this._notificationService) : super() {
+  ReminderController(this.reader, this._notificationService) : super() {
     getTimeString();
   }
 

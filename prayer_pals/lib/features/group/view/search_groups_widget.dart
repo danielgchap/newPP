@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/event_bus/group_subscribtion_event.dart';
@@ -31,7 +30,7 @@ import 'group_description_page.dart';
 // TODO - verify user is not in group - should not show up, but if it does and user
 // hits join group button, they are removed from the group and placed in pending
 
-class PPCSearchGroupsWidget extends HookWidget {
+class PPCSearchGroupsWidget extends HookConsumerWidget {
   final String searchTerm;
 
   const PPCSearchGroupsWidget({
@@ -40,12 +39,11 @@ class PPCSearchGroupsWidget extends HookWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    useProvider(searchGroupControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(searchGroupControllerProvider);
 
     return StreamBuilder<QuerySnapshot>(
-      stream:
-          context.read(searchGroupControllerProvider).searchGroups(searchTerm),
+      stream: ref.read(searchGroupControllerProvider).searchGroups(searchTerm),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.requireData;
@@ -74,7 +72,7 @@ class PPCSearchGroupsWidget extends HookWidget {
                           buttonWidthRatio: .15,
                           title: StringConstants.join,
                           callback: () {
-                            _joinGroup(ctx, group);
+                            _joinGroup(context, ref, group);
                           },
                         );
                       }),
@@ -107,16 +105,16 @@ class PPCSearchGroupsWidget extends HookWidget {
   }
 }
 
-_joinGroup(BuildContext ctx, Group group) async {
+_joinGroup(BuildContext ctx, WidgetRef ref, Group group) async {
   //TODO: add subscribe to group
-  final groupMemberUID = ctx.read(firebaseAuthProvider).currentUser!.uid;
+  final groupMemberUID = ref.read(firebaseAuthProvider).currentUser!.uid;
   final groupMemberName =
-      ctx.read(firebaseAuthProvider).currentUser!.displayName;
+      ref.read(firebaseAuthProvider).currentUser!.displayName;
   final groupUID = group.groupUID;
-  final emailAddress = ctx.read(firebaseAuthProvider).currentUser!.email;
+  final emailAddress = ref.read(firebaseAuthProvider).currentUser!.email;
   const phoneNumber = "";
   final srvMsg =
-      await ctx.read(groupMemberControllerProvider).createGroupMember(
+      await ref.read(groupMemberControllerProvider).createGroupMember(
             groupMemberUID,
             groupMemberName!,
             group.groupName,

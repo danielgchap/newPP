@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/prayer/providers/pray_now_provider.dart';
@@ -9,13 +8,13 @@ import 'my_prayer_list.dart';
 //TODO figure out how to get a value from firestore, add it to the variable,
 // then save it back to firestore !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-class PrayNowPage extends HookWidget {
+class PrayNowPage extends HookConsumerWidget {
   const PrayNowPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     DateTime startTime = DateTime.now();
     bool isPrayNow = true;
     return Scaffold(
@@ -28,7 +27,7 @@ class PrayNowPage extends HookWidget {
               icon: const Icon(Icons.arrow_back_ios_new_rounded,
                   color: Colors.white),
               onPressed: () {
-                context.read(prayerNowProvider).updateTime(startTime);
+                ref.read(prayerNowProvider).updateTime(startTime);
                 Navigator.of(context).pop();
               }),
           centerTitle: true,

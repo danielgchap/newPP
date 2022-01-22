@@ -1,15 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
-import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/core/widgets/prevent_zero_admin_dialog.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
-import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
 import '../create_group_member.dart';
 
 //////////////////////////////////////////////////////////////////////////
@@ -174,7 +171,7 @@ class _GroupMembersState extends State<GroupMembers> {
         ElevatedButton(
           onPressed: () {
             groupMember.isAdmin == true ? _isAdmin = false : _isAdmin = true;
-            _updateMember(context, groupMember, _isAdmin);
+            // _updateMember(context, groupMember, _isAdmin);
           },
           child: Text(_title),
         ),
@@ -188,29 +185,29 @@ class _GroupMembersState extends State<GroupMembers> {
     );
   }
 
-  _updateMember(BuildContext ctx, GroupMember groupMember, _isAdmin) async {
-    final srvMsg =
-        await ctx.read(groupMemberControllerProvider).createGroupMember(
-              groupMember.groupMemberUID,
-              groupMember.groupMemberName,
-              groupMember.groupName,
-              groupMember.groupUID,
-              _isAdmin,
-              groupMember.isOwner,
-              groupMember.isCreated,
-              groupMember.isInvited,
-              groupMember.emailAddress,
-              groupMember.phoneNumber,
-              groupMember.appNotify,
-              groupMember.textNotify,
-              groupMember.emailNotify,
-              groupMember.isPending,
-              groupMember.groupImageURL!,
-            );
-    if (srvMsg == StringConstants.success) {
-      Navigator.of(ctx).pop();
-    } else {
-      showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
-    }
-  }
+  // _updateMember(BuildContext ctx, GroupMember groupMember, _isAdmin) async {
+  //   final srvMsg =
+  //       await read(groupMemberControllerProvider).createGroupMember(
+  //             groupMember.groupMemberUID,
+  //             groupMember.groupMemberName,
+  //             groupMember.groupName,
+  //             groupMember.groupUID,
+  //             _isAdmin,
+  //             groupMember.isOwner,
+  //             groupMember.isCreated,
+  //             groupMember.isInvited,
+  //             groupMember.emailAddress,
+  //             groupMember.phoneNumber,
+  //             groupMember.appNotify,
+  //             groupMember.textNotify,
+  //             groupMember.emailNotify,
+  //             groupMember.isPending,
+  //             groupMember.groupImageURL!,
+  //           );
+  //   if (srvMsg == StringConstants.success) {
+  //     Navigator.of(ctx).pop();
+  //   } else {
+  //     showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
+  //   }
+  // }
 }

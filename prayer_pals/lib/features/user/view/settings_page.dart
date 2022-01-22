@@ -21,15 +21,15 @@ import 'package:prayer_pals/features/user/view/group_notifications_list.dart';
 import 'activity_page.dart';
 import 'login_page.dart';
 
-class SettingsPage extends ConsumerWidget {
+class SettingsPage extends HookConsumerWidget {
   PPCUser? _ppcUser;
 
   SettingsPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     loadUser();
-    final settingsProvider = watch(reminderControllerProvider);
+    final settingsProvider = ref.watch(reminderControllerProvider);
     bool isSwitched = true;
     final _auth = AuthClient(FirebaseAuth.instance);
 

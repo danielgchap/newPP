@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
@@ -12,9 +11,7 @@ import 'package:prayer_pals/core/widgets/update_profile_pic.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/group/providers/group_provider.dart';
-import 'admin_edit.dart';
 import 'admin_members_page.dart';
-import 'group_desription_nonedit.dart';
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -28,7 +25,7 @@ import 'group_desription_nonedit.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class GroupDescriptionPage extends HookWidget {
+class GroupDescriptionPage extends HookConsumerWidget {
   final String groupUID;
   bool isSwitchedApp = true; //will come from user data
   bool isSwitchedText = true; //will come from user data
@@ -39,8 +36,8 @@ class GroupDescriptionPage extends HookWidget {
   GroupDescriptionPage({Key? key, required this.groupUID}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final groupProvider = useProvider(groupControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final groupProvider = ref.watch(groupControllerProvider);
 
 //TODO:
     // isSwitchedApp = groupMember.appNotify;

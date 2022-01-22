@@ -7,16 +7,16 @@ import 'package:prayer_pals/features/home/providers/home_provider.dart';
 class HomePageContainer extends ConsumerWidget {
   const HomePageContainer({Key? key}) : super(key: key);
 
-  void _onItemTapped(int index, BuildContext context) {
+  void _onItemTapped(WidgetRef ref, int index, BuildContext context) {
     //Navigator.of(context).pushNamed('/nextscreen');   //Attempt to use back button on Android phones
-    context.read(homeControllerProvider).setIndex(index);
+    ref.read(homeControllerProvider).setIndex(index);
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     SizeConfig().init(context);
 
-    final _homeController = watch(homeControllerProvider);
+    final _homeController = ref.watch(homeControllerProvider);
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
@@ -25,7 +25,7 @@ class HomePageContainer extends ConsumerWidget {
         unselectedItemColor: Colors.grey[700],
         currentIndex: _homeController.selectedIndex, //New
         onTap: (index) {
-          _onItemTapped(index, context);
+          _onItemTapped(ref, index, context);
         },
 
         type: BottomNavigationBarType.shifting,

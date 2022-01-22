@@ -8,7 +8,7 @@ import 'package:prayer_pals/core/widgets/rounded_button.dart';
 import 'package:prayer_pals/features/home/view/home_page_container.dart';
 import 'package:prayer_pals/features/user/providers/auth_providers.dart';
 
-class SignUpPage extends ConsumerWidget {
+class SignUpPage extends HookConsumerWidget {
   SignUpPage({Key? key}) : super(key: key);
 
   final TextEditingController _usernameController = TextEditingController();
@@ -16,9 +16,9 @@ class SignUpPage extends ConsumerWidget {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     SizeConfig().init(context);
-    final _auth = watch(authControllerProvider);
+    final _auth = ref.watch(authControllerProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(

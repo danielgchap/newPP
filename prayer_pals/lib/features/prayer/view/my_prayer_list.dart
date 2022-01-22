@@ -1,6 +1,5 @@
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/widgets/pray_now_widget.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
@@ -8,7 +7,7 @@ import 'package:prayer_pals/features/prayer/providers/my_prayer_provider.dart';
 import 'prayer_list_item.dart';
 
 // ignore: must_be_immutable
-class PrayerList extends HookWidget {
+class PrayerList extends HookConsumerWidget {
   final bool isPrayNow;
   final PrayerType prayerType;
   List checkedIndexes = [];
@@ -17,10 +16,9 @@ class PrayerList extends HookWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<List<Prayer>>(
-        future:
-            context.read(prayerControllerProvider).retrievePrayers(prayerType),
+        future: ref.read(prayerControllerProvider).retrievePrayers(prayerType),
         builder: (BuildContext context, AsyncSnapshot<List<Prayer>> snapshot) {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -60,6 +58,7 @@ class PrayerList extends HookWidget {
                     callback: () {
                       _showDeleteConfirmationDialog(
                         context,
+                        ref,
                         data[index],
                       );
                     },
@@ -71,7 +70,8 @@ class PrayerList extends HookWidget {
         });
   }
 
-  _showDeleteConfirmationDialog(BuildContext context, Prayer prayer) {
+  _showDeleteConfirmationDialog(
+      BuildContext context, WidgetRef ref, Prayer prayer) {
     Widget cancelButton = TextButton(
       child: const Text(StringConstants.cancel),
       onPressed: () {
@@ -86,7 +86,7 @@ class PrayerList extends HookWidget {
         ),
       ),
       onPressed: () async {
-        await context.read(prayerControllerProvider).deletePrayer(prayer);
+        await ref.read(prayerControllerProvider).deletePrayer(prayer);
         Navigator.pop(context);
       },
     );

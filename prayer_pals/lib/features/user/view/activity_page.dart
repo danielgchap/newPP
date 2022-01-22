@@ -38,7 +38,7 @@ class _ActivityState extends State<Activity> {
     Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const UserInfoBarWidget(isSettings: false),
+        UserInfoBarWidget(isSettings: false),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

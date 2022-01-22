@@ -14,7 +14,7 @@ import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/features/prayer/providers/my_prayer_provider.dart';
 
 // ignore: must_be_immutable
-class CreatePrayerPage extends HookWidget {
+class CreatePrayerPage extends HookConsumerWidget {
   final Prayer? prayer;
   TextEditingController? _titleController;
   TextEditingController? _detailsController;
@@ -30,7 +30,7 @@ class CreatePrayerPage extends HookWidget {
   ValueNotifier<List<Group>>? _groupsToRemovePrayerFrom;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     _groupsToShareTo = useState([]);
     _titleController = useTextEditingController();
     _detailsController = useTextEditingController();
@@ -66,11 +66,11 @@ class CreatePrayerPage extends HookWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(child: _contentSection(_backButton)),
+      body: SingleChildScrollView(child: _contentSection(_backButton, ref)),
     );
   }
 
-  Widget _contentSection(_backButton) {
+  Widget _contentSection(_backButton, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 15, 8, 5),
       child: Column(
@@ -124,7 +124,7 @@ class CreatePrayerPage extends HookWidget {
             ),
           ),
           SizedBox(
-            child: _toggleSwitchSection(),
+            child: _toggleSwitchSection(ref),
             height: SizeConfig.safeBlockVertical! * 28,
           ),
           _buttonSection(_backButton),
@@ -133,18 +133,17 @@ class CreatePrayerPage extends HookWidget {
     );
   }
 
-  Widget _toggleSwitchSection() {
+  Widget _toggleSwitchSection(WidgetRef ref) {
     return SizedBox(
       height: SizeConfig.screenHeight! * .15,
       width: SizeConfig.screenWidth,
-      child: _usersGroupsToggles(),
+      child: _usersGroupsToggles(ref),
     );
   }
 
-  FutureBuilder _usersGroupsToggles() {
+  FutureBuilder _usersGroupsToggles(WidgetRef ref) {
     return FutureBuilder<List<Group>>(
-        future:
-            useProvider(prayerControllerProvider).fetchGroupsForCurrentUser(),
+        future: ref.watch(prayerControllerProvider).fetchGroupsForCurrentUser(),
         builder: (BuildContext context, AsyncSnapshot<List<Group>> snapshot) {
           if (snapshot.hasError) {
             return const SizedBox();
@@ -215,7 +214,7 @@ class CreatePrayerPage extends HookWidget {
               buttonRatio: .8,
               buttonWidthRatio: .8,
               callback: () {
-                _updateAnsweredPrayer(ctx, prayer);
+                _updateAnsweredPrayer(ctx, ref, prayer);
               },
               bgColor: Colors.lightBlueAccent.shade100,
               textColor: Colors.white,
@@ -232,9 +231,9 @@ class CreatePrayerPage extends HookWidget {
             buttonWidthRatio: .8,
             callback: () {
               if (prayer != null) {
-                _updatePrayer(ctx, prayer);
+                _updatePrayer(ctx, ref, prayer);
               } else {
-                _createPrayer(ctx);
+                _createPrayer(ctx, ref);
               }
             },
             bgColor: Colors.lightBlueAccent.shade100,
@@ -245,22 +244,22 @@ class CreatePrayerPage extends HookWidget {
     );
   }
 
-  _createPrayer(BuildContext ctx) async {
-    final userUID = ctx.read(firebaseAuthProvider).currentUser!.uid;
-    final srvMsg = await ctx.read(prayerControllerProvider).createPrayer(
+  _createPrayer(BuildContext ctx, WidgetRef ref) async {
+    final userUID = ref.read(firebaseAuthProvider).currentUser!.uid;
+    final srvMsg = await ref.read(prayerControllerProvider).createPrayer(
         _titleController!.text,
         _detailsController!.text,
         userUID,
         _groupsToShareTo!.value,
         _shareGlobal);
     if (srvMsg == StringConstants.success) {
-      ctx.read(homeControllerProvider).setIndex(1);
+      ref.read(homeControllerProvider).setIndex(1);
     } else {
       showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
     }
   }
 
-  _updatePrayer(BuildContext ctx, prayer) async {
+  _updatePrayer(BuildContext ctx, WidgetRef ref, prayer) async {
     const prayerType = PrayerType.myPrayers;
     if (_groupsToRemovePrayerFrom != null) {
       for (var groupUid in _groupsToRemovePrayerFrom!.value) {
@@ -278,7 +277,7 @@ class CreatePrayerPage extends HookWidget {
       }
     }
 
-    final srvMsg = await ctx.read(prayerControllerProvider).updatePrayer(
+    final srvMsg = await ref.read(prayerControllerProvider).updatePrayer(
         prayerType,
         prayer.uid,
         _titleController!.text,
@@ -291,16 +290,16 @@ class CreatePrayerPage extends HookWidget {
         _groupsToRemovePrayerFrom!.value,
         _shareGlobal);
     if (srvMsg == StringConstants.success) {
-      ctx.read(homeControllerProvider).setIndex(0);
+      ref.read(homeControllerProvider).setIndex(0);
       Navigator.of(ctx).pop();
     } else {
       showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
     }
   }
 
-  _updateAnsweredPrayer(BuildContext ctx, prayer) async {
+  _updateAnsweredPrayer(BuildContext ctx, WidgetRef ref, prayer) async {
     const prayerType = PrayerType.answered;
-    final srvMsg = await ctx.read(prayerControllerProvider).updatePrayer(
+    final srvMsg = await ref.read(prayerControllerProvider).updatePrayer(
         prayerType,
         prayer.uid,
         _titleController!.text,
@@ -314,7 +313,7 @@ class CreatePrayerPage extends HookWidget {
         _shareGlobal);
     debugPrint(srvMsg);
     if (srvMsg == StringConstants.success) {
-      ctx.read(homeControllerProvider).setIndex(0);
+      ref.read(homeControllerProvider).setIndex(0);
       Navigator.of(ctx).pop();
     } else {
       showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);

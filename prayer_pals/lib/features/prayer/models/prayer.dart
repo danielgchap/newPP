@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:prayer_pals/features/user/models/ppcuser.dart';
 
 part 'prayer.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Prayer {
   String uid;
   String title;

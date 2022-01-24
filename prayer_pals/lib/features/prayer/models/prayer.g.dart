@@ -34,6 +34,6 @@ Map<String, dynamic> _$PrayerToJson(Prayer instance) => <String, dynamic>{
       'dateCreated': instance.dateCreated,
       'isGlobal': instance.isGlobal,
       'reportCount': instance.reportCount,
-      'groups': instance.groups,
+      'groups': instance.groups.map((e) => e.toJson()).toList(),
       'reportedBy': instance.reportedBy,
     };

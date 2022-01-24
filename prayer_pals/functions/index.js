@@ -11,16 +11,17 @@ admin.initializeApp();
 // });
 
 exports.onGroupPrayerCreated = functions.firestore
-    .document("/groups/{groupId}/groupPrayers/{commentId}")
+    .document("/groups/{groupId}/groupPrayers/{prayerId}")
     .onCreate((snapshot, context) => {
-      const prayerId = context.params.groupId;
-      console.log("Group Got A New Prayer: " + prayerId);
+      const prayerId = context.params.prayerId;
+      const groupId = context.params.groupId;
+      console.log("Group Got A New Prayer For Group: " + groupId + " PrayerId: " + prayerId);
 
       const prayerTitle = snapshot.get("title");
 
       const titleString = "Prayer pals - Group Prayer Created";
-      const bodyString = "Group Prayer Created\""+prayerTitle+"\"";
-      const topicString = prayerId + "groupPrayerCreated";
+      const bodyString = "Group Prayer Created: " + prayerTitle;
+      const topicString = "SUBTOGROUP-"+groupId;
       const payload = {
         notification: {
           title: titleString,
@@ -44,7 +45,7 @@ exports.onGroupPrayerCreated = functions.firestore
         },
         topic: topicString,
       };
-      console.log("PN: For Group Prayer: " + prayerId + " - " + bodyString);
+      console.log("PN: For Group Prayer: " + topicString + " - " + bodyString);
       admin.messaging().send(payload);
     }
     );

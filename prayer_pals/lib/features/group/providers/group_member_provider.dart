@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
-import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/group/clients/group_client.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
@@ -65,6 +63,10 @@ class GroupMemberController {
       if (group.isPrivate != null && group.isPrivate!) {
         await _reader(groupMemberControllerProvider)
             .addGroupToMyPendingRequests(groupMember);
+      } else {
+        final group = await _reader(groupClientProvider).fetchGroup(groupUID);
+        await _reader(groupMemberControllerProvider)
+            .addGroupToMyGroups(group, groupMemberUID);
       }
     } else {
       final group = await _reader(groupClientProvider).fetchGroup(groupUID);

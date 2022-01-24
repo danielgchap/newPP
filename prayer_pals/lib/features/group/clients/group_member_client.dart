@@ -31,12 +31,16 @@ class GroupMemberClient {
 
       final docSnap = await docRef.get();
 
-      int memberCount = docSnap.data()![StringConstants.memberCount];
-      memberCount = memberCount + 1;
-
-      await FirebaseFirestore.instance.runTransaction((transaction) async {
-        transaction.update(docRef, {StringConstants.memberCount: memberCount});
-      });
+      if (!groupMember.isPending) {
+        int memberCount = docSnap.data()![StringConstants.memberCount];
+        memberCount = memberCount + 1;
+        await FirebaseFirestore.instance.runTransaction(
+          (transaction) async {
+            transaction
+                .update(docRef, {StringConstants.memberCount: memberCount});
+          },
+        );
+      }
 
       return StringConstants.success;
     } on FirebaseException catch (e) {

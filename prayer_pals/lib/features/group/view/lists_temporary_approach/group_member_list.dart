@@ -79,7 +79,7 @@ class _GroupMembersState extends State<GroupMembers> {
                                           StringConstants.usersCollection)
                                       .doc(groupMember.groupMemberUID)
                                       .collection(
-                                          StringConstants.userGroupsCollection)
+                                          StringConstants.myGroupsCollection)
                                       .doc(groupMember.groupUID)
                                       .delete();
                                   await FirebaseFirestore.instance

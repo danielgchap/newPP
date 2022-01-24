@@ -29,7 +29,7 @@ class GroupClient {
       await FirebaseFirestore.instance
           .collection(StringConstants.usersCollection)
           .doc(group.creatorUID)
-          .collection(StringConstants.createdGroupsCollection)
+          .collection(StringConstants.myGroupsCollection)
           .doc(group.groupUID)
           .set(group.toJson());
 
@@ -111,7 +111,7 @@ class GroupClient {
         .collection(StringConstants.groupsCollection)
         .doc(group.groupUID);
     await FirebaseFirestore.instance.runTransaction((transaction) async {
-      transaction.update(docRef, {StringConstants.imageURL: url});
+      transaction.update(docRef, {StringConstants.groupImageURL: url});
       msg = url;
     }).then((value) async {
       final userGroupDocRef = FirebaseFirestore.instance
@@ -120,7 +120,8 @@ class GroupClient {
           .collection(StringConstants.userGroupsCollection)
           .doc(group.groupUID);
       await FirebaseFirestore.instance.runTransaction((transaction) async {
-        transaction.update(userGroupDocRef, {StringConstants.imageURL: url});
+        transaction
+            .update(userGroupDocRef, {StringConstants.groupImageURL: url});
       });
     }).catchError((error) {
       showDialog(
@@ -145,5 +146,14 @@ class GroupClient {
     });
 
     return msg;
+  }
+
+  Future<void> addGroupToMyGroups(Group group, String userUID) async {
+    await FirebaseFirestore.instance
+        .collection(StringConstants.usersCollection)
+        .doc(userUID)
+        .collection(StringConstants.myGroupsCollection)
+        .doc(group.groupUID)
+        .set(group.toJson());
   }
 }

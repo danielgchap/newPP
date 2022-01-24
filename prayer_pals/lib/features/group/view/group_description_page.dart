@@ -123,7 +123,7 @@ class GroupDescriptionPage extends HookConsumerWidget {
                             child: PPCAvatar(
                               radSize: 25,
                               image: StringConstants.groupIcon,
-                              networkImage: group!.imageURL,
+                              networkImage: group!.groupImageURL,
                             ),
                             onTap: () {
                               showDialog(
@@ -144,7 +144,7 @@ class GroupDescriptionPage extends HookConsumerWidget {
                           replacement: PPCAvatar(
                             radSize: 25,
                             image: StringConstants.groupIcon,
-                            networkImage: group!.imageURL,
+                            networkImage: group!.groupImageURL,
                           ),
                         ),
                       ),

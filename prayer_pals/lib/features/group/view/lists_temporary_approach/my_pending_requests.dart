@@ -145,7 +145,11 @@ class PendingRequests extends HookConsumerWidget {
   }
 }
 
-_updateGroups(BuildContext ctx, WidgetRef ref, GroupMember groupMember) async {
+_updateGroups(
+  BuildContext ctx,
+  WidgetRef ref,
+  GroupMember groupMember,
+) async {
   final srvMsg =
       await ref.read(groupMemberControllerProvider).createGroupMember(
             groupMember.groupMemberUID,

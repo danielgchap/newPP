@@ -62,7 +62,7 @@ class PPCSearchGroupsWidget extends HookConsumerWidget {
                       leading: PPCAvatar(
                         radSize: 15,
                         image: StringConstants.groupIcon,
-                        networkImage: group.imageURL,
+                        networkImage: group.groupImageURL,
                       ),
                       trailing: Consumer(builder: (ctx, ref, widget) {
                         return PPCRoundedButton(
@@ -107,33 +107,11 @@ class PPCSearchGroupsWidget extends HookConsumerWidget {
 
 _joinGroup(BuildContext ctx, WidgetRef ref, Group group) async {
   //TODO: add subscribe to group
-  final groupMemberUID = ref.read(firebaseAuthProvider).currentUser!.uid;
-  final groupMemberName =
-      ref.read(firebaseAuthProvider).currentUser!.displayName;
-  final groupUID = group.groupUID;
-  final emailAddress = ref.read(firebaseAuthProvider).currentUser!.email;
-  const phoneNumber = "";
-  final srvMsg =
-      await ref.read(groupMemberControllerProvider).createGroupMember(
-            groupMemberUID,
-            groupMemberName!,
-            group.groupName,
-            groupUID,
-            false,
-            false,
-            false,
-            false,
-            emailAddress!,
-            phoneNumber,
-            true,
-            false,
-            false,
-            true,
-            "",
-          );
+  String srvMsg =
+      await ref.read(searchGroupControllerProvider).joinGroup(group);
   if (srvMsg == StringConstants.success) {
     PPCEventBus eventBus = PPCEventBus();
-    eventBus.fire(SubscribeToGroupPNEvent(groupId: groupUID));
+    eventBus.fire(SubscribeToGroupPNEvent(groupId: group.groupUID));
     Navigator.of(ctx).pop();
   } else {
     showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);

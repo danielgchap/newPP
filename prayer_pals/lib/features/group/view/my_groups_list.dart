@@ -48,7 +48,7 @@ class MyGroups extends HookConsumerWidget {
                       leading: PPCAvatar(
                         radSize: 15,
                         image: StringConstants.groupIcon,
-                        networkImage: group.imageURL,
+                        networkImage: group.groupImageURL,
                       ),
                       trailing: IconButton(
                         icon: const Icon(CupertinoIcons.chat_bubble_2),

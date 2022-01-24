@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/features/group/clients/group_member_client.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
+import 'package:prayer_pals/features/user/models/ppcuser.dart';
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -18,6 +19,8 @@ abstract class GroupMemberRepository {
   Future<List<GroupMember>> retrieveGroupMember(GroupMember groupMember);
   Future<String> updateGroupMember(GroupMember groupMember);
   Future<String> deleteGroupMember(GroupMember groupMember);
+  Future<void> addGroupToMyPendingRequests(
+      GroupMember groupMember, PPCUser user);
 }
 
 class GroupMemberRepositoryImpl implements GroupMemberRepository {
@@ -47,5 +50,12 @@ class GroupMemberRepositoryImpl implements GroupMemberRepository {
   Future<String> deleteGroupMember(GroupMember groupMember) async {
     return await _reader(groupMemberClientProvider)
         .deleteGroupMember(groupMember);
+  }
+
+  @override
+  Future<void> addGroupToMyPendingRequests(
+      GroupMember groupMember, PPCUser user) async {
+    return await _reader(groupMemberClientProvider)
+        .addGroupToMyPendingRequests(groupMember, user);
   }
 }

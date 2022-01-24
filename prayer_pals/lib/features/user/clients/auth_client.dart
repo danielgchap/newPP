@@ -207,7 +207,7 @@ class AuthClient {
         .collection(StringConstants.usersCollection)
         .doc(user!.uid);
     await FirebaseFirestore.instance.runTransaction((transaction) async {
-      transaction.update(docRef, {StringConstants.imageURL: url});
+      transaction.update(docRef, {'imageURL': url});
       msg = url;
     }).catchError((error) {
       showDialog(

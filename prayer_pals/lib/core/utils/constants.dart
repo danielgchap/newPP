@@ -127,8 +127,8 @@ class StringConstants {
   static const groupPrayerCollection = "groupPrayers";
   static const groupAnsweredCollection = "groupAnswered";
   static const scriptureCollection = 'scriptures';
-  static const imageURL = 'imageURL';
-  static const createdGroupsCollection = 'createdGroups';
+  static const groupImageURL = 'groupImageURL';
+  static const myGroupsCollection = 'myGroups';
   static const pendingRequestsCollection = 'pendingRequests';
   static const subscribedGroups = 'subscribedGroups';
   static const reportedPrayersCollection = 'reportedPrayers';

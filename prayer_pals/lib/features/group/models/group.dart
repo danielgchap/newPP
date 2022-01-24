@@ -9,7 +9,7 @@ class Group {
   String? description;
   String groupUID;
   String groupName;
-  String? imageURL;
+  String? groupImageURL;
   bool? isPrivate;
   int? memberCount;
   int? prayerCount;
@@ -22,7 +22,7 @@ class Group {
     this.description,
     required this.groupUID,
     required this.groupName,
-    this.imageURL,
+    this.groupImageURL,
     this.isPrivate,
     this.memberCount,
     this.prayerCount,
@@ -42,7 +42,7 @@ class Group {
       creatorUID: data.docs[index]['creatorUID'],
       isPrivate: data.docs[index]['isPrivate'],
       tags: data.docs[index]['tags'],
-      imageURL: data.docs[index]['imageURL'],
+      groupImageURL: data.docs[index]['groupImageURL'],
       memberCount: data.docs[index]['memberCount'],
       prayerCount: data.docs[index]['prayerCount'],
       searchParamsList: data.docs[index]['searchParamsList'],

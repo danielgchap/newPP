@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
+import 'package:prayer_pals/features/user/models/ppcuser.dart';
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -82,5 +83,16 @@ class GroupMemberClient {
     } on FirebaseException catch (e) {
       return Future.value(e.message);
     }
+  }
+
+  Future<void> addGroupToMyPendingRequests(
+      GroupMember groupMember, PPCUser user) async {
+    await FirebaseFirestore.instance
+        .collection(StringConstants.usersCollection)
+        .doc(user.uid)
+        .collection(StringConstants.pendingRequestsCollection)
+        .doc(groupMember.groupUID)
+        .set(groupMember.toJson());
+    return;
   }
 }

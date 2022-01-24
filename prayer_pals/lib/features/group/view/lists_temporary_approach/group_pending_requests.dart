@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
+import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
+import 'package:prayer_pals/features/group/providers/pending_requests_provider.dart';
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -13,21 +17,16 @@ import 'package:prayer_pals/core/utils/constants.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class GroupPendingRequests extends StatefulWidget {
+class GroupPendingRequests extends HookConsumerWidget {
   final Group group;
 
   const GroupPendingRequests({Key? key, required this.group}) : super(key: key);
 
   @override
-  State<GroupPendingRequests> createState() => _GroupPendingRequestsState();
-}
-
-class _GroupPendingRequestsState extends State<GroupPendingRequests> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final Stream<QuerySnapshot> pendingMembers = FirebaseFirestore.instance
         .collection(StringConstants.groupsCollection)
-        .doc(widget.group.groupUID)
+        .doc(group.groupUID)
         .collection(StringConstants.groupMemberCollection)
         .snapshots();
 
@@ -37,7 +36,7 @@ class _GroupPendingRequestsState extends State<GroupPendingRequests> {
           if (snapshot.hasError) {}
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: Text("Loading ..."),
+              child: Text(StringConstants.loading),
             );
           } else {
             final data = snapshot.requireData;
@@ -77,9 +76,10 @@ class _GroupPendingRequestsState extends State<GroupPendingRequests> {
                                   IconButton(
                                     icon: const Icon(Icons.check),
                                     color: Colors.green,
-                                    onPressed: () {
-                                      // _updateGroups(
-                                      //     context, groupMember, widget.group);
+                                    onPressed: () async {
+                                      ref
+                                          .read(pendingRequestProvider)
+                                          .updateGroup(context, groupMember);
                                     },
                                   ),
                                   IconButton(
@@ -87,23 +87,9 @@ class _GroupPendingRequestsState extends State<GroupPendingRequests> {
                                     color: Colors.red,
                                     onPressed: () async {
                                       try {
-                                        await FirebaseFirestore.instance
-                                            .collection(
-                                                StringConstants.usersCollection)
-                                            .doc(groupMember.groupMemberUID)
-                                            .collection(StringConstants
-                                                .userGroupsCollection)
-                                            .doc(groupMember.groupUID)
-                                            .delete();
-                                        await FirebaseFirestore.instance
-                                            .collection(StringConstants
-                                                .groupsCollection)
-                                            .doc(groupMember.groupUID)
-                                            .collection(StringConstants
-                                                .groupMemberCollection)
-                                            .doc(groupMember.groupMemberUID)
-                                            .delete();
-                                        return setState(() {});
+                                        ref
+                                            .read(pendingRequestProvider)
+                                            .removePendingRequest(groupMember);
                                       } catch (e) {
                                         debugPrint(e.toString());
                                         return;
@@ -120,28 +106,29 @@ class _GroupPendingRequestsState extends State<GroupPendingRequests> {
         });
   }
 
-  // _updateGroups(BuildContext ctx, groupMember, group) async {
-  //   final srvMsg =
-  //       await ctx.read(groupMemberControllerProvider).createGroupMember(
-  //             groupMember.groupMemberUID,
-  //             groupMember.groupMemberName!,
-  //             groupMember.groupName,
-  //             groupMember.groupUID,
-  //             false,
-  //             false,
-  //             false,
-  //             false,
-  //             groupMember.emailAddress!,
-  //             groupMember.phoneNumber,
-  //             true,
-  //             false,
-  //             false,
-  //             false,
-  //             "",
-  //           );
-  //   if (srvMsg == StringConstants.success) {
-  //   } else {
-  //     showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
-  //   }
-  // }
+  _updateGroups(BuildContext ctx, GroupMember groupMember, Group group,
+      WidgetRef ref) async {
+    final srvMsg =
+        await ref.read(groupMemberControllerProvider).createGroupMember(
+              groupMember.groupMemberUID,
+              groupMember.groupMemberName,
+              groupMember.groupName,
+              groupMember.groupUID,
+              false,
+              false,
+              false,
+              false,
+              groupMember.emailAddress,
+              groupMember.phoneNumber,
+              true,
+              false,
+              false,
+              false,
+              "",
+            );
+    if (srvMsg == StringConstants.success) {
+    } else {
+      showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
+    }
+  }
 }

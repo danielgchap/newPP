@@ -81,9 +81,7 @@ class MessageRootHandler extends HookWidget {
 
   static fcmSubscribeToTopic(
       String groupId, Function(bool success) successCallback) {
-    FirebaseMessaging.instance
-        .subscribeToTopic('SUBTOGROUP-$groupId')
-        .then((value) {
+    FirebaseMessaging.instance.subscribeToTopic('sub_to_group').then((value) {
       debugPrint('FCM - Successfully subscribed to topic: SUBTOGROUP-$groupId');
       successCallback(true);
     }).catchError((error) {

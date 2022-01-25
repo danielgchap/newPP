@@ -1,5 +1,5 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
 admin.initializeApp();
 
 // // Create and Deploy Your First Cloud Functions
@@ -11,7 +11,7 @@ admin.initializeApp();
 // });
 
 exports.onGroupPrayerCreated = functions.firestore
-    .document("/groups/{groupId}/groupPrayers/{prayerId}")
+    .document('/groups/{groupId}/groupPrayers/{prayerId}')
     .onCreate((snapshot, context) => {
       const prayerId = context.params.prayerId;
       const groupId = context.params.groupId;
@@ -19,9 +19,10 @@ exports.onGroupPrayerCreated = functions.firestore
 
       const prayerTitle = snapshot.get("title");
 
-      const titleString = "Prayer pals - Group Prayer Created";
-      const bodyString = "Group Prayer Created: " + prayerTitle;
-      const topicString = "SUBTOGROUP-"+groupId;
+      const titleString = 'Prayer pals - Group Prayer Created';
+      const bodyString = 'Group Prayer Created: ' + prayerTitle;
+      const topicString = 'sub_to_group';
+      
       const payload = {
         notification: {
           title: titleString,
@@ -30,7 +31,7 @@ exports.onGroupPrayerCreated = functions.firestore
         android: {
           data: {
             id: prayerId,
-            type: "groupPrayer",
+            type: 'groupPrayer',
             title: titleString,
             body: bodyString,
             "click_action": "FLUTTER_NOTIFICATION_CLICK",
@@ -39,7 +40,7 @@ exports.onGroupPrayerCreated = functions.firestore
         },
         data: {
           id: prayerId,
-          type: "groupPrayer",
+          type: 'groupPrayer',
           title: titleString,
           body: bodyString,
         },

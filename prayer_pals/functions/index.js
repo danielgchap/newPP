@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const { topic } = require('firebase-functions/lib/providers/pubsub');
 admin.initializeApp();
 
 // // Create and Deploy Your First Cloud Functions
@@ -21,32 +22,40 @@ exports.onGroupPrayerCreated = functions.firestore
 
       const titleString = 'Prayer pals - Group Prayer Created';
       const bodyString = 'Group Prayer Created: ' + prayerTitle;
-      const topicString = 'sub_to_group';
+      const topicString = groupId + '-GroupCampaign_Created';
       
       const payload = {
         notification: {
-          title: titleString,
-          body: bodyString,
-        },
-        android: {
-          data: {
-            id: prayerId,
-            type: 'groupPrayer',
             title: titleString,
             body: bodyString,
-            "click_action": "FLUTTER_NOTIFICATION_CLICK",
-            "priority": "high",
-          },
+        },
+        android: {
+            data: {
+                id: prayerId,
+                type: 'groupPrayerCreated',
+                title: titleString,
+                body: bodyString,
+                "click_action": "FLUTTER_NOTIFICATION_CLICK",
+                "priority": "high",
+            },
         },
         data: {
-          id: prayerId,
-          type: 'groupPrayer',
-          title: titleString,
-          body: bodyString,
+            id: prayerId,
+            type: 'groupPrayerCreated',
+            title: titleString,
+            body: bodyString,
         },
         topic: topicString,
-      };
+    };
+
       console.log("PN: For Group Prayer: " + topicString + " - " + bodyString);
-      admin.messaging().send(payload);
+      return admin.messaging().send(payload)
+      .then((response) => {
+        // Response is a message ID string.
+        console.log('Successfully sent message:', response);
+      })
+      .catch((error) => {
+        console.log('Error sending message:', error);
+      });
     }
     );

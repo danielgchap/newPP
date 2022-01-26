@@ -47,7 +47,8 @@ class GroupPrayerController {
         creatorUID: creatorUID,
         creatorDisplayName: groupMember.groupMemberName,
         creatorImageURL: currentUser.imageURL ?? StringConstants.userIcon,
-        dateCreated: DateFormat("MM-dd-yyyy").format(DateTime.now()).toString(),
+        dateCreated:
+            DateFormat("MM-dd-yyyy hh:mm a").format(DateTime.now()).toString(),
         isGlobal: isGlobal,
         groups: groupsToAdd,
         reportCount: 0,

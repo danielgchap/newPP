@@ -59,7 +59,8 @@ class PrayerListItemHeaderRow extends HookWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    prayer.dateCreated,
+                    "${prayer.dateCreated.substring(1, 10)}\n${prayer.dateCreated.substring(11, prayer.dateCreated.length)}",
+                    textAlign: TextAlign.end,
                     style: TextStyle(
                       fontSize: SizeConfig.safeBlockVertical! * 2.2,
                     ),

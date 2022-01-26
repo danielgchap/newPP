@@ -81,7 +81,9 @@ class MessageRootHandler extends HookWidget {
 
   static fcmSubscribeToTopic(
       String groupId, Function(bool success) successCallback) {
-    FirebaseMessaging.instance.subscribeToTopic('sub_to_group').then((value) {
+    FirebaseMessaging.instance
+        .subscribeToTopic('$groupId-GroupCampaign_Created')
+        .then((value) {
       debugPrint('FCM - Successfully subscribed to topic: SUBTOGROUP-$groupId');
       successCallback(true);
     }).catchError((error) {
@@ -93,7 +95,7 @@ class MessageRootHandler extends HookWidget {
   static fcmUnsubscribeFromTopic(
       String groupId, Function(bool success) successCallback) {
     FirebaseMessaging.instance
-        .subscribeToTopic('SUBTOGROUP-$groupId')
+        .unsubscribeFromTopic('$groupId-GroupCampaign_Created')
         .then((value) {
       debugPrint(
           'FCM - Successfully UNSUBscribed from topic: SUBTOGROUP-$groupId');

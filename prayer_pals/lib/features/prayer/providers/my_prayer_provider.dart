@@ -95,12 +95,14 @@ class PrayerController extends ChangeNotifier {
         groups: groupsToAdd,
         isGlobal: isGlobal,
       );
-      return await _reader(prayerRepositoryProvider).updatePrayer(
+      final msg = await _reader(prayerRepositoryProvider).updatePrayer(
         prayer,
         prayerType,
         groupsToUpdateDelete,
         groupsToUpdateAdd,
       );
+      notify();
+      return msg;
     }
   }
 
@@ -113,6 +115,13 @@ class PrayerController extends ChangeNotifier {
 
   Future<List<Group>> fetchGroupsForCurrentUser() async {
     return await _reader(prayerRepositoryProvider).fetchGroupsForCurrentUser();
+  }
+
+  Future<void> makeAnsweredPrayerUnanswered(Prayer prayer) async {
+    await _reader(prayerRepositoryProvider)
+        .makeAnsweredPrayerUnanswered(prayer);
+    notify();
+    return;
   }
 
   notify() {

@@ -78,6 +78,8 @@ class StringConstants {
 //Page Titles
   static const addPrayer = 'Add Prayer';
   static const editPrayer = 'Edit Prayer';
+  static const editAnsweredPrayer = 'Edit Answered Prayer';
+  static const addToMyPrayers = 'Add To My Prayers';
   static const prayers = 'Prayers';
   static const answeredPrayer = 'Answered Prayer';
   static const prayNow = 'Pray Now';

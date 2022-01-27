@@ -18,6 +18,7 @@ abstract class PrayerRepository {
   );
   Future<String> deletePrayer(Prayer prayer);
   Future<List<Group>> fetchGroupsForCurrentUser();
+  Future<void> makeAnsweredPrayerUnanswered(Prayer prayer);
 }
 
 class PrayerRepositoryImpl implements PrayerRepository {
@@ -58,5 +59,11 @@ class PrayerRepositoryImpl implements PrayerRepository {
   @override
   Future<List<Group>> fetchGroupsForCurrentUser() async {
     return await _reader(prayerClientProvider).fetchGroupsForCurrentUser();
+  }
+
+  @override
+  Future<void> makeAnsweredPrayerUnanswered(Prayer prayer) async {
+    return await _reader(prayerClientProvider)
+        .makeAnsweredPrayerUnanswered(prayer);
   }
 }

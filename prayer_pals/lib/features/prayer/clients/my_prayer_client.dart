@@ -171,6 +171,22 @@ class PrayerClient {
     }
   }
 
+  Future<void> makeAnsweredPrayerUnanswered(Prayer prayer) async {
+    await FirebaseFirestore.instance
+        .collection(StringConstants.usersCollection)
+        .doc(prayer.creatorUID)
+        .collection(StringConstants.myPrayersCollection)
+        .doc(prayer.uid)
+        .set(prayer.toJson());
+    await FirebaseFirestore.instance
+        .collection(StringConstants.usersCollection)
+        .doc(prayer.creatorUID)
+        .collection(StringConstants.answeredPrayersCollection)
+        .doc(prayer.uid)
+        .delete();
+    return;
+  }
+
   Future<String> deletePrayer(Prayer prayer) async {
     try {
       await FirebaseFirestore.instance

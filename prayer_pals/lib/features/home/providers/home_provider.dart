@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/group/view/connections_page.dart';
 import 'package:prayer_pals/features/home/view/home_page.dart';
 import 'package:prayer_pals/features/prayer/view/create_prayer_page.dart';
@@ -15,7 +16,9 @@ final homeControllerProvider =
 class HomeController extends ChangeNotifier {
   static const HomePage _homePage = HomePage();
   static const MyPrayersPage _prayersPage = MyPrayersPage();
-  static final CreatePrayerPage _createPrayerPage = CreatePrayerPage();
+  static final CreatePrayerPage _createPrayerPage = CreatePrayerPage(
+    prayerType: PrayerType.myPrayers,
+  );
   static const GlobalPrayersPage _globalPrayersPage = GlobalPrayersPage();
   static const ConnectionsPage _connectionsPage = ConnectionsPage();
   static final SettingsPage _settingsPage = SettingsPage();

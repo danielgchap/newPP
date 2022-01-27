@@ -36,7 +36,10 @@ class GroupPrayerList extends HookConsumerWidget {
             return ListView.builder(
                 itemCount: data.length,
                 itemBuilder: (context, index) {
-                  return PrayerListItem(prayer: data[index]);
+                  return PrayerListItem(
+                    prayer: data[index],
+                    prayerType: prayerType,
+                  );
                 });
           }
         });

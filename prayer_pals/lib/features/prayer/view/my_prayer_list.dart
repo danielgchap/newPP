@@ -56,6 +56,7 @@ class PrayerList extends HookConsumerWidget {
                 itemBuilder: (context, index) {
                   return PrayerListItem(
                     prayer: data[index],
+                    prayerType: prayerType,
                     callback: () {
                       _showDeleteConfirmationDialog(
                         context,

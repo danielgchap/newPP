@@ -16,6 +16,7 @@ import 'package:prayer_pals/features/prayer/providers/my_prayer_provider.dart';
 // ignore: must_be_immutable
 class CreatePrayerPage extends HookConsumerWidget {
   final Prayer? prayer;
+  final PrayerType prayerType;
   TextEditingController? _titleController;
   TextEditingController? _detailsController;
   ValueNotifier<List<Group>>? _groupsToShareTo;
@@ -23,6 +24,7 @@ class CreatePrayerPage extends HookConsumerWidget {
   CreatePrayerPage({
     Key? key,
     this.prayer,
+    required this.prayerType,
   }) : super(key: key);
 
   bool _shareGlobal = false;
@@ -34,23 +36,25 @@ class CreatePrayerPage extends HookConsumerWidget {
     _groupsToShareTo = useState([]);
     _titleController = useTextEditingController();
     _detailsController = useTextEditingController();
-    useEffect(() {
-      if (prayer != null) {
-        _title = StringConstants.editPrayer;
-        _groupsToRemovePrayerFrom = useState([]);
-        _groupsForUpdateToAddTo = useState([]);
-        _groupsToShareTo!.value = prayer!.groups;
-        _shareGlobal = prayer!.isGlobal;
-        _titleController!.text = prayer!.title;
-        _titleController!.selection = TextSelection.fromPosition(
-            TextPosition(offset: _titleController!.text.length));
-        _detailsController!.text = prayer!.description;
-        _detailsController!.selection = TextSelection.fromPosition(
-            TextPosition(offset: _detailsController!.text.length));
-      } else {
-        _title = StringConstants.addPrayer;
-      }
-    }, []);
+
+    if (prayer != null) {
+      _title = prayerType == PrayerType.answered
+          ? StringConstants.editAnsweredPrayer
+          : StringConstants.editPrayer;
+      _groupsToRemovePrayerFrom = useState([]);
+      _groupsForUpdateToAddTo = useState([]);
+      _groupsToShareTo!.value = prayer!.groups;
+      _shareGlobal = prayer!.isGlobal;
+      _titleController!.text = prayer!.title;
+      _titleController!.selection = TextSelection.fromPosition(
+          TextPosition(offset: _titleController!.text.length));
+      _detailsController!.text = prayer!.description;
+      _detailsController!.selection = TextSelection.fromPosition(
+          TextPosition(offset: _detailsController!.text.length));
+    } else {
+      _title = StringConstants.addPrayer;
+    }
+
     bool _backButton = false;
     prayer != null ? _backButton = true : _backButton = false;
     return Scaffold(
@@ -66,11 +70,17 @@ class CreatePrayerPage extends HookConsumerWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(child: _contentSection(_backButton, ref)),
+      body: SingleChildScrollView(
+          child: _contentSection(_backButton, ref, prayerType, context)),
     );
   }
 
-  Widget _contentSection(_backButton, WidgetRef ref) {
+  Widget _contentSection(
+    _backButton,
+    WidgetRef ref,
+    PrayerType prayerType,
+    BuildContext context,
+  ) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 15, 8, 5),
       child: Column(
@@ -127,7 +137,7 @@ class CreatePrayerPage extends HookConsumerWidget {
             child: _toggleSwitchSection(ref),
             height: SizeConfig.safeBlockVertical! * 28,
           ),
-          _buttonSection(_backButton),
+          _buttonSection(_backButton, context, ref, prayerType),
         ],
       ),
     );
@@ -203,24 +213,29 @@ class CreatePrayerPage extends HookConsumerWidget {
         });
   }
 
-  Widget _buttonSection(_backButton) {
+  Widget _buttonSection(
+      _backButton, BuildContext ctx, WidgetRef ref, PrayerType prayerType) {
     return Column(
       children: [
-        Consumer(builder: (ctx, ref, wid) {
-          return Visibility(
-            visible: prayer != null,
-            child: PPCRoundedButton(
-              title: StringConstants.answered,
-              buttonRatio: .8,
-              buttonWidthRatio: .8,
-              callback: () {
+        Visibility(
+          visible: prayer != null,
+          child: PPCRoundedButton(
+            title: prayerType == PrayerType.answered
+                ? StringConstants.addToMyPrayers
+                : StringConstants.answered,
+            buttonRatio: .8,
+            buttonWidthRatio: .8,
+            callback: () {
+              if (prayerType == PrayerType.answered) {
+                _makeAnsweredPrayerUnanswered(ctx, ref, prayer!);
+              } else {
                 _updateAnsweredPrayer(ctx, ref, prayer);
-              },
-              bgColor: Colors.lightBlueAccent.shade100,
-              textColor: Colors.white,
-            ),
-          );
-        }),
+              }
+            },
+            bgColor: Colors.lightBlueAccent.shade100,
+            textColor: Colors.white,
+          ),
+        ),
         SizedBox(
           height: SizeConfig.safeBlockVertical! * 2,
         ),
@@ -290,7 +305,6 @@ class CreatePrayerPage extends HookConsumerWidget {
         _groupsToRemovePrayerFrom!.value,
         _shareGlobal);
     if (srvMsg == StringConstants.success) {
-      ref.read(homeControllerProvider).setIndex(0);
       Navigator.of(ctx).pop();
     } else {
       showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
@@ -313,10 +327,17 @@ class CreatePrayerPage extends HookConsumerWidget {
         _shareGlobal);
     debugPrint(srvMsg);
     if (srvMsg == StringConstants.success) {
-      ref.read(homeControllerProvider).setIndex(0);
       Navigator.of(ctx).pop();
     } else {
       showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
     }
+  }
+
+  _makeAnsweredPrayerUnanswered(
+      BuildContext context, WidgetRef ref, Prayer prayer) async {
+    await ref
+        .read(prayerControllerProvider)
+        .makeAnsweredPrayerUnanswered(prayer);
+    Navigator.of(context).pop();
   }
 }

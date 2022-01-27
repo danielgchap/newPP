@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/prayer_list_item_bottom_row.dart';
 import 'package:prayer_pals/core/widgets/prayer_list_item_detail_row.dart';
@@ -12,11 +13,13 @@ import 'prayer_detail_page.dart';
 
 class PrayerListItem extends HookWidget {
   final Prayer prayer;
+  final PrayerType prayerType;
   final VoidCallback? callback;
 
   const PrayerListItem({
     Key? key,
     required this.prayer,
+    required this.prayerType,
     this.callback,
   }) : super(key: key);
 
@@ -52,7 +55,10 @@ class PrayerListItem extends HookWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CreatePrayerPage(prayer: prayer),
+                builder: (context) => CreatePrayerPage(
+                  prayer: prayer,
+                  prayerType: prayerType,
+                ),
               ));
         } else {
           Navigator.push(

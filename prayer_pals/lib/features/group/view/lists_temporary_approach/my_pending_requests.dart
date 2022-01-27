@@ -76,22 +76,9 @@ class PendingRequests extends HookConsumerWidget {
                                         color: Colors.red,
                                         onPressed: () async {
                                           try {
-                                            await FirebaseFirestore.instance
-                                                .collection(StringConstants
-                                                    .usersCollection)
-                                                .doc(groupMember.groupMemberUID)
-                                                .collection(StringConstants
-                                                    .userGroupsCollection)
-                                                .doc(groupMember.groupUID)
-                                                .delete();
-                                            await FirebaseFirestore.instance
-                                                .collection(StringConstants
-                                                    .groupsCollection)
-                                                .doc(groupMember.groupUID)
-                                                .collection(StringConstants
-                                                    .groupMemberCollection)
-                                                .doc(groupMember.groupMemberUID)
-                                                .delete();
+                                            pendingRequestsProvider
+                                                .removeMyPendingRequestToOtherGroup(
+                                                    groupMember);
                                             return;
                                           } catch (e) {
                                             debugPrint(e.toString());

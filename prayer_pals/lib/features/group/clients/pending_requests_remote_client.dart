@@ -39,4 +39,19 @@ class PendingRequestsClient {
         .doc(groupMember.groupMemberUID)
         .delete();
   }
+
+  removeMyPendingRequestToOtherGroup(GroupMember groupMember) async {
+    await FirebaseFirestore.instance
+        .collection(StringConstants.usersCollection)
+        .doc(groupMember.groupMemberUID)
+        .collection(StringConstants.pendingRequestsCollection)
+        .doc(groupMember.groupUID)
+        .delete();
+    await FirebaseFirestore.instance
+        .collection(StringConstants.groupsCollection)
+        .doc(groupMember.groupUID)
+        .collection(StringConstants.groupMemberCollection)
+        .doc(groupMember.groupMemberUID)
+        .delete();
+  }
 }

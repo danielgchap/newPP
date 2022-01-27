@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
@@ -48,5 +47,10 @@ class PendingRequestProvider {
 
   removePendingRequest(GroupMember groupMember) {
     _reader(pendingRequestsClientProvider).declinePendingRequest(groupMember);
+  }
+
+  removeMyPendingRequestToOtherGroup(GroupMember groupMember) {
+    _reader(pendingRequestsClientProvider)
+        .removeMyPendingRequestToOtherGroup(groupMember);
   }
 }

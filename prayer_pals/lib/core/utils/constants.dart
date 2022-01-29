@@ -157,7 +157,10 @@ class StringConstants {
       'This prayer has been reported and submitted for review.\n\nThank you for your feedback.';
   static const reporthingThisPrayer =
       'Reporting this prayer will remove it from the app and send it to the review process. If it is found to be in violation of our Terms of Use, the prayer will be removed and the user may be permanently blocked.\n\nAre you sure you want to report this prayer?';
-
+  static const areYouSureYouWishToDeleteYourPrayer =
+      'Are you sure you wish to delete your prayer?';
+  static const areYouSureYouWishToRemoveThisGlobalPrayerFromYourPrayerList =
+      'Are you sure you wish to remove this global prayer from your prayer list?';
 //Activity
   static const memberSince = 'Member Since';
   static const answeredPrayers = 'Answered Prayers';

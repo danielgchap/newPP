@@ -19,87 +19,50 @@ class PrayerList extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final prayerProvider = ref.watch(prayerControllerProvider);
     return FutureBuilder<List<Prayer>>(
-        future: prayerProvider.retrievePrayers(prayerType),
-        builder: (BuildContext context, AsyncSnapshot<List<Prayer>> snapshot) {
-          if (snapshot.hasError) {}
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: Text(StringConstants.loading),
+      future: prayerProvider.retrievePrayers(prayerType),
+      builder: (BuildContext context, AsyncSnapshot<List<Prayer>> snapshot) {
+        if (snapshot.hasError) {}
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: Text(StringConstants.loading),
+          );
+        } else {
+          final data = snapshot.requireData;
+          if (isPrayNow == true) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: PrayNowRow(
+                        title: data[index].title,
+                        description: data[index].description,
+                        isSelected: checkedIndexes.contains(index),
+                        callback: () {
+                          if (!checkedIndexes.contains(index)) {
+                            checkedIndexes.add(index);
+                          } else {
+                            checkedIndexes.remove(index);
+                          }
+                        },
+                      ),
+                    );
+                  }),
             );
           } else {
-            final data = snapshot.requireData;
-            if (isPrayNow == true) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: PrayNowRow(
-                          title: data[index].title,
-                          description: data[index].description,
-                          isSelected: checkedIndexes.contains(index),
-                          callback: () {
-                            if (!checkedIndexes.contains(index)) {
-                              checkedIndexes.add(index);
-                            } else {
-                              checkedIndexes.remove(index);
-                            }
-                          },
-                        ),
-                      );
-                    }),
-              );
-            } else {
-              return ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return PrayerListItem(
-                    prayer: data[index],
-                    prayerType: prayerType,
-                    callback: () {
-                      _showDeleteConfirmationDialog(
-                        context,
-                        ref,
-                        data[index],
-                      );
-                    },
-                  );
-                },
-              );
-            }
+            return ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return PrayerListItem(
+                  prayer: data[index],
+                  prayerType: prayerType,
+                );
+              },
+            );
           }
-        });
-  }
-
-  _showDeleteConfirmationDialog(
-      BuildContext context, WidgetRef ref, Prayer prayer) {
-    Widget cancelButton = TextButton(
-      child: const Text(StringConstants.cancel),
-      onPressed: () {
-        Navigator.pop(context);
+        }
       },
     );
-    Widget deleteButton = TextButton(
-      child: const Text(
-        StringConstants.delete,
-        style: TextStyle(
-          color: Colors.red,
-        ),
-      ),
-      onPressed: () async {
-        await ref.read(prayerControllerProvider).deletePrayer(prayer);
-        Navigator.pop(context);
-      },
-    );
-    AlertDialog alert = AlertDialog(
-      title: const Text(StringConstants.areYouSure),
-      content: const Text(StringConstants.doYouWishToDeleteThisPrayer),
-      actions: [
-        cancelButton,
-        deleteButton,
-      ],
-    );
-    showDialog(context: context, builder: (context) => alert);
   }
 }

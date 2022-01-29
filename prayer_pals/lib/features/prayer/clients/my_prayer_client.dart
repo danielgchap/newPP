@@ -195,7 +195,10 @@ class PrayerClient {
           .collection(StringConstants.myPrayersCollection)
           .doc(prayer.uid)
           .delete();
-      if (prayer.isGlobal) {
+      //TODO: test that you can only delete a prayer that is global if it's yours
+      //TODO: test deleting a prayer from my prayers that is global and not yours
+      if (prayer.isGlobal &&
+          prayer.creatorUID == FirebaseAuth.instance.currentUser!.uid) {
         await FirebaseFirestore.instance
             .collection(StringConstants.globalPrayersCollection)
             .doc(prayer.uid)

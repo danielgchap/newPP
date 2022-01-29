@@ -4,13 +4,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/event_bus/group_subscribtion_event.dart';
+import 'package:prayer_pals/core/event_bus/ppc_event_bus.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/core/widgets/edit_group_name_dialog.dart';
+import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
+import 'package:prayer_pals/core/widgets/rounded_button.dart';
 import 'package:prayer_pals/core/widgets/update_profile_pic.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/group/providers/group_provider.dart';
+import 'package:prayer_pals/features/group/providers/search_groups_provider.dart';
+import 'package:prayer_pals/features/group/view/admin_edit.dart';
+import 'package:prayer_pals/features/group/view/group_desription_nonedit.dart';
 import 'admin_members_page.dart';
 
 //////////////////////////////////////////////////////////////////////////
@@ -108,145 +115,152 @@ class GroupDescriptionPage extends HookConsumerWidget {
                 ),
               ],
             ),
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                    child: Row(children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-                        child: Visibility(
-                          visible: userIsAdmin,
-                          child: InkWell(
-                            child: PPCAvatar(
-                              radSize: 25,
-                              image: StringConstants.groupIcon,
-                              networkImage: group!.groupImageURL,
-                            ),
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    UpdatePicture(
-                                  context: context,
-                                  callback: (imageFile) async {
-                                    await groupProvider.updateGroupImage(
-                                        context, imageFile, group!);
-                                    group = await groupProvider
-                                        .fetchGroup(groupUID);
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                          replacement: PPCAvatar(
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                  child: Row(children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                      child: Visibility(
+                        visible: userIsAdmin,
+                        child: InkWell(
+                          child: PPCAvatar(
                             radSize: 25,
                             image: StringConstants.groupIcon,
                             networkImage: group!.groupImageURL,
                           ),
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => UpdatePicture(
+                                context: context,
+                                callback: (imageFile) async {
+                                  await groupProvider.updateGroupImage(
+                                      context, imageFile, group!);
+                                  group =
+                                      await groupProvider.fetchGroup(groupUID);
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        replacement: PPCAvatar(
+                          radSize: 25,
+                          image: StringConstants.groupIcon,
+                          networkImage: group!.groupImageURL,
                         ),
                       ),
-                      SizedBox(
-                        width: SizeConfig.safeBlockHorizontal! * 15,
-                      ),
-                      Column(
-                        children: [
-                          Row(children: [
-                            Container(
-                              width: SizeConfig.safeBlockHorizontal! * 20,
-                              alignment: Alignment.centerRight,
-                              child: Visibility(
-                                visible: userIsAdmin,
-                                child: InkWell(
-                                    child: Text(StringConstants.members,
-                                        style: TextStyle(
-                                          color: userIsAdmin == true
-                                              ? Colors.lightBlue
-                                              : Colors.black,
-                                          fontSize:
-                                              SizeConfig.safeBlockVertical! * 2,
-                                          height:
-                                              SizeConfig.safeBlockVertical! *
-                                                  .2,
-                                        )),
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const AdminMembersPage(),
-                                              settings: RouteSettings(
-                                                  arguments: group)));
-                                    }),
-                                replacement: Text(StringConstants.members,
-                                    style: TextStyle(
-                                      color: userIsAdmin == true
-                                          ? Colors.lightBlue
-                                          : Colors.black,
-                                      fontSize:
-                                          SizeConfig.safeBlockVertical! * 2,
-                                      height:
-                                          SizeConfig.safeBlockVertical! * .2,
-                                    )),
-                              ),
-                            ),
-                            SizedBox(
-                                width: SizeConfig.safeBlockHorizontal! * 4),
-                            Container(
-                              width: SizeConfig.safeBlockHorizontal! * 20,
-                              alignment: Alignment.centerLeft,
-                              child: Text(group!.memberCount.toString(),
+                    ),
+                    SizedBox(
+                      width: SizeConfig.safeBlockHorizontal! * 15,
+                    ),
+                    Column(
+                      children: [
+                        Row(children: [
+                          Container(
+                            width: SizeConfig.safeBlockHorizontal! * 20,
+                            alignment: Alignment.centerRight,
+                            child: Visibility(
+                              visible: userIsAdmin,
+                              child: InkWell(
+                                  child: Text(StringConstants.members,
+                                      style: TextStyle(
+                                        color: userIsAdmin == true
+                                            ? Colors.lightBlue
+                                            : Colors.black,
+                                        fontSize:
+                                            SizeConfig.safeBlockVertical! * 2,
+                                        height:
+                                            SizeConfig.safeBlockVertical! * .2,
+                                      )),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const AdminMembersPage(),
+                                            settings: RouteSettings(
+                                                arguments: group)));
+                                  }),
+                              replacement: Text(StringConstants.members,
                                   style: TextStyle(
+                                    color: userIsAdmin == true
+                                        ? Colors.lightBlue
+                                        : Colors.black,
                                     fontSize: SizeConfig.safeBlockVertical! * 2,
                                     height: SizeConfig.safeBlockVertical! * .2,
                                   )),
                             ),
-                          ]),
-                          Row(children: [
-                            Container(
-                              width: SizeConfig.safeBlockHorizontal! * 20,
-                              alignment: Alignment.centerRight,
-                              child: Text(StringConstants.prayers,
-                                  style: TextStyle(
-                                    fontSize: SizeConfig.safeBlockVertical! * 2,
-                                    height: SizeConfig.safeBlockVertical! * .2,
-                                  )),
-                            ),
-                            SizedBox(
-                                width: SizeConfig.safeBlockHorizontal! * 4),
-                            Container(
-                              width: SizeConfig.safeBlockHorizontal! * 20,
-                              alignment: Alignment.centerLeft,
-                              child: Text(group!.prayerCount.toString(),
-                                  style: TextStyle(
-                                    fontSize: SizeConfig.safeBlockVertical! * 2,
-                                    height: SizeConfig.safeBlockVertical! * .2,
-                                  )),
-                            ),
-                          ]),
-                        ],
-                      ),
-                      SizedBox(width: SizeConfig.safeBlockHorizontal! * 15)
-                    ]),
+                          ),
+                          SizedBox(width: SizeConfig.safeBlockHorizontal! * 4),
+                          Container(
+                            width: SizeConfig.safeBlockHorizontal! * 20,
+                            alignment: Alignment.centerLeft,
+                            child: Text(group!.memberCount.toString(),
+                                style: TextStyle(
+                                  fontSize: SizeConfig.safeBlockVertical! * 2,
+                                  height: SizeConfig.safeBlockVertical! * .2,
+                                )),
+                          ),
+                        ]),
+                        Row(children: [
+                          Container(
+                            width: SizeConfig.safeBlockHorizontal! * 20,
+                            alignment: Alignment.centerRight,
+                            child: Text(StringConstants.prayers,
+                                style: TextStyle(
+                                  fontSize: SizeConfig.safeBlockVertical! * 2,
+                                  height: SizeConfig.safeBlockVertical! * .2,
+                                )),
+                          ),
+                          SizedBox(width: SizeConfig.safeBlockHorizontal! * 4),
+                          Container(
+                            width: SizeConfig.safeBlockHorizontal! * 20,
+                            alignment: Alignment.centerLeft,
+                            child: Text(group!.prayerCount.toString(),
+                                style: TextStyle(
+                                  fontSize: SizeConfig.safeBlockVertical! * 2,
+                                  height: SizeConfig.safeBlockVertical! * .2,
+                                )),
+                          ),
+                        ]),
+                      ],
+                    ),
+                    SizedBox(width: SizeConfig.safeBlockHorizontal! * 15)
+                  ]),
+                ),
+                PPCstuff.divider,
+                Spacer(),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  child: PPCRoundedButton(
+                    title: StringConstants.joinGroup,
+                    buttonRatio: .8,
+                    buttonWidthRatio: .8,
+                    callback: () {
+                      _joinGroup(context, ref, group!);
+                    },
+                    bgColor: Colors.lightBlueAccent.shade100,
+                    textColor: Colors.white,
                   ),
-                  PPCstuff.divider,
-                  //TODO:
-                  // Visibility(
-                  //   visible: groupProvider!.isEdit,
-                  //   child: AdminEdit(
-                  //     groupName: _groupName,
-                  //     groupDescription: _groupDescription,
-                  //   ),
-                  //   replacement: GroupDescriptionNonEdit(
-                  //       groupName: _groupName,
-                  //       groupDescription: _groupDescription,
-                  //       groupMember: groupMember,
-                  //       isGuest: isGuest),
-                  // ),
-                ],
-              ),
+                ),
+
+                //TODO:
+                // Visibility(
+                //   visible: groupProvider.isEdit,
+                //   child: AdminEdit(
+                //     groupName: group!.groupName,
+                //     groupDescription: group!.description,
+                //   ),
+                //   replacement: GroupDescriptionNonEdit(
+                //       groupName: group!.groupName,
+                //       groupDescription: group!.description,
+                //       groupMember: groupMember,
+                //       isGuest: isGuest),
+                // ),
+              ],
             ),
           );
         } else {
@@ -258,5 +272,17 @@ class GroupDescriptionPage extends HookConsumerWidget {
         }
       },
     );
+  }
+
+  _joinGroup(BuildContext ctx, WidgetRef ref, Group group) async {
+    String srvMsg =
+        await ref.read(searchGroupControllerProvider).joinGroup(group);
+    if (srvMsg == StringConstants.success) {
+      PPCEventBus eventBus = PPCEventBus();
+      eventBus.fire(SubscribeToGroupPNEvent(groupId: group.groupUID));
+      Navigator.of(ctx).pop();
+    } else {
+      showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
+    }
   }
 }

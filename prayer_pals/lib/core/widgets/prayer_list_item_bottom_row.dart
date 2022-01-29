@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/providers/reminder_provider.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
+import 'package:prayer_pals/core/widgets/ppc_delete_dialog.dart';
 import 'package:prayer_pals/core/widgets/ppc_logo_widget.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
+import 'package:prayer_pals/features/prayer/providers/my_prayer_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class PrayerListItemBottomRow extends HookConsumerWidget {
@@ -69,7 +70,7 @@ class PrayerListItemBottomRow extends HookConsumerWidget {
                       onPressed: () async {
                         //move to bottom and add a pop up "are you sure"
                         //TODO: are you sure dialog
-                        if (callback != null) callback!();
+                        showPPCDeleteDialog(context, prayer.isGlobal, () {});
                       }, //Delete prayer, or remove it from your list if it is group/global TODO
                     ),
                   ),
@@ -132,10 +133,17 @@ class PrayerListItemBottomRow extends HookConsumerWidget {
                         size: SizeConfig.safeBlockHorizontal! * 5,
                       ),
                       onPressed: () async {
-                        //move to bottom and add a pop up "are you sure"
-                        //TODO: are you sure dialog
-                        if (callback != null) callback!();
-                      }, //Delete prayer, or remove it from your list if it is group/global TODO
+                        //TODO: test for global prayers too
+                        showPPCDeleteDialog(
+                          context,
+                          prayer.isGlobal,
+                          () async {
+                            await ref
+                                .read(prayerControllerProvider)
+                                .deletePrayer(prayer);
+                          },
+                        );
+                      },
                     ),
                   ),
                   IconButton(

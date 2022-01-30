@@ -22,7 +22,7 @@ class PrayerListItem extends HookWidget {
     required this.prayerType,
     this.callback,
   }) : super(key: key);
-
+//TODO: remove add to my prayers button when it's your prayer. If you go to global, tap on your prayer, it says add to my prayer
   @override
   Widget build(BuildContext context) {
     String? _uid = FirebaseAuth.instance.currentUser!.uid;

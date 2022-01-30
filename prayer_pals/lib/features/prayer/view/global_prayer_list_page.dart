@@ -16,12 +16,7 @@ class GlobalPrayersPage extends HookConsumerWidget {
     final globalPrayerListController =
         ref.watch(globalPrayerControllerProvider);
     String _title;
-    globalPrayerListController.listType ==
-            globalPrayerListController.previousType
-        ? globalPrayerListController.setListType(StringConstants.global)
-        : debugPrint(globalPrayerListController.listType);
-    if (globalPrayerListController.listType ==
-        StringConstants.lowercaseAnswered) {
+    if (globalPrayerListController.prayerType == PrayerType.answered) {
       _title = StringConstants.answeredPrayer;
     } else {
       _title = StringConstants.prayerPals;
@@ -43,14 +38,11 @@ class GlobalPrayersPage extends HookConsumerWidget {
                 size: SizeConfig.safeBlockHorizontal! * 8,
               ),
               onPressed: () {
-                if (globalPrayerListController.showAnswered == false) {
-                  globalPrayerListController.setShowAnswered(true);
-                  globalPrayerListController
-                      .setListType(StringConstants.global);
+                if (globalPrayerListController.prayerType! ==
+                    PrayerType.global) {
+                  globalPrayerListController.setPrayerType(PrayerType.answered);
                 } else {
-                  globalPrayerListController.setShowAnswered(false);
-                  globalPrayerListController
-                      .setListType(globalPrayerListController.previousType);
+                  globalPrayerListController.setPrayerType(PrayerType.global);
                 }
               },
             ),
@@ -61,14 +53,11 @@ class GlobalPrayersPage extends HookConsumerWidget {
                 size: SizeConfig.safeBlockHorizontal! * 8,
               ),
               onPressed: () {
-                if (globalPrayerListController.showAnswered == true) {
-                  globalPrayerListController.setShowAnswered(false);
-                  globalPrayerListController
-                      .setPreviousType(globalPrayerListController.listType);
-                  globalPrayerListController
-                      .setListType(StringConstants.lowercaseAnswered);
+                if (globalPrayerListController.prayerType! ==
+                    PrayerType.global) {
+                  globalPrayerListController.setPrayerType(PrayerType.answered);
                 } else {
-                  globalPrayerListController.setShowAnswered(true);
+                  globalPrayerListController.setPrayerType(PrayerType.global);
                 }
               },
             ),
@@ -79,7 +68,9 @@ class GlobalPrayersPage extends HookConsumerWidget {
         children: [
           Expanded(
             child: Stack(
-              children: const [GlobalPrayerList(PrayerType.global)],
+              children: [
+                GlobalPrayerList(globalPrayerListController.prayerType!)
+              ],
             ),
           ),
         ],

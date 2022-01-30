@@ -16,7 +16,7 @@ abstract class PrayerRepository {
     List<Group> groupsToRemoveFrom,
     List<Group> groupsToAddTo,
   );
-  Future<String> deletePrayer(Prayer prayer);
+  Future<String> deletePrayer(Prayer prayer, PrayerType prayerType);
   Future<List<Group>> fetchGroupsForCurrentUser();
   Future<void> makeAnsweredPrayerUnanswered(Prayer prayer);
 }
@@ -52,8 +52,8 @@ class PrayerRepositoryImpl implements PrayerRepository {
   }
 
   @override
-  Future<String> deletePrayer(Prayer prayer) async {
-    return await _reader(prayerClientProvider).deletePrayer(prayer);
+  Future<String> deletePrayer(Prayer prayer, PrayerType prayerType) async {
+    return await _reader(prayerClientProvider).deletePrayer(prayer, prayerType);
   }
 
   @override

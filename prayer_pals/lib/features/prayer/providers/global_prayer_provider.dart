@@ -7,15 +7,19 @@ import 'package:prayer_pals/features/prayer/models/prayer.dart';
 import 'package:prayer_pals/features/prayer/repositories/global_prayer_repository.dart';
 
 final globalPrayerControllerProvider =
-    ChangeNotifierProvider<GlobalPrayerController>((ref) => GlobalPrayerController(ref.read));
+    ChangeNotifierProvider<GlobalPrayerController>(
+        (ref) => GlobalPrayerController(ref.read));
 
 class GlobalPrayerController extends ChangeNotifier {
   bool showAnswered = true;
   String previousType = "";
   String listType = "";
   final Reader _reader;
+  PrayerType? prayerType;
 
-  GlobalPrayerController(this._reader) : super();
+  GlobalPrayerController(this._reader) {
+    prayerType = PrayerType.global;
+  }
 
   Future<List<Prayer>> retrievePrayers(PrayerType prayerType) async {
     return await _reader(globalPrayerRepositoryProvider)
@@ -41,5 +45,14 @@ class GlobalPrayerController extends ChangeNotifier {
     Timer.run(() {
       notifyListeners();
     });
+  }
+
+  setPrayerType(PrayerType type) {
+    prayerType = type;
+    notify();
+  }
+
+  notify() {
+    notifyListeners();
   }
 }

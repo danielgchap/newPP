@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/prayer/models/prayer.dart';
+import 'package:prayer_pals/features/prayer/providers/global_prayer_provider.dart';
 import 'package:prayer_pals/features/prayer/repositories/my_prayer_repository.dart';
 import 'package:prayer_pals/features/user/models/ppcuser.dart';
 import 'package:uuid/uuid.dart';
@@ -106,10 +107,13 @@ class PrayerController extends ChangeNotifier {
     }
   }
 
-  Future<String> deletePrayer(Prayer prayer) async {
-    String result =
-        await _reader(prayerRepositoryProvider).deletePrayer(prayer);
-    if (result == StringConstants.success) notify();
+  Future<String> deletePrayer(Prayer prayer, PrayerType prayerType) async {
+    String result = await _reader(prayerRepositoryProvider)
+        .deletePrayer(prayer, prayerType);
+    if (result == StringConstants.success) {
+      _reader(globalPrayerControllerProvider).notify();
+      notify();
+    }
     return result;
   }
 

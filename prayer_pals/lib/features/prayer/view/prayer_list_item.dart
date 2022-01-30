@@ -45,7 +45,12 @@ class PrayerListItem extends HookWidget {
               SizedBox(
                 height: SizeConfig.safeBlockVertical! * 1,
               ),
-              PrayerListItemBottomRow(null, prayer: prayer, isOwner: _isOwner),
+              PrayerListItemBottomRow(
+                null,
+                prayer: prayer,
+                isOwner: _isOwner,
+                prayerType: prayerType,
+              ),
             ],
           ),
         ),

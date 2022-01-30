@@ -1,8 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/features/prayer/models/prayer.dart';
 
 Future<void> showPPCDeleteDialog(
-    BuildContext context, bool isGlobal, VoidCallback callback) async {
+    BuildContext context, Prayer prayer, VoidCallback callback) async {
+  String bodyText = StringConstants.areYouSureYouWishToDeleteYourPrayer;
+  if (prayer.isGlobal &&
+      prayer.creatorUID != FirebaseAuth.instance.currentUser!.uid) {
+    bodyText = StringConstants
+        .areYouSureYouWishToRemoveThisGlobalPrayerFromYourPrayerList;
+  }
   return showDialog<void>(
     context: context,
     barrierDismissible: true,
@@ -13,10 +21,7 @@ Future<void> showPPCDeleteDialog(
           child: ListBody(
             children: <Widget>[
               Text(
-                isGlobal
-                    ? StringConstants
-                        .areYouSureYouWishToRemoveThisGlobalPrayerFromYourPrayerList
-                    : StringConstants.areYouSureYouWishToDeleteYourPrayer,
+                bodyText,
                 textAlign: TextAlign.center,
               ),
             ],

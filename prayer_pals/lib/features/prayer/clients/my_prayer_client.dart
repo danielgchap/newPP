@@ -187,22 +187,40 @@ class PrayerClient {
     return;
   }
 
-  Future<String> deletePrayer(Prayer prayer) async {
+  Future<String> deletePrayer(Prayer prayer, PrayerType prayerType) async {
     try {
-      await FirebaseFirestore.instance
-          .collection(StringConstants.usersCollection)
-          .doc(prayer.creatorUID)
-          .collection(StringConstants.myPrayersCollection)
-          .doc(prayer.uid)
-          .delete();
-      //TODO: test that you can only delete a prayer that is global if it's yours
-      //TODO: test deleting a prayer from my prayers that is global and not yours
-      if (prayer.isGlobal &&
-          prayer.creatorUID == FirebaseAuth.instance.currentUser!.uid) {
+      if (prayerType == PrayerType.answered) {
         await FirebaseFirestore.instance
-            .collection(StringConstants.globalPrayersCollection)
+            .collection(StringConstants.usersCollection)
+            .doc(prayer.creatorUID)
+            .collection(StringConstants.answeredPrayersCollection)
             .doc(prayer.uid)
             .delete();
+        //TODO: test that you can only delete a prayer that is global if it's yours
+        //TODO: test deleting a prayer from my prayers that is global and not yours
+        if (prayer.isGlobal &&
+            prayer.creatorUID == FirebaseAuth.instance.currentUser!.uid) {
+          await FirebaseFirestore.instance
+              .collection(StringConstants.globalAnsweredCollection)
+              .doc(prayer.uid)
+              .delete();
+        }
+      } else {
+        await FirebaseFirestore.instance
+            .collection(StringConstants.usersCollection)
+            .doc(prayer.creatorUID)
+            .collection(StringConstants.myPrayersCollection)
+            .doc(prayer.uid)
+            .delete();
+        //TODO: test that you can only delete a prayer that is global if it's yours
+        //TODO: test deleting a prayer from my prayers that is global and not yours
+        if (prayer.isGlobal &&
+            prayer.creatorUID == FirebaseAuth.instance.currentUser!.uid) {
+          await FirebaseFirestore.instance
+              .collection(StringConstants.globalPrayersCollection)
+              .doc(prayer.uid)
+              .delete();
+        }
       }
       if (prayer.groups.isNotEmpty) {
         deletePrayerFromGroups(prayer, prayer.groups);

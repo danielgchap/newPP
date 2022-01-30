@@ -12,12 +12,17 @@ import 'package:share_plus/share_plus.dart';
 
 class PrayerListItemBottomRow extends HookConsumerWidget {
   final Prayer prayer;
+  final PrayerType prayerType;
   final bool isOwner;
   final VoidCallback? callback;
 
-  const PrayerListItemBottomRow(this.callback,
-      {Key? key, required this.prayer, required this.isOwner})
-      : super(key: key);
+  const PrayerListItemBottomRow(
+    this.callback, {
+    Key? key,
+    required this.prayer,
+    required this.isOwner,
+    required this.prayerType,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -68,10 +73,8 @@ class PrayerListItemBottomRow extends HookConsumerWidget {
                         size: SizeConfig.safeBlockHorizontal! * 5,
                       ),
                       onPressed: () async {
-                        //move to bottom and add a pop up "are you sure"
-                        //TODO: are you sure dialog
-                        showPPCDeleteDialog(context, prayer.isGlobal, () {});
-                      }, //Delete prayer, or remove it from your list if it is group/global TODO
+                        showPPCDeleteDialog(context, prayer, () {});
+                      },
                     ),
                   ),
                   IconButton(
@@ -133,14 +136,13 @@ class PrayerListItemBottomRow extends HookConsumerWidget {
                         size: SizeConfig.safeBlockHorizontal! * 5,
                       ),
                       onPressed: () async {
-                        //TODO: test for global prayers too
                         showPPCDeleteDialog(
                           context,
-                          prayer.isGlobal,
+                          prayer,
                           () async {
                             await ref
                                 .read(prayerControllerProvider)
-                                .deletePrayer(prayer);
+                                .deletePrayer(prayer, prayerType);
                           },
                         );
                       },

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/admob/admob_widget.dart';
 import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/home_page_button_section.dart';
@@ -14,6 +15,7 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ppCoreProvider = ref.watch(ppcUserCoreProvider);
+    // String _image = 'assets/images/thank_you.jpg';
     useEffect(() {
       if (ppCoreProvider.getCurrentUserModel() == null) {
         ppCoreProvider.setupPPUserListener();
@@ -59,6 +61,14 @@ class HomePage extends HookConsumerWidget {
               const HomePageButtonSection(),
               SizedBox(
                 height: SizeConfig.safeBlockVertical! * 3,
+              ),
+              Visibility(
+                child: const AdMobs(),
+                visible: true,
+                replacement: Container(
+                  width: SizeConfig.screenWidth! * .9,
+                  child: const AdMobs(),
+                ),
               ),
             ],
           ),

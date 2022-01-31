@@ -184,6 +184,16 @@ class PrayerClient {
         .collection(StringConstants.answeredPrayersCollection)
         .doc(prayer.uid)
         .delete();
+    if (prayer.isGlobal) {
+      await FirebaseFirestore.instance
+          .collection(StringConstants.globalPrayersCollection)
+          .doc(prayer.uid)
+          .set(prayer.toJson());
+      await FirebaseFirestore.instance
+          .collection(StringConstants.globalAnsweredCollection)
+          .doc(prayer.uid)
+          .delete();
+    }
     return;
   }
 

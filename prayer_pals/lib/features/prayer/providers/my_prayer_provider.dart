@@ -102,6 +102,7 @@ class PrayerController extends ChangeNotifier {
         groupsToUpdateDelete,
         groupsToUpdateAdd,
       );
+      await _reader(globalPrayerControllerProvider).notify();
       notify();
       return msg;
     }
@@ -124,6 +125,7 @@ class PrayerController extends ChangeNotifier {
   Future<void> makeAnsweredPrayerUnanswered(Prayer prayer) async {
     await _reader(prayerRepositoryProvider)
         .makeAnsweredPrayerUnanswered(prayer);
+    await _reader(globalPrayerControllerProvider).notify();
     notify();
     return;
   }

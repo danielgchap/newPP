@@ -67,6 +67,7 @@ class HomePage extends HookConsumerWidget {
                 visible: true,
                 replacement: Container(
                   width: SizeConfig.screenWidth! * .9,
+                  height: 100,
                   child: const AdMobs(),
                 ),
               ),

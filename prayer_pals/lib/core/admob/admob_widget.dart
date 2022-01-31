@@ -25,7 +25,12 @@ class _AdMobsState extends State<AdMobs> {
       size: AdSize.banner,
       listener: BannerAdListener(
         // Called when an ad is successfully received.
-        onAdLoaded: (Ad ad) => print('Ad loaded.'),
+        onAdLoaded: (Ad ad) {
+          print('Ad loaded.');
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
         // Called when an ad request failed.
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
           // Dispose the ad here to free resources.
@@ -59,8 +64,8 @@ class _AdMobsState extends State<AdMobs> {
         Align(
           alignment: Alignment.topCenter,
           child: SizedBox(
-            width: _bannerAd.size.width.toDouble(),
-            height: _bannerAd.size.height.toDouble(),
+            width: 200,
+            height: 100,
             child: AdWidget(ad: _bannerAd),
           ),
         ),

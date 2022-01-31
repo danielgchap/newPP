@@ -8,7 +8,7 @@ class AdHelper {
       // Test: ca-app-pub-3940256099942544/6300978111
       // Android id: ca-app-pub-6387992431790976/5306600488 - real ads
     } else if (Platform.isIOS) {
-      return 'ca-app-pub-6387992431790976~5867500933';
+      return '	ca-app-pub-3940256099942544/6300978111';
       // iOS id: ca-app-pub-6387992431790976~5867500933
     } else {
       throw new UnsupportedError('Unsupported platform');

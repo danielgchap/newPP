@@ -75,27 +75,27 @@ class SettingsPage extends HookConsumerWidget {
                             ? '${StringConstants.cancelReminder} \n(Daily @ ${settingsProvider.timeString})'
                             : StringConstants.setReminder,
                         settingsProvider: settingsProvider),
-                    Row(children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
-                          child: InkWell(
-                            child: const Text(
-                              StringConstants.viewActivity,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Activity(ppcUser: _ppcUser!)));
-                            },
-                          ),
-                        ),
-                      )
-                    ]),
+                    // Row(children: [
+                    //   Expanded(
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
+                    //       child: InkWell(
+                    //         child: const Text(
+                    //           StringConstants.viewActivity,
+                    //           style:
+                    //               TextStyle(color: Colors.black, fontSize: 16),
+                    //         ),
+                    //         onTap: () {
+                    //           Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                   builder: (context) =>
+                    //                       Activity(ppcUser: _ppcUser!)));
+                    //         },
+                    //       ),
+                    //     ),
+                    //   )
+                    // ]),
                     const SizedBox(height: 20),
                     const SettingsTitleRow(
                         title: StringConstants.notificationsCaps),

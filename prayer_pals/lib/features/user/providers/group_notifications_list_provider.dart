@@ -14,6 +14,14 @@ class GroupNotificationsController extends ChangeNotifier {
     return await read(groupNotificationsClientProvider).getGroupsSubscribedTo();
   }
 
+  Future<void> unsubscribeFromAllGroups() async {
+    List<Group> groups = await getGroupsSubscribedTo();
+    for (Group group in groups) {
+      unsubscribeFromGroup(group);
+    }
+    return;
+  }
+
   Future<void> unsubscribeFromGroup(Group group) async {
     return await read(groupNotificationsClientProvider)
         .removeGroupFromSubscribedArray(group);

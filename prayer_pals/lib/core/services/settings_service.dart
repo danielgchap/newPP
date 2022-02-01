@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prayer_pals/core/iap/iap_handler.dart';
 import 'package:prayer_pals/core/services/remove_notifications_dialog.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -59,5 +60,8 @@ class SettingsService {
     }
   }
 
-  static removeAds() {}
+  static removeAds() {
+    IAPHandler iapHandler = IAPHandler();
+    iapHandler.removeAds();
+  }
 }

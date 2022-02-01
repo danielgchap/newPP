@@ -15,6 +15,7 @@ class GroupNotificationsController extends ChangeNotifier {
   }
 
   Future<void> unsubscribeFromAllGroups() async {
+    //TODO: test
     List<Group> groups = await getGroupsSubscribedTo();
     for (Group group in groups) {
       unsubscribeFromGroup(group);

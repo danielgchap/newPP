@@ -18,7 +18,6 @@ import 'package:prayer_pals/features/user/clients/auth_client.dart';
 import 'package:prayer_pals/features/user/models/ppcuser.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/user/view/group_notifications_list.dart';
-import 'activity_page.dart';
 import 'login_page.dart';
 
 class SettingsPage extends HookConsumerWidget {
@@ -75,27 +74,6 @@ class SettingsPage extends HookConsumerWidget {
                             ? '${StringConstants.cancelReminder} \n(Daily @ ${settingsProvider.timeString})'
                             : StringConstants.setReminder,
                         settingsProvider: settingsProvider),
-                    // Row(children: [
-                    //   Expanded(
-                    //     child: Padding(
-                    //       padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
-                    //       child: InkWell(
-                    //         child: const Text(
-                    //           StringConstants.viewActivity,
-                    //           style:
-                    //               TextStyle(color: Colors.black, fontSize: 16),
-                    //         ),
-                    //         onTap: () {
-                    //           Navigator.push(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (context) =>
-                    //                       Activity(ppcUser: _ppcUser!)));
-                    //         },
-                    //       ),
-                    //     ),
-                    //   )
-                    // ]),
                     const SizedBox(height: 20),
                     const SettingsTitleRow(
                         title: StringConstants.notificationsCaps),

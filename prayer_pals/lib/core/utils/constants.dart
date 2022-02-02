@@ -33,7 +33,7 @@ class Globals {
 
 class PPCstuff {
   static const divider =
-      Divider(height: 20, thickness: 2, indent: 20, endIndent: 20);
+      Divider(height: 10, thickness: 1, indent: 20, endIndent: 20);
   static const smallTextStyle = TextStyle(
     fontFamily: 'Helvetica',
     color: Colors.black,

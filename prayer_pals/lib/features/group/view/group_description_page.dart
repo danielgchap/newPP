@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/event_bus/group_subscribtion_event.dart';
@@ -33,6 +34,7 @@ import 'admin_members_page.dart';
 //////////////////////////////////////////////////////////////////////////
 
 class GroupDescriptionPage extends HookConsumerWidget {
+  final TextEditingController _descriptionController = TextEditingController();
   final String groupUID;
   bool isSwitchedApp = true; //will come from user data
   bool isSwitchedText = true; //will come from user data
@@ -56,6 +58,10 @@ class GroupDescriptionPage extends HookConsumerWidget {
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
           group = snapshot.data as Group;
+          if (group!.description != null && group!.description!.isNotEmpty) {
+            _descriptionController.text = group!.description!;
+          }
+
           final userIsAdmin =
               group!.creatorUID == FirebaseAuth.instance.currentUser!.uid;
           return Scaffold(
@@ -232,20 +238,22 @@ class GroupDescriptionPage extends HookConsumerWidget {
                   ]),
                 ),
                 PPCstuff.divider,
+                _descriptionForGroup(groupProvider),
                 Spacer(),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20.0),
-                  child: PPCRoundedButton(
-                    title: StringConstants.joinGroup,
-                    buttonRatio: .8,
-                    buttonWidthRatio: .8,
-                    callback: () {
-                      _joinGroup(context, ref, group!);
-                    },
-                    bgColor: Colors.lightBlueAccent.shade100,
-                    textColor: Colors.white,
+                if (group!.creatorUID != FirebaseAuth.instance.currentUser!.uid)
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20.0),
+                    child: PPCRoundedButton(
+                      title: StringConstants.joinGroup,
+                      buttonRatio: .8,
+                      buttonWidthRatio: .8,
+                      callback: () {
+                        _joinGroup(context, ref, group!);
+                      },
+                      bgColor: Colors.lightBlueAccent.shade100,
+                      textColor: Colors.white,
+                    ),
                   ),
-                ),
 
                 //TODO:
                 // Visibility(
@@ -272,6 +280,38 @@ class GroupDescriptionPage extends HookConsumerWidget {
         }
       },
     );
+  }
+
+  _descriptionForGroup(GroupController grpProvider) {
+    if (grpProvider.isEdit) {
+      return Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        child: TextFormField(
+          enabled: group!.creatorUID == FirebaseAuth.instance.currentUser!.uid,
+          maxLines: null,
+          cursorColor: Colors.black,
+          decoration: InputDecoration(
+            hintStyle: TextStyle(fontSize: 17, color: Colors.grey[400]),
+            hintText: 'Enter Group Description',
+          ),
+        ),
+      );
+    } else if (group!.description != null && group!.description!.isNotEmpty) {
+      return Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        child: TextFormField(
+          enabled: false,
+          maxLines: null,
+          cursorColor: Colors.black,
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 
   _joinGroup(BuildContext ctx, WidgetRef ref, Group group) async {

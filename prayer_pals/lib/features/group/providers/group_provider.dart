@@ -33,9 +33,7 @@ class GroupController extends ChangeNotifier {
   }
 
   Future<Group> fetchGroup(String uid) async {
-    final group = _reader(groupRepositoryProvider).fetchGroup(uid);
-    notify();
-    return group;
+    return _reader(groupRepositoryProvider).fetchGroup(uid);
   }
 
   Stream<QuerySnapshot> fetchMyGroups() {

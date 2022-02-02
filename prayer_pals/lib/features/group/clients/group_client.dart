@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
@@ -155,5 +156,19 @@ class GroupClient {
         .collection(StringConstants.myGroupsCollection)
         .doc(group.groupUID)
         .set(group.toJson());
+  }
+
+  saveGroupDescription(String groupDescription, String groupUID) async {
+    await FirebaseFirestore.instance
+        .collection(StringConstants.usersCollection)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(StringConstants.myGroupsCollection)
+        .doc(groupUID)
+        .update({"description": groupDescription});
+    await FirebaseFirestore.instance
+        .collection(StringConstants.groupsCollection)
+        .doc(groupUID)
+        .update({"description": groupDescription});
+    return;
   }
 }

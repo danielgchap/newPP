@@ -96,12 +96,10 @@ class GroupDescriptionPage extends HookConsumerWidget {
                             color: Colors.white),
                       ),
                       onPressed: () {
-                        //TODO:
-                        // _saveDescription(ctx);
-                        // need to save the changes that are made to the Description
-                        // would like a better way to edit the page. maybe the pencil
-                        // should be next to the member and prayer counts rather than
-                        // on the top.
+                        if (_descriptionController.text != group!.description) {
+                          groupProvider.saveDescriptionForGroup(
+                              _descriptionController.text, groupUID);
+                        }
                       });
                 }),
                 Visibility(
@@ -289,6 +287,7 @@ class GroupDescriptionPage extends HookConsumerWidget {
           horizontal: 20,
         ),
         child: TextFormField(
+          controller: _descriptionController,
           enabled: group!.creatorUID == FirebaseAuth.instance.currentUser!.uid,
           maxLines: null,
           cursorColor: Colors.black,
@@ -304,6 +303,7 @@ class GroupDescriptionPage extends HookConsumerWidget {
           horizontal: 20,
         ),
         child: TextFormField(
+          controller: _descriptionController,
           enabled: false,
           maxLines: null,
           cursorColor: Colors.black,

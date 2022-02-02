@@ -42,6 +42,12 @@ class GroupController extends ChangeNotifier {
     return _reader(groupRepositoryProvider).fetchMyGroups();
   }
 
+  saveDescriptionForGroup(String groupDescription, String groupUID) async {
+    await _reader(groupRepositoryProvider)
+        .saveDescriptionForGroup(groupDescription, groupUID);
+    setIsEdit(false);
+  }
+
   setIsEdit(bool edit) {
     isEdit = edit;
     notify();

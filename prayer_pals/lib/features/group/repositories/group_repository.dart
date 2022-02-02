@@ -27,6 +27,7 @@ abstract class GroupRepository {
   Future<Group> fetchGroup(String uid);
   Stream<QuerySnapshot> searchGroups(String searchParams);
   Stream<QuerySnapshot> fetchMyGroups();
+  saveDescriptionForGroup(String groupDescription, String groupUID);
 }
 
 class GroupRepositoryImpl implements GroupRepository {
@@ -73,6 +74,12 @@ class GroupRepositoryImpl implements GroupRepository {
   @override
   Stream<QuerySnapshot> fetchMyGroups() {
     return _reader(myGroupsControllerProvider).fetchMyGroups();
+  }
+
+  @override
+  saveDescriptionForGroup(String groupDescription, String groupUID) {
+    return _reader(groupClientProvider)
+        .saveGroupDescription(groupDescription, groupUID);
   }
 }
 

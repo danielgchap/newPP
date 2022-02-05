@@ -60,8 +60,5 @@ class SettingsService {
     }
   }
 
-  static removeAds() {
-    IAPHandler iapHandler = IAPHandler();
-    iapHandler.removeAds();
-  }
+  static removeAds() {}
 }

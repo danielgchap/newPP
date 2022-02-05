@@ -1,76 +1,58 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 final groupPrayerControllerProvider =
     Provider<IAPHandler>((ref) => IAPHandler());
 
 class IAPHandler {
-  final String _kRemovedAdsId = 'com.prayerpals.removeads';
-  final String _kStartGroupId = 'com.prayerpals.startgroup';
+  static const String _kRemovedAdsId = 'com.prayerpals.removeads';
+  static const String _kStartGroupId = 'com.prayerpals.startgroup';
+  static List<Product>? products;
 
-  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
-  late StreamSubscription<List<PurchaseDetails>> _subscription;
-  List<String> _notFoundIds = [];
-  List<ProductDetails> _products = [];
-  List<PurchaseDetails> _purchases = [];
-  List<String> _consumables = [];
-  String? _queryProductError;
+  static Future<void> initPlatformState() async {
+    await Purchases.setDebugLogsEnabled(true);
 
-  Set<String>? _kProductIds;
-
-  IAPHandler() {
-    _kProductIds = {
-      _kRemovedAdsId,
-      _kStartGroupId,
-    };
-    _init();
-  }
-
-  _init() {
-    final Stream<List<PurchaseDetails>> purchaseUpdated =
-        _inAppPurchase.purchaseStream;
-    _subscription = purchaseUpdated.listen((purchaseDetailsList) {
-      _listenToPurchaseUpdated(purchaseDetailsList);
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (error) {
-      // handle error here.
-    });
-    _initStoreInfo();
-  }
-
-  _initStoreInfo() async {
-    ProductDetailsResponse productDetailResponse =
-        await _inAppPurchase.queryProductDetails(_kProductIds!);
-    if (productDetailResponse.error == null) {
-      debugPrint(
-          'IAPHandler - ProductDetails: ${productDetailResponse.productDetails}');
-      _products = productDetailResponse.productDetails;
+    if (Platform.isAndroid) {
+      await Purchases.setup("goog_BwkDRwRCkattXcGffvBSnzdsGKE");
+    } else if (Platform.isIOS) {
+      await Purchases.setup("appl_pwDOkfMYeFilnAuaibMSARVeYrU");
     }
+    fetchProducts();
   }
 
-  _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
-    for (PurchaseDetails purchaseDetails in purchaseDetailsList) {
-      if (purchaseDetails.status == PurchaseStatus.pending) {
-        // show progress bar or something
-      } else {
-        if (purchaseDetails.status == PurchaseStatus.error) {
-          // show error message or failure icon
-        } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-          // show success message and deliver the product.
-          _purchases.add(purchaseDetails);
-        }
+  static fetchProducts() async {
+    if (products == null) {
+      try {
+        products =
+            await Purchases.getProducts([_kRemovedAdsId, _kStartGroupId]);
+        purchaseStartGroup();
+      } on PlatformException catch (e) {
+        debugPrint('Error fetching RevenueCat Products: ${e.toString()}');
       }
     }
   }
 
-  removeAds() {
-    final PurchaseParam purchaseParam =
-        PurchaseParam(productDetails: _products[0]);
-    _inAppPurchase.buyConsumable(purchaseParam: purchaseParam);
+  static purchaseStartGroup() async {
+    try {
+      PurchaserInfo purchaseInfo =
+          await Purchases.purchaseProduct(_kStartGroupId);
+      debugPrint('Purchase start group success: $purchaseInfo');
+    } catch (e) {
+      debugPrint('Purchase start group failure: ${e.toString()}');
+    }
   }
 
-  purchaseGroupAbility() {}
+  static purchaseRemoveAds() async {
+    try {
+      PurchaserInfo purchaseInfo =
+          await Purchases.purchaseProduct(_kRemovedAdsId);
+      debugPrint('Purchase remove ads success: $purchaseInfo');
+    } catch (e) {
+      debugPrint('Purchase remove ads failure: ${e.toString()}');
+    }
+  }
 }

@@ -20,6 +20,7 @@ class PPCUser {
   String? phoneNumber;
   int? answered;
   int? prayers;
+  int? groupCreationCredits;
 
   PPCUser({
     required this.username,
@@ -38,6 +39,7 @@ class PPCUser {
     this.phoneNumber,
     this.answered,
     this.prayers,
+    this.groupCreationCredits,
   });
 
   factory PPCUser.fromJson(Map<String, dynamic> json) =>

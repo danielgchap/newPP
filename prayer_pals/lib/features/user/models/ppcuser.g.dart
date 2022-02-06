@@ -23,6 +23,7 @@ PPCUser _$PPCUserFromJson(Map<String, dynamic> json) => PPCUser(
       phoneNumber: json['phoneNumber'] as String?,
       answered: json['answered'] as int?,
       prayers: json['prayers'] as int?,
+      groupCreationCredits: json['groupCreationCredits'] as int?,
     );
 
 Map<String, dynamic> _$PPCUserToJson(PPCUser instance) => <String, dynamic>{
@@ -42,4 +43,5 @@ Map<String, dynamic> _$PPCUserToJson(PPCUser instance) => <String, dynamic>{
       'phoneNumber': instance.phoneNumber,
       'answered': instance.answered,
       'prayers': instance.prayers,
+      'groupCreationCredits': instance.groupCreationCredits,
     };

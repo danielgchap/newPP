@@ -4,8 +4,10 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/iap/iap_handler.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/repositories/group_repository.dart';
+import 'package:prayer_pals/features/group/view/create_group.dart';
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -38,6 +40,20 @@ class GroupController extends ChangeNotifier {
 
   Stream<QuerySnapshot> fetchMyGroups() {
     return _reader(groupRepositoryProvider).fetchMyGroups();
+  }
+
+  checkForGroupCreationCredit(BuildContext context, bool isCreating) async {
+    final hasGroupCredits =
+        await _reader(groupRepositoryProvider).checkForGroupCreationCredit();
+    if (hasGroupCredits) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) =>
+            CreateGroupWidget(context, isCreating: isCreating),
+      );
+    } else {
+      IAPHandler.purchaseStartGroup();
+    }
   }
 
   saveDescriptionForGroup(String groupDescription, String groupUID) async {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/features/group/clients/group_client.dart';
 import 'package:prayer_pals/features/group/clients/search_group_remote_client.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
@@ -28,6 +29,7 @@ abstract class GroupRepository {
   Stream<QuerySnapshot> searchGroups(String searchParams);
   Stream<QuerySnapshot> fetchMyGroups();
   saveDescriptionForGroup(String groupDescription, String groupUID);
+  Future<bool> checkForGroupCreationCredit();
 }
 
 class GroupRepositoryImpl implements GroupRepository {
@@ -80,6 +82,15 @@ class GroupRepositoryImpl implements GroupRepository {
   saveDescriptionForGroup(String groupDescription, String groupUID) {
     return _reader(groupClientProvider)
         .saveGroupDescription(groupDescription, groupUID);
+  }
+
+  @override
+  Future<bool> checkForGroupCreationCredit() async {
+    final user = await _reader(ppcUserCoreProvider).currentUserNetworkFetch();
+    if (user.groupCreationCredits != null && user.groupCreationCredits! > 0) {
+      return true;
+    }
+    return false;
   }
 }
 

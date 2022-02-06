@@ -108,6 +108,7 @@ class AuthClient {
       prayers: 0,
       imageURL: '',
       subscribedGroups: [],
+      groupCreationCredits: 0,
     );
     FirebaseFirestore.instance
         .collection('users')
@@ -165,6 +166,7 @@ class AuthClient {
       prayers: 0,
       imageURL: '',
       subscribedGroups: [],
+      groupCreationCredits: 0,
     );
     FirebaseFirestore.instance
         .collection('users')

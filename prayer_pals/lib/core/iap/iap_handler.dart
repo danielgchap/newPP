@@ -29,7 +29,6 @@ class IAPHandler {
       try {
         products =
             await Purchases.getProducts([_kRemovedAdsId, _kStartGroupId]);
-        purchaseStartGroup();
       } on PlatformException catch (e) {
         debugPrint('Error fetching RevenueCat Products: ${e.toString()}');
       }

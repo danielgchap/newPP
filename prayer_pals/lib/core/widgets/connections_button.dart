@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/widgets/rounded_button.dart';
-import 'package:prayer_pals/features/group/view/create_group.dart';
+import 'package:prayer_pals/features/group/providers/group_provider.dart';
 
-class ConnectionsButton extends HookWidget {
+class ConnectionsButton extends HookConsumerWidget {
   const ConnectionsButton({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -29,10 +29,9 @@ class ConnectionsButton extends HookWidget {
             buttonWidthRatio: .5,
             callback: () {
               bool isCreating = true;
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) =>
-                      CreateGroupWidget(context, isCreating: isCreating));
+              ref
+                  .read(groupControllerProvider)
+                  .checkForGroupCreationCredit(context, isCreating);
             },
             bgColor: Colors.lightBlueAccent.shade100,
             textColor: Colors.white,

@@ -35,23 +35,27 @@ class IAPHandler {
     }
   }
 
-  static purchaseStartGroup() async {
+  static Future<bool> purchaseStartGroup() async {
     try {
       PurchaserInfo purchaseInfo =
           await Purchases.purchaseProduct(_kStartGroupId);
       debugPrint('Purchase start group success: $purchaseInfo');
+      return true;
     } catch (e) {
       debugPrint('Purchase start group failure: ${e.toString()}');
+      return false;
     }
   }
 
-  static purchaseRemoveAds() async {
+  static Future<bool> purchaseRemoveAds() async {
     try {
       PurchaserInfo purchaseInfo =
           await Purchases.purchaseProduct(_kRemovedAdsId);
       debugPrint('Purchase remove ads success: $purchaseInfo');
+      return true;
     } catch (e) {
       debugPrint('Purchase remove ads failure: ${e.toString()}');
+      return false;
     }
   }
 }

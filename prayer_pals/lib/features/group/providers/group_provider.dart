@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/iap/iap_handler.dart';
+import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/repositories/group_repository.dart';
 import 'package:prayer_pals/features/group/view/create_group.dart';
@@ -46,14 +48,27 @@ class GroupController extends ChangeNotifier {
     final hasGroupCredits =
         await _reader(groupRepositoryProvider).checkForGroupCreationCredit();
     if (hasGroupCredits) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-            CreateGroupWidget(context, isCreating: isCreating),
-      );
+      showGroupCreationDialog(context, isCreating);
     } else {
-      IAPHandler.purchaseStartGroup();
+      final purchaseApproved = await IAPHandler.purchaseStartGroup();
+      if (purchaseApproved) {
+        showGroupCreationDialog(context, isCreating);
+      } else {
+        showPPCDialog(context, StringConstants.prayerPals,
+            StringConstants.unknownError, null);
+      }
     }
+  }
+
+  showGroupCreationDialog(
+    BuildContext context,
+    bool isCreating,
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) =>
+          CreateGroupWidget(context, isCreating: isCreating),
+    );
   }
 
   saveDescriptionForGroup(String groupDescription, String groupUID) async {

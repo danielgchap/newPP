@@ -74,6 +74,7 @@ class StringConstants {
   static const register = 'Register';
   static const welcome = 'Welcome';
   static const loading = 'Loading ...';
+  static const purchaseSuccessful = 'Thank you.\nYour purchase was successful';
 
 //Page Titles
   static const addPrayer = 'Add Prayer';

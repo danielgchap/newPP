@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/iap/iap_handler.dart';
 import 'package:prayer_pals/core/providers/reminder_provider.dart';
 import 'package:prayer_pals/core/services/settings_service.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
@@ -27,8 +28,8 @@ class SettingsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    loadUser();
     final settingsProvider = ref.watch(reminderControllerProvider);
+    loadUser();
     bool isSwitched = true;
     final _auth = AuthClient(FirebaseAuth.instance);
 
@@ -122,9 +123,28 @@ class SettingsPage extends HookConsumerWidget {
                     const ClickableRow(
                         clickableText: StringConstants.sendFeedback,
                         clickPath: SettingsService.sendFeedback),
-                    const ClickableRow(
-                        clickableText: StringConstants.removeAds,
-                        clickPath: SettingsService.removeAds),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
+                          child: InkWell(
+                            child: const Text(
+                              StringConstants.removeAds,
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16),
+                            ),
+                            onTap: () async {
+                              final purchaseValid =
+                                  await IAPHandler.purchaseRemoveAds();
+                              if (purchaseValid) {
+                                //TODO: update user, removeAds = true
+                                settingsProvider.notify();
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                     Row(children: [
                       Padding(
                           padding: const EdgeInsets.fromLTRB(20, 10, 0, 15),

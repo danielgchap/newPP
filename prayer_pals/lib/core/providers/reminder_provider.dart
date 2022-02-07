@@ -83,4 +83,8 @@ class ReminderController extends ChangeNotifier {
     prefs.remove(stringId);
     notifyListeners();
   }
+
+  notify() {
+    notifyListeners();
+  }
 }

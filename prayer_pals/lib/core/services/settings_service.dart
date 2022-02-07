@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prayer_pals/core/iap/iap_handler.dart';
 import 'package:prayer_pals/core/services/remove_notifications_dialog.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsService {
@@ -60,5 +61,14 @@ class SettingsService {
     }
   }
 
-  static removeAds() {}
+  static removeAds(BuildContext context) async {
+    final purchaseSucceeded = await IAPHandler.purchaseRemoveAds();
+    if (purchaseSucceeded) {
+      showPPCDialog(context, StringConstants.prayerPals,
+          StringConstants.purchaseSuccessful, null);
+    } else {
+      showPPCDialog(context, StringConstants.prayerPals,
+          StringConstants.unknownError, null);
+    }
+  }
 }

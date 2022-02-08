@@ -142,6 +142,7 @@ class StringConstants {
   static const reportCount = 'reportCount';
   static const reportedBy = 'reportedBy';
   static const groupCreationCredits = 'groupCreationCredits';
+  static const removeAdsParam = 'removedAds';
 
 //Messages
   static const genericError = 'Generic Error';

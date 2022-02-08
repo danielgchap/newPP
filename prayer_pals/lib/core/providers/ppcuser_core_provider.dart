@@ -78,4 +78,21 @@ class PPCUserCore extends ChangeNotifier {
           {StringConstants.groupCreationCredits: groupCredits});
     });
   }
+
+  addRemoveAdsTrueToUser() async {
+    final userGroupDocRef = FirebaseFirestore.instance
+        .collection(StringConstants.usersCollection)
+        .doc(FirebaseAuth.instance.currentUser!.uid);
+
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      transaction.update(userGroupDocRef, {
+        StringConstants.removeAdsParam: true,
+      });
+    });
+  }
+
+  Future<bool> hasUserRemovedAds() async {
+    final user = await currentUserNetworkFetch();
+    return user.removedAds;
+  }
 }

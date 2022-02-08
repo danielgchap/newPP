@@ -64,15 +64,24 @@ class HomePage extends HookConsumerWidget {
               SizedBox(
                 height: SizeConfig.safeBlockVertical! * 3,
               ),
-              Visibility(
-                child: const AdMobs(),
-                visible: true,
-                replacement: Container(
-                  width: SizeConfig.screenWidth! * .9,
-                  height: 100,
-                  child: const AdMobs(),
-                ),
-              ),
+              FutureBuilder(
+                  future: ref.read(ppcUserCoreProvider).hasUserRemovedAds(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      dynamic userHasRemovedAds = snapshot.data;
+                      if (userHasRemovedAds == true) {
+                        return Container();
+                      } else {
+                        return SizedBox(
+                          width: SizeConfig.screenWidth! * .9,
+                          height: 100,
+                          child: const AdMobs(),
+                        );
+                      }
+                    } else {
+                      return Container();
+                    }
+                  }),
             ],
           ),
         ),

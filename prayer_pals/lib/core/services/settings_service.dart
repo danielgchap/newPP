@@ -61,14 +61,16 @@ class SettingsService {
     }
   }
 
-  static removeAds(BuildContext context) async {
+  static Future<bool> removeAds(BuildContext context) async {
     final purchaseSucceeded = await IAPHandler.purchaseRemoveAds();
     if (purchaseSucceeded) {
-      showPPCDialog(context, StringConstants.prayerPals,
+      await showPPCDialog(context, StringConstants.prayerPals,
           StringConstants.purchaseSuccessful, null);
+      return true;
     } else {
-      showPPCDialog(context, StringConstants.prayerPals,
+      await showPPCDialog(context, StringConstants.prayerPals,
           StringConstants.unknownError, null);
+      return false;
     }
   }
 }

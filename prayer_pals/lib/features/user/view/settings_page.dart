@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/iap/iap_handler.dart';
+import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/core/providers/reminder_provider.dart';
 import 'package:prayer_pals/core/services/settings_service.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
+import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/core/widgets/settings/change_password_dialog.dart';
 import 'package:prayer_pals/core/widgets/settings/clickable_row.dart';
 import 'package:prayer_pals/core/widgets/settings/reminder_row.dart';
@@ -123,27 +125,44 @@ class SettingsPage extends HookConsumerWidget {
                     const ClickableRow(
                         clickableText: StringConstants.sendFeedback,
                         clickPath: SettingsService.sendFeedback),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 10, 0, 5),
-                          child: InkWell(
-                            child: const Text(
-                              StringConstants.removeAds,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
-                            ),
-                            onTap: () async {
-                              final purchaseValid =
-                                  await IAPHandler.purchaseRemoveAds();
-                              if (purchaseValid) {
-                                //TODO: update user, removeAds = true
-                                settingsProvider.notify();
-                              }
-                            },
-                          ),
-                        ),
-                      ],
+                    FutureBuilder(
+                      future: ref.read(ppcUserCoreProvider).hasUserRemovedAds(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          dynamic userRemovedAds = snapshot.data;
+                          if (userRemovedAds == false) {
+                            return Row(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 10, 0, 5),
+                                  child: InkWell(
+                                    child: const Text(
+                                      StringConstants.removeAds,
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 16),
+                                    ),
+                                    onTap: () async {
+                                      final purchaseValid =
+                                          await SettingsService.removeAds(
+                                              context);
+                                      if (purchaseValid == true) {
+                                        await ref
+                                            .read(ppcUserCoreProvider)
+                                            .addRemoveAdsTrueToUser();
+                                        settingsProvider.notify();
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+                          return Container();
+                        } else {
+                          return Container();
+                        }
+                      },
                     ),
                     Row(children: [
                       Padding(

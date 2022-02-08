@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/iap/iap_handler.dart';
+import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/widgets/ppc_alert_dialog.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
@@ -52,6 +53,7 @@ class GroupController extends ChangeNotifier {
     } else {
       final purchaseApproved = await IAPHandler.purchaseStartGroup();
       if (purchaseApproved) {
+        _reader(ppcUserCoreProvider).incrementGroupCredit();
         showGroupCreationDialog(context, isCreating);
       } else {
         showPPCDialog(context, StringConstants.prayerPals,

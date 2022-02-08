@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/features/group/providers/create_group_provider.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 
@@ -22,6 +23,7 @@ class CreateGroupWidget extends HookConsumerWidget {
   final TextEditingController _groupNameController = TextEditingController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ppcCoreProvider = ref.read(ppcUserCoreProvider);
     return AlertDialog(
       title: const Text(
         StringConstants.createGroup,
@@ -52,6 +54,7 @@ class CreateGroupWidget extends HookConsumerWidget {
                 .read(createGroupProvider)
                 .createGroup(context, _groupNameController.text, "");
             if (success) {
+              ppcCoreProvider.decrementGroupCredit();
               Navigator.of(context).pop();
             }
           },

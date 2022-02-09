@@ -49,22 +49,48 @@ class PrayerClient {
     }
   }
 
-  _triggerGroupPrayerUpload(Group group, Prayer prayer) {
+  _triggerGroupPrayerUpload(Group group, Prayer prayer) async {
     FirebaseFirestore.instance
         .collection(StringConstants.groupsCollection)
         .doc(group.groupUID)
         .collection(StringConstants.groupPrayerCollection)
         .doc(prayer.uid)
         .set(prayer.toJson());
+
+    final groupDocRef = FirebaseFirestore.instance
+        .collection(StringConstants.groupsCollection)
+        .doc(group.groupUID);
+
+    final doc = await groupDocRef.get();
+    final prayerCount = doc['prayerCount'];
+
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      transaction.update(groupDocRef, {
+        StringConstants.prayerCount: prayerCount + 1,
+      });
+    });
   }
 
-  _triggerGroupPrayerDelete(Group group, Prayer prayer) {
+  _triggerGroupPrayerDelete(Group group, Prayer prayer) async {
     FirebaseFirestore.instance
         .collection(StringConstants.groupsCollection)
         .doc(group.groupUID)
         .collection(StringConstants.groupPrayerCollection)
         .doc(prayer.uid)
         .delete();
+
+    final groupDocRef = FirebaseFirestore.instance
+        .collection(StringConstants.groupsCollection)
+        .doc(group.groupUID);
+
+    final doc = await groupDocRef.get();
+    final prayerCount = doc['prayerCount'];
+
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      transaction.update(groupDocRef, {
+        StringConstants.prayerCount: prayerCount - 1,
+      });
+    });
   }
 
   Future<List<Prayer>> retrievePrayer(PrayerType prayerType) async {

@@ -35,7 +35,6 @@ class GroupPrayerClient {
             .collection(StringConstants.groupAnsweredCollection)
             .orderBy("dateCreated", descending: true)
             .get();
-        debugPrint('object');
         return snap.docs.map((doc) => Prayer.fromDocument(doc)).toList();
       } on FirebaseException catch (e) {
         throw Future.value(e.message.toString());
@@ -48,7 +47,6 @@ class GroupPrayerClient {
             .collection(StringConstants.groupPrayerCollection)
             .orderBy("dateCreated", descending: true)
             .get();
-        debugPrint('object');
         return snap.docs.map((doc) => Prayer.fromDocument(doc)).toList();
       } on FirebaseException catch (e) {
         throw Future.value(e.message.toString());

@@ -19,6 +19,7 @@ import 'package:prayer_pals/features/group/providers/group_provider.dart';
 import 'package:prayer_pals/features/group/providers/search_groups_provider.dart';
 import 'package:prayer_pals/features/group/view/admin_edit.dart';
 import 'package:prayer_pals/features/group/view/group_desription_nonedit.dart';
+import 'package:prayer_pals/features/prayer/view/group_prayer_list_page.dart';
 import 'admin_members_page.dart';
 
 //////////////////////////////////////////////////////////////////////////
@@ -47,11 +48,6 @@ class GroupDescriptionPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final groupProvider = ref.watch(groupControllerProvider);
-
-//TODO:
-    // isSwitchedApp = groupMember.appNotify;
-    // isSwitchedText = groupMember.textNotify;
-    // isSwitchedEmail = groupMember.emailNotify;
 
     return FutureBuilder(
       future: groupProvider.fetchGroup(groupUID),
@@ -209,27 +205,46 @@ class GroupDescriptionPage extends HookConsumerWidget {
                                 )),
                           ),
                         ]),
-                        Row(children: [
-                          Container(
-                            width: SizeConfig.safeBlockHorizontal! * 20,
-                            alignment: Alignment.centerRight,
-                            child: Text(StringConstants.prayers,
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GroupPrayersPage(
+                                  groupId: group!.groupUID,
+                                  groupName: group!.groupName,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Row(children: [
+                            Container(
+                              width: SizeConfig.safeBlockHorizontal! * 20,
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                StringConstants.prayers,
                                 style: TextStyle(
                                   fontSize: SizeConfig.safeBlockVertical! * 2,
                                   height: SizeConfig.safeBlockVertical! * .2,
-                                )),
-                          ),
-                          SizedBox(width: SizeConfig.safeBlockHorizontal! * 4),
-                          Container(
-                            width: SizeConfig.safeBlockHorizontal! * 20,
-                            alignment: Alignment.centerLeft,
-                            child: Text(group!.prayerCount.toString(),
-                                style: TextStyle(
-                                  fontSize: SizeConfig.safeBlockVertical! * 2,
-                                  height: SizeConfig.safeBlockVertical! * .2,
-                                )),
-                          ),
-                        ]),
+                                  color: userIsAdmin == true
+                                      ? Colors.lightBlue
+                                      : Colors.black,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                                width: SizeConfig.safeBlockHorizontal! * 4),
+                            Container(
+                              width: SizeConfig.safeBlockHorizontal! * 20,
+                              alignment: Alignment.centerLeft,
+                              child: Text(group!.prayerCount.toString(),
+                                  style: TextStyle(
+                                    fontSize: SizeConfig.safeBlockVertical! * 2,
+                                    height: SizeConfig.safeBlockVertical! * .2,
+                                  )),
+                            ),
+                          ]),
+                        ),
                       ],
                     ),
                     SizedBox(width: SizeConfig.safeBlockHorizontal! * 15)

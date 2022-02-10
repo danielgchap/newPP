@@ -253,7 +253,7 @@ class GroupDescriptionPage extends HookConsumerWidget {
                 PPCstuff.divider,
                 _descriptionForGroup(groupProvider),
                 Spacer(),
-                if (group!.creatorUID != FirebaseAuth.instance.currentUser!.uid)
+                if (!userIsAdmin)
                   Padding(
                     padding: EdgeInsets.only(bottom: 20.0),
                     child: PPCRoundedButton(
@@ -267,20 +267,46 @@ class GroupDescriptionPage extends HookConsumerWidget {
                       textColor: Colors.white,
                     ),
                   ),
-
-                //TODO:
-                // Visibility(
-                //   visible: groupProvider.isEdit,
-                //   child: AdminEdit(
-                //     groupName: group!.groupName,
-                //     groupDescription: group!.description,
-                //   ),
-                //   replacement: GroupDescriptionNonEdit(
-                //       groupName: group!.groupName,
-                //       groupDescription: group!.description,
-                //       groupMember: groupMember,
-                //       isGuest: isGuest),
-                // ),
+                if (userIsAdmin)
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20.0),
+                    child: PPCRoundedButton(
+                      title: StringConstants.deleteGroup,
+                      buttonRatio: .8,
+                      buttonWidthRatio: .8,
+                      callback: () async {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: const Text(
+                                    StringConstants.prayerPals,
+                                  ),
+                                  content: Text(
+                                    StringConstants
+                                        .areYouSureYouWishToDeleteThisGroup,
+                                  ),
+                                  actions: <Widget>[
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        await groupProvider.deleteGroup(group!);
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(StringConstants.okCaps),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(StringConstants.cancel),
+                                    ),
+                                  ],
+                                ));
+                      },
+                      bgColor: Colors.lightBlueAccent.shade100,
+                      textColor: Colors.white,
+                    ),
+                  ),
               ],
             ),
           );

@@ -86,6 +86,13 @@ class GroupClient {
           .collection(StringConstants.groupsCollection)
           .doc(group.groupUID)
           .delete();
+      await FirebaseFirestore.instance
+          .collection(StringConstants.usersCollection)
+          .doc(group.creatorUID)
+          .collection(StringConstants.myGroupsCollection)
+          .doc(group.groupUID)
+          .delete();
+
       return StringConstants.success;
     } on FirebaseException catch (e) {
       return Future.value(e.message);

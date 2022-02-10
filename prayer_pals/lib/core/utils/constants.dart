@@ -154,6 +154,8 @@ class StringConstants {
   static const couldNotLaunch = 'Could not launch ';
   static const areYouSureYouWishToCancelThisReminder =
       'Are you sure you wish to cancel this reminder?';
+  static const areYouSureYouWishToDeleteThisGroup =
+      'Are you sure you wish to delete this group?';
   static const areYouSureYouWishToDisableAllNotifications =
       'Are you sure you wish to disable all notifications';
   static const prayerReported =
@@ -210,6 +212,7 @@ class StringConstants {
   static const approve = 'Approve';
   static const join = 'Join';
   static const createGroup = 'Create Group';
+  static const deleteGroup = 'Delete Group';
   static const groupMessage = 'Send Group Message';
   static const adminMessage = 'Send Message to Admin';
   static const inviteToGroup = 'Invite Member to Group';

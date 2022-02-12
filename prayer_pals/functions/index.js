@@ -19,9 +19,11 @@ exports.onGroupPrayerCreated = functions.firestore
       console.log("Group Got A New Prayer For Group: " + groupId + " PrayerId: " + prayerId);
 
       const prayerTitle = snapshot.get("title");
+      const prayerCreator = snapshot.get("creatorUID");
+      const creatorDisplayName = snapshot.get("creatorDisplayName");
 
-      const titleString = 'Prayer pals - Group Prayer Created';
-      const bodyString = 'Group Prayer Created: ' + prayerTitle;
+      const titleString = 'Prayer pals - Group Prayer Created:';
+      const bodyString = prayerTitle;
       const topicString = groupId + '-GroupCampaign_Created';
       
       const payload = {
@@ -31,6 +33,9 @@ exports.onGroupPrayerCreated = functions.firestore
         },
         android: {
             data: {
+                creatorId: prayerCreator,
+                creatorDisplayName: creatorDisplayName,
+                groupId: groupId,
                 id: prayerId,
                 type: 'groupPrayerCreated',
                 title: titleString,
@@ -40,6 +45,9 @@ exports.onGroupPrayerCreated = functions.firestore
             },
         },
         data: {
+            creatorId: prayerCreator,
+            creatorDisplayName: creatorDisplayName,
+            groupId: groupId,
             id: prayerId,
             type: 'groupPrayerCreated',
             title: titleString,

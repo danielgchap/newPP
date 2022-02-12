@@ -2,9 +2,11 @@
 
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:prayer_pals/core/event_bus/group_subscribtion_event.dart';
 import 'package:prayer_pals/core/event_bus/ppc_event_bus.dart';
 import 'package:prayer_pals/features/home/view/home_page_container.dart';
@@ -19,7 +21,7 @@ class MessageRootHandler extends HookWidget {
   Widget build(BuildContext context) {
     useEffect(() {
       {
-        _configureFCM();
+        _configureFCM(context);
         _setupEventListeners();
       }
     }, []);
@@ -31,7 +33,7 @@ class MessageRootHandler extends HookWidget {
     );
   }
 
-  _configureFCM() async {
+  _configureFCM(BuildContext context) async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     await messaging.requestPermission(
@@ -51,6 +53,38 @@ class MessageRootHandler extends HookWidget {
       if (message.notification != null) {
         debugPrint(
             'Message also contained a notification: ${message.notification}');
+        final creatorId = message.data['creatorId'];
+        if (creatorId != FirebaseAuth.instance.currentUser!.uid) {
+          final creatorDisplayname = message.data['creatorDisplayName'];
+          ScaffoldMessenger.of(context).showMaterialBanner(MaterialBanner(
+            content: Text(
+                '\n\n${message.notification!.title!}\n$creatorDisplayname: ${message.notification!.body}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                )),
+            leading: const Icon(Icons.info, color: Colors.white),
+            backgroundColor: Colors.greenAccent,
+            actions: [
+              TextButton(
+                  onPressed: () {},
+                  child: const Text('Open',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ))),
+              TextButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                  },
+                  child: const Text('Dismiss',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ))),
+            ],
+          ));
+        }
       }
     });
 
@@ -84,7 +118,8 @@ class MessageRootHandler extends HookWidget {
     FirebaseMessaging.instance
         .subscribeToTopic('$groupId-GroupCampaign_Created')
         .then((value) {
-      debugPrint('FCM - Successfully subscribed to topic: SUBTOGROUP-$groupId');
+      debugPrint(
+          'FCM - Successfully subscribed to topic: $groupId-GroupCampaign_Created');
       successCallback(true);
     }).catchError((error) {
       debugPrint('FCM - Error subscribing to topic: $groupId:\n****$error');
@@ -98,7 +133,7 @@ class MessageRootHandler extends HookWidget {
         .unsubscribeFromTopic('$groupId-GroupCampaign_Created')
         .then((value) {
       debugPrint(
-          'FCM - Successfully UNSUBscribed from topic: SUBTOGROUP-$groupId');
+          'FCM - Successfully UNSUBscribed from topic: $groupId-GroupCampaign_Created');
       successCallback(true);
     }).catchError((error) {
       debugPrint('FCM - Error unsubscribing from topic: $groupId:\n****$error');

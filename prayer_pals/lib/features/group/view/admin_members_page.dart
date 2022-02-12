@@ -51,7 +51,7 @@ class _AdminMembersPageState extends State<AdminMembersPage> {
           _headerSection(context, StringConstants.members),
           GroupMembers(group: group),
           const SizedBox(height: 15),
-          _buttonsSection(context, group),
+          // _buttonsSection(context, group),
         ],
       ),
     );

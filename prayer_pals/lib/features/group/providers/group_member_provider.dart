@@ -77,6 +77,10 @@ class GroupMemberController {
     return successString;
   }
 
+  Future<String> leaveGroup(String groupUID) async {
+    return await _reader(groupMemberRepositoryProvider).leaveGroup(groupUID);
+  }
+
   Future<String> updateGroupMember(
       String groupMemberUID,
       String groupMemberName,

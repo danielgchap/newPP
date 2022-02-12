@@ -2,7 +2,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/event_bus/group_subscribtion_event.dart';
@@ -15,10 +14,9 @@ import 'package:prayer_pals/core/widgets/rounded_button.dart';
 import 'package:prayer_pals/core/widgets/update_profile_pic.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
+import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
 import 'package:prayer_pals/features/group/providers/group_provider.dart';
 import 'package:prayer_pals/features/group/providers/search_groups_provider.dart';
-import 'package:prayer_pals/features/group/view/admin_edit.dart';
-import 'package:prayer_pals/features/group/view/group_desription_nonedit.dart';
 import 'package:prayer_pals/features/prayer/view/group_prayer_list_page.dart';
 import 'admin_members_page.dart';
 
@@ -254,19 +252,44 @@ class GroupDescriptionPage extends HookConsumerWidget {
                 _descriptionForGroup(groupProvider),
                 Spacer(),
                 if (!userIsAdmin)
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 20.0),
-                    child: PPCRoundedButton(
-                      title: StringConstants.joinGroup,
-                      buttonRatio: .8,
-                      buttonWidthRatio: .8,
-                      callback: () {
-                        _joinGroup(context, ref, group!);
-                      },
-                      bgColor: Colors.lightBlueAccent.shade100,
-                      textColor: Colors.white,
-                    ),
-                  ),
+                  FutureBuilder(
+                      future: groupProvider.amIAMemberOfThisGroup(groupUID),
+                      builder: (context, memberSnap) {
+                        if (memberSnap.hasData) {
+                          final userIsMember = memberSnap.data;
+                          if (userIsMember == true) {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 20.0),
+                              child: PPCRoundedButton(
+                                title: StringConstants.leaveGroup,
+                                buttonRatio: .8,
+                                buttonWidthRatio: .8,
+                                callback: () {
+                                  _leaveGroup(context, ref, group!);
+                                },
+                                bgColor: Colors.lightBlueAccent.shade100,
+                                textColor: Colors.white,
+                              ),
+                            );
+                          } else {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 20.0),
+                              child: PPCRoundedButton(
+                                title: StringConstants.joinGroup,
+                                buttonRatio: .8,
+                                buttonWidthRatio: .8,
+                                callback: () {
+                                  _joinGroup(context, ref, group!);
+                                },
+                                bgColor: Colors.lightBlueAccent.shade100,
+                                textColor: Colors.white,
+                              ),
+                            );
+                          }
+                        } else {
+                          return Container();
+                        }
+                      }),
                 if (userIsAdmin)
                   Padding(
                     padding: EdgeInsets.only(bottom: 20.0),
@@ -361,6 +384,19 @@ class GroupDescriptionPage extends HookConsumerWidget {
     if (srvMsg == StringConstants.success) {
       PPCEventBus eventBus = PPCEventBus();
       eventBus.fire(SubscribeToGroupPNEvent(groupId: group.groupUID));
+      Navigator.of(ctx).pop();
+    } else {
+      showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
+    }
+  }
+
+  _leaveGroup(BuildContext ctx, WidgetRef ref, Group group) async {
+    String srvMsg = await ref
+        .read(groupMemberControllerProvider)
+        .leaveGroup(group.groupUID);
+    if (srvMsg == StringConstants.success) {
+      PPCEventBus eventBus = PPCEventBus();
+      eventBus.fire(UNSubscribeToGroupPNEvent(groupId: group.groupUID));
       Navigator.of(ctx).pop();
     } else {
       showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);

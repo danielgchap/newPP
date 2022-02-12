@@ -21,6 +21,7 @@ abstract class GroupMemberRepository {
   Future<String> deleteGroupMember(GroupMember groupMember);
   Future<void> addGroupToMyPendingRequests(
       GroupMember groupMember, PPCUser user);
+  Future<String> leaveGroup(String groupUID);
 }
 
 class GroupMemberRepositoryImpl implements GroupMemberRepository {
@@ -57,5 +58,10 @@ class GroupMemberRepositoryImpl implements GroupMemberRepository {
       GroupMember groupMember, PPCUser user) async {
     return await _reader(groupMemberClientProvider)
         .addGroupToMyPendingRequests(groupMember, user);
+  }
+
+  @override
+  Future<String> leaveGroup(String groupUID) async {
+    return await _reader(groupMemberClientProvider).leaveGroup(groupUID);
   }
 }

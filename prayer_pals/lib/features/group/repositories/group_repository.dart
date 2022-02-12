@@ -30,6 +30,7 @@ abstract class GroupRepository {
   Stream<QuerySnapshot> fetchMyGroups();
   saveDescriptionForGroup(String groupDescription, String groupUID);
   Future<bool> checkForGroupCreationCredit();
+  Future<bool> amIAMemberOfThisGroup(String groupUID);
 }
 
 class GroupRepositoryImpl implements GroupRepository {
@@ -91,6 +92,11 @@ class GroupRepositoryImpl implements GroupRepository {
       return true;
     }
     return false;
+  }
+
+  @override
+  Future<bool> amIAMemberOfThisGroup(String groupUID) async {
+    return await _reader(groupClientProvider).amIAMemberOfThisGroup(groupUID);
   }
 }
 

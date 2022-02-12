@@ -178,4 +178,15 @@ class GroupClient {
         .update({"description": groupDescription});
     return;
   }
+
+  Future<bool> amIAMemberOfThisGroup(String groupUID) async {
+    final userIsMember = await FirebaseFirestore.instance
+        .collection(StringConstants.groupsCollection)
+        .doc(groupUID)
+        .collection(StringConstants.groupMemberCollection)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    final userExists = userIsMember.exists;
+    return userExists;
+  }
 }

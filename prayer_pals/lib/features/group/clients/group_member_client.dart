@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
@@ -77,7 +78,6 @@ class GroupMemberClient {
   }
 
   Future<String> deleteGroupMember(GroupMember groupMember) async {
-    //TODO: delete from global, delete from groups
     try {
       await FirebaseFirestore.instance
           .collection(StringConstants.groupMemberCollection)
@@ -98,5 +98,37 @@ class GroupMemberClient {
         .doc(groupMember.groupUID)
         .set(groupMember.toJson());
     return;
+  }
+
+  Future<String> leaveGroup(String groupUID) async {
+    await FirebaseFirestore.instance
+        .collection(StringConstants.groupsCollection)
+        .doc(groupUID)
+        .collection(StringConstants.groupMemberCollection)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .delete();
+    await FirebaseFirestore.instance
+        .collection(StringConstants.usersCollection)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(StringConstants.myGroupsCollection)
+        .doc(groupUID)
+        .delete();
+
+    final docRef = FirebaseFirestore.instance
+        .collection(StringConstants.groupsCollection)
+        .doc(groupUID);
+
+    final docSnap = await docRef.get();
+    {
+      int memberCount = docSnap.data()![StringConstants.memberCount];
+      memberCount = memberCount - 1;
+      await FirebaseFirestore.instance.runTransaction(
+        (transaction) async {
+          transaction
+              .update(docRef, {StringConstants.memberCount: memberCount});
+        },
+      );
+    }
+    return StringConstants.success;
   }
 }

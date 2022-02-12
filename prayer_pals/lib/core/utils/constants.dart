@@ -91,6 +91,7 @@ class StringConstants {
   static const myPrayers = 'My Prayers';
   static const myGroups = 'My Groups';
   static const joinGroup = 'Join Group';
+  static const leaveGroup = 'Leave Group';
   static const startGroup = 'Start Group';
   static const admin = 'Admin';
   static const adminContacts = 'Contacts';

@@ -79,6 +79,11 @@ class GroupController extends ChangeNotifier {
     setIsEdit(false);
   }
 
+  Future<bool> amIAMemberOfThisGroup(String groupUID) async {
+    return await _reader(groupRepositoryProvider)
+        .amIAMemberOfThisGroup(groupUID);
+  }
+
   setIsEdit(bool edit) {
     isEdit = edit;
     notify();

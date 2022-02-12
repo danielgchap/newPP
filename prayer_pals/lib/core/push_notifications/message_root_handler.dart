@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:prayer_pals/core/event_bus/group_subscribtion_event.dart';
 import 'package:prayer_pals/core/event_bus/ppc_event_bus.dart';
 import 'package:prayer_pals/features/home/view/home_page_container.dart';

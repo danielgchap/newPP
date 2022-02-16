@@ -161,6 +161,8 @@ class StringConstants {
       'Are you sure you wish to leave this group?';
   static const areYouSureYouWishToDisableAllNotifications =
       'Are you sure you wish to disable all notifications';
+  static const areYouSureYouWishToDeleteThisMember =
+      'Are you sure you wish to delete this group member?';
   static const prayerReported =
       'This prayer has been reported and submitted for review.\n\nThank you for your feedback.';
   static const reporthingThisPrayer =

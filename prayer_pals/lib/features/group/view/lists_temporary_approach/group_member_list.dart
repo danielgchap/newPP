@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
+import 'package:prayer_pals/core/widgets/delete_member_dialog.dart';
 import 'package:prayer_pals/core/widgets/prevent_zero_admin_dialog.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
@@ -70,27 +71,26 @@ class _GroupMembersState extends State<GroupMembers> {
                               icon: const Icon(CupertinoIcons.delete),
                               color: Colors.red,
                               onPressed: () async {
-                                //TODO put some popups in to prevent accidents
-                                // Maybe remove trash can from bar and have options pop up if
-                                // user name tile is pressed
                                 try {
-                                  await FirebaseFirestore.instance
-                                      .collection(
-                                          StringConstants.usersCollection)
-                                      .doc(groupMember.groupMemberUID)
-                                      .collection(
-                                          StringConstants.myGroupsCollection)
-                                      .doc(groupMember.groupUID)
-                                      .delete();
-                                  await FirebaseFirestore.instance
-                                      .collection(
-                                          StringConstants.groupsCollection)
-                                      .doc(groupMember.groupUID)
-                                      .collection(
-                                          StringConstants.groupMemberCollection)
-                                      .doc(groupMember.groupMemberUID)
-                                      .delete();
-                                  return setState(() {});
+                                  showPPCMemberDeleteDialog(context, () async {
+                                    await FirebaseFirestore.instance
+                                        .collection(
+                                            StringConstants.usersCollection)
+                                        .doc(groupMember.groupMemberUID)
+                                        .collection(
+                                            StringConstants.myGroupsCollection)
+                                        .doc(groupMember.groupUID)
+                                        .delete();
+                                    await FirebaseFirestore.instance
+                                        .collection(
+                                            StringConstants.groupsCollection)
+                                        .doc(groupMember.groupUID)
+                                        .collection(StringConstants
+                                            .groupMemberCollection)
+                                        .doc(groupMember.groupMemberUID)
+                                        .delete();
+                                    return setState(() {});
+                                  });
                                 } catch (e) {
                                   debugPrint(e.toString());
                                   return;

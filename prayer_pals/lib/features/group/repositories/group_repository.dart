@@ -26,7 +26,7 @@ abstract class GroupRepository {
   Future<String> updateGroupImage(
       BuildContext context, File imageFile, Group group);
   Future<Group> fetchGroup(String uid);
-  Stream<QuerySnapshot> searchGroups(String searchParams);
+  Future<List<Group>> searchGroups(String searchParams);
   Stream<QuerySnapshot> fetchMyGroups();
   saveDescriptionForGroup(String groupDescription, String groupUID);
   Future<bool> checkForGroupCreationCredit();
@@ -70,7 +70,7 @@ class GroupRepositoryImpl implements GroupRepository {
   }
 
   @override
-  Stream<QuerySnapshot> searchGroups(String searchParams) {
+  Future<List<Group>> searchGroups(String searchParams) {
     return _reader(searchGroupClientProvider).searchGroups(searchParams);
   }
 

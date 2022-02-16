@@ -37,25 +37,23 @@ class PPCSearchGroupsWidget extends HookConsumerWidget {
     Key? key,
     required this.searchTerm,
   }) : super(key: key);
-
+//TODO: search - groups I'm in shouldn't show, gorups I'm not, should
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(searchGroupControllerProvider);
 
-    return StreamBuilder<QuerySnapshot>(
-      stream: ref.read(searchGroupControllerProvider).searchGroups(searchTerm),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    return FutureBuilder(
+      future: ref.read(searchGroupControllerProvider).searchGroups(searchTerm),
+      builder: (BuildContext context, AsyncSnapshot<List<Group>> snapshot) {
         if (snapshot.hasData) {
-          final data = snapshot.requireData;
-
           return Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: data.size,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  Group group = Group.fromQuerySnapshot(data, index);
+                  Group group = snapshot.data![index];
                   return Card(
                     margin: const EdgeInsets.all(1),
                     child: ListTile(

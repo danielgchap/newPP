@@ -13,7 +13,7 @@ class SearchGroupController with ChangeNotifier {
   final Reader reader;
   SearchGroupController(this.reader);
 
-  Stream<QuerySnapshot> searchGroups(String searchParams) {
+  Future<List<Group>> searchGroups(String searchParams) {
     return reader(groupRepositoryProvider).searchGroups(searchParams);
   }
 

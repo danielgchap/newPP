@@ -265,7 +265,34 @@ class GroupDescriptionPage extends HookConsumerWidget {
                                 buttonRatio: .8,
                                 buttonWidthRatio: .8,
                                 callback: () {
-                                  _leaveGroup(context, ref, group!);
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text(
+                                        StringConstants.prayerPals,
+                                      ),
+                                      content: Text(
+                                        StringConstants
+                                            .areYouSureYouWishToLeaveThisGroup,
+                                      ),
+                                      actions: <Widget>[
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            _leaveGroup(context, ref, group!);
+                                          },
+                                          child: const Text(
+                                              StringConstants.okCaps),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text(
+                                              StringConstants.cancel),
+                                        ),
+                                      ],
+                                    ),
+                                  );
                                 },
                                 bgColor: Colors.lightBlueAccent.shade100,
                                 textColor: Colors.white,
@@ -299,32 +326,33 @@ class GroupDescriptionPage extends HookConsumerWidget {
                       buttonWidthRatio: .8,
                       callback: () async {
                         showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  title: const Text(
-                                    StringConstants.prayerPals,
-                                  ),
-                                  content: Text(
-                                    StringConstants
-                                        .areYouSureYouWishToDeleteThisGroup,
-                                  ),
-                                  actions: <Widget>[
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await groupProvider.deleteGroup(group!);
-                                        Navigator.of(context).pop();
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text(StringConstants.okCaps),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text(StringConstants.cancel),
-                                    ),
-                                  ],
-                                ));
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text(
+                              StringConstants.prayerPals,
+                            ),
+                            content: Text(
+                              StringConstants
+                                  .areYouSureYouWishToDeleteThisGroup,
+                            ),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                onPressed: () async {
+                                  await groupProvider.deleteGroup(group!);
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text(StringConstants.okCaps),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text(StringConstants.cancel),
+                              ),
+                            ],
+                          ),
+                        );
                       },
                       bgColor: Colors.lightBlueAccent.shade100,
                       textColor: Colors.white,

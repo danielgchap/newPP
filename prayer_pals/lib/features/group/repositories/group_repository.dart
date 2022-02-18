@@ -87,11 +87,12 @@ class GroupRepositoryImpl implements GroupRepository {
 
   @override
   Future<bool> checkForGroupCreationCredit() async {
-    final user = await _reader(ppcUserCoreProvider).currentUserNetworkFetch();
-    if (user.groupCreationCredits != null && user.groupCreationCredits! > 0) {
-      return true;
-    }
-    return false;
+    //TODO: remove comments...
+    // final user = await _reader(ppcUserCoreProvider).currentUserNetworkFetch();
+    // if (user.groupCreationCredits != null && user.groupCreationCredits! > 0) {
+    return true;
+    // }
+    // return false;
   }
 
   @override

@@ -43,7 +43,6 @@ class AuthController extends ChangeNotifier {
       required Function(String success) callback}) async {
     final srvMsg = await reader(authRepositoryProvider).signUp(
         username: username, emailAddress: emailAddress, password: password);
-    await reader(ppcUserCoreProvider).setupPPUserListener();
     callback(srvMsg);
   }
 

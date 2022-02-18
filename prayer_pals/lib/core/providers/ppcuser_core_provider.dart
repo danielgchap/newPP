@@ -14,23 +14,23 @@ class PPCUserCore extends ChangeNotifier {
   Reader reader;
   PPCUserCore(this.reader);
   PPCUser? currentUserModel;
-  setupPPUserListener() async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      final docRef = FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid);
-      docRef.snapshots().listen(
-        (event) {
-          if (event.data() != null) {
-            currentUserModel = PPCUser.fromJson(event.data()!);
-            Timer.run(() {
-              notifyListeners();
-            });
-          }
-        },
-      );
-    }
-  }
+  // setupPPUserListener() async {
+  //   if (FirebaseAuth.instance.currentUser != null) {
+  //     final docRef = FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(FirebaseAuth.instance.currentUser!.uid);
+  //     docRef.snapshots().listen(
+  //       (event) {
+  //         if (event.data() != null) {
+  //           currentUserModel = PPCUser.fromJson(event.data()!);
+  //           Timer.run(() {
+  //             notifyListeners();
+  //           });
+  //         }
+  //       },
+  //     );
+  //   }
+  // }
 
   Future<PPCUser> currentUserNetworkFetch() async {
     final docRef = await FirebaseFirestore.instance
@@ -40,12 +40,12 @@ class PPCUserCore extends ChangeNotifier {
     return PPCUser.fromJson(docRef.data()!);
   }
 
-  PPCUser? getCurrentUserModel() {
-    if (currentUserModel == null) {
-      setupPPUserListener();
-    }
-    return currentUserModel;
-  }
+  // PPCUser? getCurrentUserModel() {
+  //   if (currentUserModel == null) {
+  //     setupPPUserListener();
+  //   }
+  //   return currentUserModel;
+  // }
 
   incrementGroupCredit() async {
     final user = await currentUserNetworkFetch();

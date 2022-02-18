@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/utils/constants.dart';
 import 'package:prayer_pals/core/utils/size_config.dart';
 import 'package:prayer_pals/core/widgets/avatar_widget.dart';
 import 'package:prayer_pals/core/widgets/delete_member_dialog.dart';
 import 'package:prayer_pals/core/widgets/prevent_zero_admin_dialog.dart';
+import 'package:prayer_pals/features/group/clients/group_member_client.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
+import 'package:prayer_pals/features/group/providers/group_member_provider.dart';
 import '../create_group_member.dart';
 
 //////////////////////////////////////////////////////////////////////////
@@ -17,21 +20,17 @@ import '../create_group_member.dart';
 //
 //////////////////////////////////////////////////////////////////////////
 
-class GroupMembers extends StatefulWidget {
+class GroupMembers extends HookConsumerWidget {
   final Group group;
 
   const GroupMembers({Key? key, required this.group}) : super(key: key);
 
   @override
-  State<GroupMembers> createState() => _GroupMembersState();
-}
-
-class _GroupMembersState extends State<GroupMembers> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final groupMembercontroller = ref.watch(groupMemberControllerProvider);
     final Stream<QuerySnapshot> pendingMembers = FirebaseFirestore.instance
         .collection(StringConstants.groupsCollection)
-        .doc(widget.group.groupUID)
+        .doc(group.groupUID)
         .collection(StringConstants.groupMemberCollection)
         .snapshots();
 
@@ -72,25 +71,13 @@ class _GroupMembersState extends State<GroupMembers> {
                               color: Colors.red,
                               onPressed: () async {
                                 try {
-                                  showPPCMemberDeleteDialog(context, () async {
-                                    await FirebaseFirestore.instance
-                                        .collection(
-                                            StringConstants.usersCollection)
-                                        .doc(groupMember.groupMemberUID)
-                                        .collection(
-                                            StringConstants.myGroupsCollection)
-                                        .doc(groupMember.groupUID)
-                                        .delete();
-                                    await FirebaseFirestore.instance
-                                        .collection(
-                                            StringConstants.groupsCollection)
-                                        .doc(groupMember.groupUID)
-                                        .collection(StringConstants
-                                            .groupMemberCollection)
-                                        .doc(groupMember.groupMemberUID)
-                                        .delete();
-                                    return setState(() {});
-                                  });
+                                  showPPCMemberDeleteDialog(
+                                    context,
+                                    () async {
+                                      await groupMembercontroller
+                                          .deleteGroupMember(groupMember);
+                                    },
+                                  );
                                 } catch (e) {
                                   debugPrint(e.toString());
                                   return;
@@ -110,8 +97,7 @@ class _GroupMembersState extends State<GroupMembers> {
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        CreateGroupMemberWidget(
-                                            group: widget.group));
+                                        CreateGroupMemberWidget(group: group));
                                 // Need to bring over text to edit, not start over
                                 //Currently, this will create a new person with a new uid
                                 //todo FIX

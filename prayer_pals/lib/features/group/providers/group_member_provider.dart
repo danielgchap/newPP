@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer_pals/core/providers/ppcuser_core_provider.dart';
 import 'package:prayer_pals/features/group/clients/group_client.dart';
 import 'package:prayer_pals/features/group/models/group.dart';
 import 'package:prayer_pals/features/group/models/group_member.dart';
+import 'package:prayer_pals/features/group/providers/group_provider.dart';
 import 'package:prayer_pals/features/group/repositories/group_member_repository.dart';
 import 'package:prayer_pals/features/user/providers/group_notifications_list_provider.dart';
 
@@ -14,9 +16,9 @@ import 'package:prayer_pals/features/user/providers/group_notifications_list_pro
 //////////////////////////////////////////////////////////////////////////
 
 final groupMemberControllerProvider =
-    Provider((ref) => GroupMemberController(ref.read));
+    ChangeNotifierProvider((ref) => GroupMemberController(ref.read));
 
-class GroupMemberController {
+class GroupMemberController extends ChangeNotifier {
   final Reader _reader;
 
   GroupMemberController(this._reader) : super() {
@@ -61,19 +63,17 @@ class GroupMemberController {
     if (isPending) {
       final group = await _reader(groupClientProvider).fetchGroup(groupUID);
       if (group.isPrivate != null && group.isPrivate!) {
-        await _reader(groupMemberControllerProvider)
-            .addGroupToMyPendingRequests(groupMember);
+        await addGroupToMyPendingRequests(groupMember);
       } else {
         final group = await _reader(groupClientProvider).fetchGroup(groupUID);
-        await _reader(groupMemberControllerProvider)
-            .addGroupToMyGroups(group, groupMemberUID);
+        await addGroupToMyGroups(group, groupMemberUID);
       }
     } else {
       final group = await _reader(groupClientProvider).fetchGroup(groupUID);
-      await _reader(groupMemberControllerProvider)
-          .addGroupToMyGroups(group, groupMemberUID);
+      await addGroupToMyGroups(group, groupMemberUID);
     }
     _reader(groupNotificationsProvider).notify();
+    _reader(groupControllerProvider).notify();
     return successString;
   }
 
@@ -127,7 +127,9 @@ class GroupMemberController {
   }
 
   Future<String> deleteGroupMember(GroupMember groupMember) async {
-    return await _reader(groupMemberRepositoryProvider)
+    final successString = await _reader(groupMemberRepositoryProvider)
         .deleteGroupMember(groupMember);
+    _reader(groupControllerProvider).notify();
+    return successString;
   }
 }

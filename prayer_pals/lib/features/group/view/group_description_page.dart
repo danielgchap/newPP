@@ -426,6 +426,7 @@ class GroupDescriptionPage extends HookConsumerWidget {
       PPCEventBus eventBus = PPCEventBus();
       eventBus.fire(UNSubscribeToGroupPNEvent(groupId: group.groupUID));
       Navigator.of(ctx).pop();
+      Navigator.of(ctx).pop();
     } else {
       showPPCDialog(ctx, StringConstants.almostThere, srvMsg, null);
     }

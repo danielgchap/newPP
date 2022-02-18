@@ -16,13 +16,6 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     IAPHandler.initPlatformState();
-    final ppCoreProvider = ref.watch(ppcUserCoreProvider);
-    // String _image = 'assets/images/thank_you.jpg';
-    useEffect(() {
-      if (ppCoreProvider.getCurrentUserModel() == null) {
-        ppCoreProvider.setupPPUserListener();
-      }
-    }, []);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

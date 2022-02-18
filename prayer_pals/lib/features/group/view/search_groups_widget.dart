@@ -62,18 +62,18 @@ class PPCSearchGroupsWidget extends HookConsumerWidget {
                         image: StringConstants.groupIcon,
                         networkImage: group.groupImageURL,
                       ),
-                      trailing: Consumer(builder: (ctx, ref, widget) {
-                        return PPCRoundedButton(
-                          textColor: Colors.white,
-                          bgColor: Colors.lightBlueAccent,
-                          buttonRatio: .4,
-                          buttonWidthRatio: .15,
-                          title: StringConstants.join,
-                          callback: () {
-                            _joinGroup(context, ref, group);
-                          },
-                        );
-                      }),
+                      // trailing: Consumer(builder: (ctx, ref, widget) {
+                      //   return PPCRoundedButton(
+                      //     textColor: Colors.white,
+                      //     bgColor: Colors.lightBlueAccent,
+                      //     buttonRatio: .4,
+                      //     buttonWidthRatio: .15,
+                      //     title: StringConstants.join,
+                      //     callback: () {
+                      //       _joinGroup(context, ref, group);
+                      //     },
+                      //   );
+                      // }),
                       onTap: () {
                         Navigator.push(
                           context,

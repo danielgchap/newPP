@@ -80,9 +80,32 @@ class GroupMemberClient {
   Future<String> deleteGroupMember(GroupMember groupMember) async {
     try {
       await FirebaseFirestore.instance
+          .collection(StringConstants.usersCollection)
+          .doc(groupMember.groupMemberUID)
+          .collection(StringConstants.myGroupsCollection)
+          .doc(groupMember.groupUID)
+          .delete();
+      await FirebaseFirestore.instance
+          .collection(StringConstants.groupsCollection)
+          .doc(groupMember.groupUID)
           .collection(StringConstants.groupMemberCollection)
           .doc(groupMember.groupMemberUID)
           .delete();
+
+      final docRef = FirebaseFirestore.instance
+          .collection(StringConstants.groupsCollection)
+          .doc(groupMember.groupUID);
+
+      final docSnap = await docRef.get();
+
+      int memberCount = docSnap.data()![StringConstants.memberCount];
+      final newcount = memberCount - 1;
+      await FirebaseFirestore.instance.runTransaction(
+        (transaction) async {
+          transaction.update(docRef, {StringConstants.memberCount: newcount});
+        },
+      );
+
       return StringConstants.success;
     } on FirebaseException catch (e) {
       return Future.value(e.message);
